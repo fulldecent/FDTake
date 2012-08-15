@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FDTakeController.h"
 
 @interface FDViewController : UIViewController
+
+@property FDTakeController *takeController;
+- (IBAction)takePhotoOrChooseFromLibrary;
+- (IBAction)takeVideoOrChooseFromLibrary;
+- (IBAction)takePhotoOrVideoOrChooseFromLibrary;
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
+- (IBAction)editingSwitchToggled:(id)sender;
 
 @end

@@ -16,6 +16,7 @@
 		774CDADC15D3DCDF00B14C45 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 774CDADA15D3DCDF00B14C45 /* MainStoryboard_iPhone.storyboard */; };
 		774CDADF15D3DCDF00B14C45 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 774CDADD15D3DCDF00B14C45 /* MainStoryboard_iPad.storyboard */; };
 		774CDAE215D3DCDF00B14C45 /* FDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 774CDAE115D3DCDF00B14C45 /* FDViewController.m */; };
+		774CDAEB15D3DD1B00B14C45 /* FDTakeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 774CDAEA15D3DD1B00B14C45 /* FDTakeController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,8 @@
 		774CDADE15D3DCDF00B14C45 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		774CDAE015D3DCDF00B14C45 /* FDViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FDViewController.h; sourceTree = "<group>"; };
 		774CDAE115D3DCDF00B14C45 /* FDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FDViewController.m; sourceTree = "<group>"; };
+		774CDAE915D3DD1B00B14C45 /* FDTakeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTakeController.h; sourceTree = "<group>"; };
+		774CDAEA15D3DD1B00B14C45 /* FDTakeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTakeController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +82,7 @@
 		774CDACE15D3DCDF00B14C45 /* FDTakeExample */ = {
 			isa = PBXGroup;
 			children = (
+				774CDAE815D3DCEC00B14C45 /* FDTake */,
 				774CDAD715D3DCDF00B14C45 /* FDAppDelegate.h */,
 				774CDAD815D3DCDF00B14C45 /* FDAppDelegate.m */,
 				774CDADA15D3DCDF00B14C45 /* MainStoryboard_iPhone.storyboard */,
@@ -99,6 +103,15 @@
 				774CDAD615D3DCDF00B14C45 /* FDTakeExample-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		774CDAE815D3DCEC00B14C45 /* FDTake */ = {
+			isa = PBXGroup;
+			children = (
+				774CDAE915D3DD1B00B14C45 /* FDTakeController.h */,
+				774CDAEA15D3DD1B00B14C45 /* FDTakeController.m */,
+			);
+			name = FDTake;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,6 +182,7 @@
 				774CDAD515D3DCDF00B14C45 /* main.m in Sources */,
 				774CDAD915D3DCDF00B14C45 /* FDAppDelegate.m in Sources */,
 				774CDAE215D3DCDF00B14C45 /* FDViewController.m in Sources */,
+				774CDAEB15D3DD1B00B14C45 /* FDTakeController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,31 +8,57 @@
 
 #import "FDViewController.h"
 
-@interface FDViewController ()
+@interface FDViewController () <FDTakeDelegate>
 
 @end
 
 @implementation FDViewController
+@synthesize imageView;
+
+- (IBAction)takePhotoOrChooseFromLibrary
+{
+    [self.takeController takePhotoOrChooseFromLibrary];
+}
+
+- (IBAction)takeVideoOrChooseFromLibrary
+{
+    [self.takeController takeVideoOrChooseFromLibrary];
+}
+
+- (IBAction)takePhotoOrVideoOrChooseFromLibrary
+{
+    [self.takeController takePhotoOrVideoOrChooseFromLibrary];
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    self.takeController = [[FDTakeController alloc] init];
+    self.takeController.delegate = self;
 }
 
-- (void)viewDidUnload
+- (IBAction)editingSwitchToggled:(id)sender
 {
+    self.takeController.imagePicker.allowsEditing = [(UISwitch *)sender isOn];
+}
+
+
+#pragma mark - FDTakeDelegate
+
+- (void)takeController:(FDTakeController *)controller didCancelAfterAttempting:(BOOL)madeAttempt
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Example app" message:@"The take was cancelled" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+}
+
+- (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info
+{
+    [self.imageView setImage:photo];
+}
+
+
+- (void)viewDidUnload {
+    [self setImageView:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } else {
-        return YES;
-    }
-}
-
 @end
