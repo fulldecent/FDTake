@@ -26,7 +26,13 @@
 - (void)takePhotoOrChooseFromLibrary;
 - (void)takeVideoOrChooseFromLibrary;
 - (void)takePhotoOrVideoOrChooseFromLibrary;
+
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 @property (weak, nonatomic) id <FDTakeDelegate> delegate;
+
+// Optional view controller used for presenting the image picker controller
+@property (weak, nonatomic) UIViewController *viewControllerForPresenting;
+// Rect used in presentPopoverFromRect on iPads
+@property (nonatomic, readwrite) CGRect popOverPresentRect;
 
 @end
