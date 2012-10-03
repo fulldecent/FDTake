@@ -68,6 +68,17 @@
     }        
 }
 
+- (void)takeVideoOrChooseFromLibrary
+{
+#warning INCOMPLETE
+}
+
+- (void)takePhotoOrVideoOrChooseFromLibrary
+{
+#warning INCOMPLETE
+}
+
+
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
