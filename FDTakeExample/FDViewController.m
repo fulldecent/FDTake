@@ -35,6 +35,16 @@
     [super viewDidLoad];
     self.takeController = [[FDTakeController alloc] init];
     self.takeController.delegate = self;
+    
+    
+    NSBundle* myBundle = [NSBundle bundleWithIdentifier:@"FDTakeTranslations"];
+    NSLog(@"%@", myBundle);
+    NSString *str = NSLocalizedStringFromTableInBundle(@"noSources",
+                                                       nil,
+                                                       [NSBundle bundleWithIdentifier:@"FDTakeTranslations"],
+                                                       @"There are no sources available to select a photo");
+    NSLog(@"%@", str);
+    
 }
 
 - (IBAction)editingSwitchToggled:(id)sender

@@ -140,15 +140,16 @@
     
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
-        [self.buttonTitles addObject:@"Take Photo"];
+        
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"takePhoto", @"FDTake", @"Option to take photo using camera")];
     }
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypePhotoLibrary]];
-        [self.buttonTitles addObject:@"Choose from Library"];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromLibrary", @"FDTake", @"Option to select photo from library")];
     }
     else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeSavedPhotosAlbum]];
-        [self.buttonTitles addObject:@"Choose from Photo Roll"];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromPhotoRoll", @"FDTake", @"Option to select photo from photo roll")];
     }
     
     if ([self.sources count]) {
@@ -159,7 +160,7 @@
                                               otherButtonTitles:nil];
         for (NSString *title in self.buttonTitles)
             [self.actionSheet addButtonWithTitle:title];
-        [self.actionSheet addButtonWithTitle:@"Cancel"];
+        [self.actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"cancel", @"FDTake", @"Decline to proceed with operation")];
         self.actionSheet.cancelButtonIndex = self.sources.count;
                 
         // If on iPad use the present rect and pop over style.
@@ -171,11 +172,15 @@
             [self.actionSheet showInView:[self presentingViewController].view];
         }
     } else {
+        
+        NSString *str = NSLocalizedStringFromTable(@"noSources", @"FDTake", @"There are no sources available to select a photo");
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
-                                                            message:@"There are no sources available to select a photo"
+                                                            message:str
                                                            delegate:self
                                                   cancelButtonTitle:nil
                                                   otherButtonTitles:nil];
+        
+
         [alertView show];
     }
 }
@@ -189,17 +194,6 @@
 {
 #warning TODO
 }
-
-- (void)takeVideoOrChooseFromLibrary
-{
-#warning INCOMPLETE
-}
-
-- (void)takePhotoOrVideoOrChooseFromLibrary
-{
-#warning INCOMPLETE
-}
-
 
 #pragma mark - UIActionSheetDelegate
 

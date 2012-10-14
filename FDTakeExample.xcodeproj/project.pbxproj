@@ -17,6 +17,7 @@
 		774CDADF15D3DCDF00B14C45 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 774CDADD15D3DCDF00B14C45 /* MainStoryboard_iPad.storyboard */; };
 		774CDAE215D3DCDF00B14C45 /* FDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 774CDAE115D3DCDF00B14C45 /* FDViewController.m */; };
 		774CDAEB15D3DD1B00B14C45 /* FDTakeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 774CDAEA15D3DD1B00B14C45 /* FDTakeController.m */; };
+		77C46D41162B51A2001166D9 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77C46D43162B51A2001166D9 /* FDTake.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,8 @@
 		774CDAE115D3DCDF00B14C45 /* FDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FDViewController.m; sourceTree = "<group>"; };
 		774CDAE915D3DD1B00B14C45 /* FDTakeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTakeController.h; sourceTree = "<group>"; };
 		774CDAEA15D3DD1B00B14C45 /* FDTakeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTakeController.m; sourceTree = "<group>"; };
+		77C46D42162B51A2001166D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FDTake.strings; sourceTree = "<group>"; };
+		77C46D45162B51FE001166D9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/FDTake.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,10 +111,19 @@
 		774CDAE815D3DCEC00B14C45 /* FDTake */ = {
 			isa = PBXGroup;
 			children = (
+				77C46D44162B51A9001166D9 /* en.lproj */,
 				774CDAE915D3DD1B00B14C45 /* FDTakeController.h */,
 				774CDAEA15D3DD1B00B14C45 /* FDTakeController.m */,
 			);
 			name = FDTake;
+			sourceTree = "<group>";
+		};
+		77C46D44162B51A9001166D9 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				77C46D43162B51A2001166D9 /* FDTake.strings */,
+			);
+			name = en.lproj;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,6 +162,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				zh,
+				"zh-Hans",
 			);
 			mainGroup = 774CDAB915D3DCDF00B14C45;
 			productRefGroup = 774CDAC515D3DCDF00B14C45 /* Products */;
@@ -169,6 +183,7 @@
 				774CDAD315D3DCDF00B14C45 /* InfoPlist.strings in Resources */,
 				774CDADC15D3DCDF00B14C45 /* MainStoryboard_iPhone.storyboard in Resources */,
 				774CDADF15D3DCDF00B14C45 /* MainStoryboard_iPad.storyboard in Resources */,
+				77C46D41162B51A2001166D9 /* FDTake.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,6 +226,15 @@
 				774CDADE15D3DCDF00B14C45 /* en */,
 			);
 			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		77C46D43162B51A2001166D9 /* FDTake.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				77C46D42162B51A2001166D9 /* en */,
+				77C46D45162B51FE001166D9 /* zh-Hans */,
+			);
+			name = FDTake.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -308,6 +332,7 @@
 				774CDAE715D3DCDF00B14C45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
