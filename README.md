@@ -1,7 +1,8 @@
-==FDTake==
-
+**FDTake**
 Helps you quickly take a picture or video like this:
-<img src="http://i.stack.imgur.com/OajHy.jpg" alt="screenshot" />
+
+<img src="http://i.stack.imgur.com/OajHy.jpg" alt="screenshot" height=400/>
+<img src="http://i.imgur.com/W7XXj.png" alt="screenshot" height=400/>
 
 Behind the scenes we are doing all of this:
 
@@ -13,8 +14,7 @@ Behind the scenes we are doing all of this:
  * get response, extract image from a dictionary
  * dismiss picker, get image to delegate
 
-=Status=
+*Status*
 
  * Selecting a photo works, video is still in progress
- * Messages are in English, translations welcome
-
+ * Language support: English, Chinese, please help translate FDTake.strings for more languages
