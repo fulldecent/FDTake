@@ -18,3 +18,10 @@ Behind the scenes we are doing all of this:
 
  * Selecting a photo works, video is still in progress
  * Language support: English, Chinese, please help translate FDTake.strings for more languages
+
+*My Fork*
+
+ * Turkish translation is added
+ * `weak` annotations are converted to `unsafe_unretained` for backward-compatibility
+ * A method `imageWithImage` is deleted since it is unrelated, and not used
+ * General fixes to make it a better implementation
