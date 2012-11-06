@@ -7,6 +7,7 @@
 //
 
 #import "FDTakeController.h"
+#import <MobileCoreServices/MobileCoreServices.h>
 
 @interface FDTakeController() <UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (strong, nonatomic) NSMutableArray *sources;
@@ -27,96 +28,6 @@
 @synthesize popover = _popover;
 @synthesize viewControllerForPresenting = _viewControllerForPresenting;
 @synthesize popOverPresentRect = _popOverPresentRect;
-
-+ (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize;
-{
-    CGSize imageSize = sourceImage.size;
-    CGFloat width = imageSize.width;
-    CGFloat height = imageSize.height;
-    CGFloat targetWidth = targetSize.width;
-    CGFloat targetHeight = targetSize.height;
-    CGFloat scaleFactor = 0.0;
-    CGFloat scaledWidth = targetWidth;
-    CGFloat scaledHeight = targetHeight;
-    CGPoint thumbnailPoint = CGPointMake(0.0,0.0);
-    
-    if (CGSizeEqualToSize(imageSize, targetSize) == NO) {
-        CGFloat widthFactor = targetWidth / width;
-        CGFloat heightFactor = targetHeight / height;
-        
-        if (widthFactor > heightFactor) {
-            scaleFactor = widthFactor; // scale to fit height
-        }
-        else {
-            scaleFactor = heightFactor; // scale to fit width
-        }
-        
-        scaledWidth  = width * scaleFactor;
-        scaledHeight = height * scaleFactor;
-        
-        // center the image
-        if (widthFactor > heightFactor) {
-            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
-        }
-        else if (widthFactor < heightFactor) {
-            thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
-        }
-    }
-    
-    CGImageRef imageRef = [sourceImage CGImage];
-    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
-    CGColorSpaceRef colorSpaceInfo = CGImageGetColorSpace(imageRef);
-    
-    if (bitmapInfo == kCGImageAlphaNone) {
-        bitmapInfo = kCGImageAlphaNoneSkipLast;
-    }
-    
-    CGContextRef bitmap;
-    
-    if (sourceImage.imageOrientation == UIImageOrientationUp || sourceImage.imageOrientation == UIImageOrientationDown) {
-        bitmap = CGBitmapContextCreate(NULL, targetWidth, targetHeight, CGImageGetBitsPerComponent(imageRef), CGImageGetBytesPerRow(imageRef), colorSpaceInfo, bitmapInfo);
-        
-    } else {
-        bitmap = CGBitmapContextCreate(NULL, targetHeight, targetWidth, CGImageGetBitsPerComponent(imageRef), CGImageGetBytesPerRow(imageRef), colorSpaceInfo, bitmapInfo);
-        
-    }
-    
-    // In the right or left cases, we need to switch scaledWidth and scaledHeight,
-    // and also the thumbnail point
-    if (sourceImage.imageOrientation == UIImageOrientationLeft) {
-        thumbnailPoint = CGPointMake(thumbnailPoint.y, thumbnailPoint.x);
-        CGFloat oldScaledWidth = scaledWidth;
-        scaledWidth = scaledHeight;
-        scaledHeight = oldScaledWidth;
-        
-        CGContextRotateCTM (bitmap, M_PI/2);
-        CGContextTranslateCTM (bitmap, 0, -targetHeight);
-        
-    } else if (sourceImage.imageOrientation == UIImageOrientationRight) {
-        thumbnailPoint = CGPointMake(thumbnailPoint.y, thumbnailPoint.x);
-        CGFloat oldScaledWidth = scaledWidth;
-        scaledWidth = scaledHeight;
-        scaledHeight = oldScaledWidth;
-        
-        CGContextRotateCTM (bitmap, -M_PI/2);
-        CGContextTranslateCTM (bitmap, -targetWidth, 0);
-        
-    } else if (sourceImage.imageOrientation == UIImageOrientationUp) {
-        // NOTHING
-    } else if (sourceImage.imageOrientation == UIImageOrientationDown) {
-        CGContextTranslateCTM (bitmap, targetWidth, targetHeight);
-        CGContextRotateCTM (bitmap, M_PI);
-    }
-    
-    CGContextDrawImage(bitmap, CGRectMake(thumbnailPoint.x, thumbnailPoint.y, scaledWidth, scaledHeight), imageRef);
-    CGImageRef ref = CGBitmapContextCreateImage(bitmap);
-    UIImage* newImage = [UIImage imageWithCGImage:ref];
-    
-    CGContextRelease(bitmap);
-    CGImageRelease(ref);
-    
-    return newImage;
-}
 
 - (UIImagePickerController *)imagePicker
 {
@@ -140,7 +51,6 @@
     
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
-        
         [self.buttonTitles addObject:NSLocalizedStringFromTable(@"takePhoto", @"FDTake", @"Option to take photo using camera")];
     }
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
@@ -214,6 +124,7 @@
         }
         else {
             // On iPhone use full screen presentation.
+            
             [[self presentingViewController] presentViewController:self.imagePicker animated:YES completion:nil];
         }        
     }
@@ -231,14 +142,45 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    // If there is an edited image, take that one!
-    if ([info objectForKey:UIImagePickerControllerEditedImage]) {
-        [self.delegate takeController:self gotPhoto:[info objectForKey:UIImagePickerControllerEditedImage] withInfo:info];
-    } else {
-        // Otherwise take the original one.
-        [self.delegate takeController:self gotPhoto:[info objectForKey:UIImagePickerControllerOriginalImage] withInfo:info];
+    NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
+    UIImage *originalImage, *editedImage, *imageToSave;
+    
+    // Handle a still image capture
+    if (CFStringCompare ((CFStringRef) mediaType, kUTTypeImage, 0)
+        == kCFCompareEqualTo) {
+        
+        editedImage = (UIImage *) [info objectForKey:
+                                   UIImagePickerControllerEditedImage];
+        originalImage = (UIImage *) [info objectForKey:
+                                     UIImagePickerControllerOriginalImage];
+        
+        if (editedImage) {
+            imageToSave = editedImage;
+        } else {
+            imageToSave = originalImage;
+        }
+        
+        // Save the new image (original or edited) to the Camera Roll
+        //UIImageWriteToSavedPhotosAlbum (imageToSave, nil, nil , nil);
+        
+        [self.delegate takeController:self gotPhoto:imageToSave withInfo:info];
     }
+    
+    // Handle a movie capture
+    if (CFStringCompare ((CFStringRef) mediaType, kUTTypeMovie, 0)
+        == kCFCompareEqualTo) {
+        
+        NSString *moviePath = [[info objectForKey:
+                                UIImagePickerControllerMediaURL] path];
+        
+        if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum (moviePath)) {
+            UISaveVideoAtPathToSavedPhotosAlbum (
+                                                 moviePath, nil, nil, nil);
+        }
+    }
+    
     [picker dismissModalViewControllerAnimated:YES];
+    
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
