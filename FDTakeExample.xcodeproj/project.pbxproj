@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7723D770165092810009B197 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7723D76F165092810009B197 /* Default-568h@2x.png */; };
 		774CDAC915D3DCDF00B14C45 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774CDAC815D3DCDF00B14C45 /* UIKit.framework */; };
 		774CDACB15D3DCDF00B14C45 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774CDACA15D3DCDF00B14C45 /* Foundation.framework */; };
 		774CDACD15D3DCDF00B14C45 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774CDACC15D3DCDF00B14C45 /* CoreGraphics.framework */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7723D76F165092810009B197 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		774CDAC415D3DCDF00B14C45 /* FDTakeExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FDTakeExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		774CDAC815D3DCDF00B14C45 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		774CDACA15D3DCDF00B14C45 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -58,6 +60,7 @@
 		774CDAB915D3DCDF00B14C45 = {
 			isa = PBXGroup;
 			children = (
+				7723D76F165092810009B197 /* Default-568h@2x.png */,
 				774CDACE15D3DCDF00B14C45 /* FDTakeExample */,
 				774CDAC715D3DCDF00B14C45 /* Frameworks */,
 				774CDAC515D3DCDF00B14C45 /* Products */,
@@ -184,6 +187,7 @@
 				774CDADC15D3DCDF00B14C45 /* MainStoryboard_iPhone.storyboard in Resources */,
 				774CDADF15D3DCDF00B14C45 /* MainStoryboard_iPad.storyboard in Resources */,
 				77C46D41162B51A2001166D9 /* FDTake.strings in Resources */,
+				7723D770165092810009B197 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
