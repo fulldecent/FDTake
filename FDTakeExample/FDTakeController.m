@@ -9,6 +9,10 @@
 #import "FDTakeController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 
+#define kPhotosActionSheetTag 1
+#define kVideosActionSheetTag 2
+#define kVideosOrPhotosActionSheetTag 3
+
 @interface FDTakeController() <UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (strong, nonatomic) NSMutableArray *sources;
 @property (strong, nonatomic) NSMutableArray *buttonTitles;
@@ -17,6 +21,13 @@
 
 // Returns either optional view controll for presenting or main window.
 - (UIViewController*)presentingViewController;
+
+// encapsulation of actionsheet creation 
+- (void)_setUpActionSheet;
+
+// we need to reset actionsheet items each time since we share sources and button titles
+// we could have a set of sources and titles for each actionsheet to prevent this
+- (void)_resetUI;
 
 @end
 
@@ -28,6 +39,16 @@
 @synthesize popover = _popover;
 @synthesize viewControllerForPresenting = _viewControllerForPresenting;
 @synthesize popOverPresentRect = _popOverPresentRect;
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.sources = [[NSMutableArray alloc] init];
+        self.buttonTitles = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
 
 - (UIImagePickerController *)imagePicker
 {
@@ -46,9 +67,6 @@
 
 - (void)takePhotoOrChooseFromLibrary
 {
-    self.sources = [[NSMutableArray alloc] init];
-    self.buttonTitles = [[NSMutableArray alloc] init];
-    
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
         [self.buttonTitles addObject:NSLocalizedStringFromTable(@"takePhoto", @"FDTake", @"Option to take photo using camera")];
@@ -62,42 +80,29 @@
         [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromPhotoRoll", @"FDTake", @"Option to select photo from photo roll")];
     }
     
-    if ([self.sources count]) {
-        self.actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                       delegate:self
-                                              cancelButtonTitle:nil
-                                         destructiveButtonTitle:nil
-                                              otherButtonTitles:nil];
-        for (NSString *title in self.buttonTitles)
-            [self.actionSheet addButtonWithTitle:title];
-        [self.actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"cancel", @"FDTake", @"Decline to proceed with operation")];
-        self.actionSheet.cancelButtonIndex = self.sources.count;
-                
-        // If on iPad use the present rect and pop over style.
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [self.actionSheet showFromRect:self.popOverPresentRect inView:[self presentingViewController].view animated:YES];
-        }
-        else {
-            // Otherwise use iPhone style action sheet presentation.
-            [self.actionSheet showInView:[self presentingViewController].view];
-        }
-    } else {
-        
-        NSString *str = NSLocalizedStringFromTable(@"noSources", @"FDTake", @"There are no sources available to select a photo");
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
-                                                            message:str
-                                                           delegate:self
-                                                  cancelButtonTitle:nil
-                                                  otherButtonTitles:nil];
-        
-
-        [alertView show];
-    }
+    [self _setUpActionSheet];
+    
+    [self.actionSheet setTag:kPhotosActionSheetTag];
 }
 
 - (void)takeVideoOrChooseFromLibrary
 {
-#warning TODO
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"takeVideo", @"FDTake", @"Option to take photo using video")];
+    }
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypePhotoLibrary]];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromLibrary", @"FDTake", @"Option to select photo from library")];
+    }
+    else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+        [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeSavedPhotosAlbum]];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromPhotoRoll", @"FDTake", @"Option to select photo from photo roll")];
+    }
+    
+    [self _setUpActionSheet];
+    
+    [self.actionSheet setTag:kVideosActionSheetTag];
 }
 
 - (void)takePhotoOrVideoOrChooseFromLibrary
@@ -114,6 +119,13 @@
             [self.delegate takeController:self didCancelAfterAttempting:NO];
     } else {
         self.imagePicker.sourceType = [[self.sources objectAtIndex:buttonIndex] integerValue];
+        
+        // set the media type: photo or video
+        if (actionSheet.tag == kPhotosActionSheetTag) {
+            self.imagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeImage, nil];
+        } else if (actionSheet.tag == kVideosActionSheetTag) {
+            self.imagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeMovie, nil];
+        }
         
         // On iPad use pop-overs.
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -160,27 +172,18 @@
             imageToSave = originalImage;
         }
         
-        // Save the new image (original or edited) to the Camera Roll
-        //UIImageWriteToSavedPhotosAlbum (imageToSave, nil, nil , nil);
-        
         [self.delegate takeController:self gotPhoto:imageToSave withInfo:info];
     }
     
     // Handle a movie capture
     if (CFStringCompare ((CFStringRef) mediaType, kUTTypeMovie, 0)
         == kCFCompareEqualTo) {
-        
-        NSString *moviePath = [[info objectForKey:
-                                UIImagePickerControllerMediaURL] path];
-        
-        if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum (moviePath)) {
-            UISaveVideoAtPathToSavedPhotosAlbum (
-                                                 moviePath, nil, nil, nil);
-        }
+        [self.delegate takeController:self gotVideo:[info objectForKey:UIImagePickerControllerMediaURL] withInfo:info];
     }
     
     [picker dismissModalViewControllerAnimated:YES];
     
+    [self _resetUI];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -188,9 +191,11 @@
     [picker dismissModalViewControllerAnimated:YES];
     if ([self.delegate respondsToSelector:@selector(takeController:didCancelAfterAttempting:)])
         [self.delegate takeController:self didCancelAfterAttempting:YES];
+    
+    [self _resetUI];
 }
 
-#pragma mark - Presenting view controller method
+#pragma mark - Private methods
 
 - (UIViewController*)presentingViewController
 {
@@ -204,6 +209,43 @@
         presentingViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
     }
     return presentingViewController;
+}
+
+- (void)_resetUI
+{
+    self.sources = [[NSMutableArray alloc] init];
+    self.buttonTitles = [[NSMutableArray alloc] init];
+}
+
+- (void)_setUpActionSheet
+{
+    if ([self.sources count]) {
+        self.actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+                                         destructiveButtonTitle:nil
+                                              otherButtonTitles:nil];
+        for (NSString *title in self.buttonTitles)
+            [self.actionSheet addButtonWithTitle:title];
+        [self.actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"cancel", @"FDTake", @"Decline to proceed with operation")];
+        self.actionSheet.cancelButtonIndex = self.sources.count;
+        
+        // If on iPad use the present rect and pop over style.
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [self.actionSheet showFromRect:self.popOverPresentRect inView:[self presentingViewController].view animated:YES];
+        }
+        else {
+            // Otherwise use iPhone style action sheet presentation.
+            [self.actionSheet showInView:[self presentingViewController].view];
+        }
+    } else {
+        NSString *str = NSLocalizedStringFromTable(@"noSources", @"FDTake", @"There are no sources available to select a photo");
+        [[[UIAlertView alloc] initWithTitle:nil
+                                    message:str
+                                   delegate:self
+                          cancelButtonTitle:nil
+                          otherButtonTitles:nil] show];
+    }
 }
 
 
