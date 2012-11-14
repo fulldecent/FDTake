@@ -16,5 +16,10 @@ Behind the scenes we are doing all of this:
 
 *Status*
 
- * Selecting a photo works, video is still in progress
- * Language support: English, Chinese, please help translate FDTake.strings for more languages
+ * You can select a photo or video, from iPhone and iPad
+ * Supported languages:
+   - English
+   - Chinese
+   - Turkish (thanks Suleyman Melikoglu)
+   - Please help translate FDTake.strings for more languages
+ * Works on iOS 4 or above, but requires ARC

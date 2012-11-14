@@ -7,6 +7,11 @@
 //
 
 #import "FDTakeController.h"
+#import <MobileCoreServices/MobileCoreServices.h>
+
+#define kPhotosActionSheetTag 1
+#define kVideosActionSheetTag 2
+#define kVideosOrPhotosActionSheetTag 3
 
 @interface FDTakeController() <UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (strong, nonatomic) NSMutableArray *sources;
@@ -16,6 +21,13 @@
 
 // Returns either optional view controll for presenting or main window.
 - (UIViewController*)presentingViewController;
+
+// encapsulation of actionsheet creation 
+- (void)_setUpActionSheet;
+
+// we need to reset actionsheet items each time since we share sources and button titles
+// we could have a set of sources and titles for each actionsheet to prevent this
+- (void)_resetUI;
 
 @end
 
@@ -28,94 +40,14 @@
 @synthesize viewControllerForPresenting = _viewControllerForPresenting;
 @synthesize popOverPresentRect = _popOverPresentRect;
 
-+ (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize;
+- (id)init
 {
-    CGSize imageSize = sourceImage.size;
-    CGFloat width = imageSize.width;
-    CGFloat height = imageSize.height;
-    CGFloat targetWidth = targetSize.width;
-    CGFloat targetHeight = targetSize.height;
-    CGFloat scaleFactor = 0.0;
-    CGFloat scaledWidth = targetWidth;
-    CGFloat scaledHeight = targetHeight;
-    CGPoint thumbnailPoint = CGPointMake(0.0,0.0);
-    
-    if (CGSizeEqualToSize(imageSize, targetSize) == NO) {
-        CGFloat widthFactor = targetWidth / width;
-        CGFloat heightFactor = targetHeight / height;
-        
-        if (widthFactor > heightFactor) {
-            scaleFactor = widthFactor; // scale to fit height
-        }
-        else {
-            scaleFactor = heightFactor; // scale to fit width
-        }
-        
-        scaledWidth  = width * scaleFactor;
-        scaledHeight = height * scaleFactor;
-        
-        // center the image
-        if (widthFactor > heightFactor) {
-            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
-        }
-        else if (widthFactor < heightFactor) {
-            thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
-        }
+    self = [super init];
+    if (self) {
+        self.sources = [[NSMutableArray alloc] init];
+        self.buttonTitles = [[NSMutableArray alloc] init];
     }
-    
-    CGImageRef imageRef = [sourceImage CGImage];
-    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
-    CGColorSpaceRef colorSpaceInfo = CGImageGetColorSpace(imageRef);
-    
-    if (bitmapInfo == kCGImageAlphaNone) {
-        bitmapInfo = kCGImageAlphaNoneSkipLast;
-    }
-    
-    CGContextRef bitmap;
-    
-    if (sourceImage.imageOrientation == UIImageOrientationUp || sourceImage.imageOrientation == UIImageOrientationDown) {
-        bitmap = CGBitmapContextCreate(NULL, targetWidth, targetHeight, CGImageGetBitsPerComponent(imageRef), CGImageGetBytesPerRow(imageRef), colorSpaceInfo, bitmapInfo);
-        
-    } else {
-        bitmap = CGBitmapContextCreate(NULL, targetHeight, targetWidth, CGImageGetBitsPerComponent(imageRef), CGImageGetBytesPerRow(imageRef), colorSpaceInfo, bitmapInfo);
-        
-    }
-    
-    // In the right or left cases, we need to switch scaledWidth and scaledHeight,
-    // and also the thumbnail point
-    if (sourceImage.imageOrientation == UIImageOrientationLeft) {
-        thumbnailPoint = CGPointMake(thumbnailPoint.y, thumbnailPoint.x);
-        CGFloat oldScaledWidth = scaledWidth;
-        scaledWidth = scaledHeight;
-        scaledHeight = oldScaledWidth;
-        
-        CGContextRotateCTM (bitmap, M_PI/2);
-        CGContextTranslateCTM (bitmap, 0, -targetHeight);
-        
-    } else if (sourceImage.imageOrientation == UIImageOrientationRight) {
-        thumbnailPoint = CGPointMake(thumbnailPoint.y, thumbnailPoint.x);
-        CGFloat oldScaledWidth = scaledWidth;
-        scaledWidth = scaledHeight;
-        scaledHeight = oldScaledWidth;
-        
-        CGContextRotateCTM (bitmap, -M_PI/2);
-        CGContextTranslateCTM (bitmap, -targetWidth, 0);
-        
-    } else if (sourceImage.imageOrientation == UIImageOrientationUp) {
-        // NOTHING
-    } else if (sourceImage.imageOrientation == UIImageOrientationDown) {
-        CGContextTranslateCTM (bitmap, targetWidth, targetHeight);
-        CGContextRotateCTM (bitmap, M_PI);
-    }
-    
-    CGContextDrawImage(bitmap, CGRectMake(thumbnailPoint.x, thumbnailPoint.y, scaledWidth, scaledHeight), imageRef);
-    CGImageRef ref = CGBitmapContextCreateImage(bitmap);
-    UIImage* newImage = [UIImage imageWithCGImage:ref];
-    
-    CGContextRelease(bitmap);
-    CGImageRelease(ref);
-    
-    return newImage;
+    return self;
 }
 
 - (UIImagePickerController *)imagePicker
@@ -135,12 +67,8 @@
 
 - (void)takePhotoOrChooseFromLibrary
 {
-    self.sources = [[NSMutableArray alloc] init];
-    self.buttonTitles = [[NSMutableArray alloc] init];
-    
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
-        
         [self.buttonTitles addObject:NSLocalizedStringFromTable(@"takePhoto", @"FDTake", @"Option to take photo using camera")];
     }
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
@@ -152,42 +80,29 @@
         [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromPhotoRoll", @"FDTake", @"Option to select photo from photo roll")];
     }
     
-    if ([self.sources count]) {
-        self.actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                       delegate:self
-                                              cancelButtonTitle:nil
-                                         destructiveButtonTitle:nil
-                                              otherButtonTitles:nil];
-        for (NSString *title in self.buttonTitles)
-            [self.actionSheet addButtonWithTitle:title];
-        [self.actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"cancel", @"FDTake", @"Decline to proceed with operation")];
-        self.actionSheet.cancelButtonIndex = self.sources.count;
-                
-        // If on iPad use the present rect and pop over style.
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [self.actionSheet showFromRect:self.popOverPresentRect inView:[self presentingViewController].view animated:YES];
-        }
-        else {
-            // Otherwise use iPhone style action sheet presentation.
-            [self.actionSheet showInView:[self presentingViewController].view];
-        }
-    } else {
-        
-        NSString *str = NSLocalizedStringFromTable(@"noSources", @"FDTake", @"There are no sources available to select a photo");
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
-                                                            message:str
-                                                           delegate:self
-                                                  cancelButtonTitle:nil
-                                                  otherButtonTitles:nil];
-        
-
-        [alertView show];
-    }
+    [self _setUpActionSheet];
+    
+    [self.actionSheet setTag:kPhotosActionSheetTag];
 }
 
 - (void)takeVideoOrChooseFromLibrary
 {
-#warning TODO
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"takeVideo", @"FDTake", @"Option to take photo using video")];
+    }
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypePhotoLibrary]];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromLibrary", @"FDTake", @"Option to select photo from library")];
+    }
+    else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+        [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeSavedPhotosAlbum]];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromPhotoRoll", @"FDTake", @"Option to select photo from photo roll")];
+    }
+    
+    [self _setUpActionSheet];
+    
+    [self.actionSheet setTag:kVideosActionSheetTag];
 }
 
 - (void)takePhotoOrVideoOrChooseFromLibrary
@@ -205,6 +120,13 @@
     } else {
         self.imagePicker.sourceType = [[self.sources objectAtIndex:buttonIndex] integerValue];
         
+        // set the media type: photo or video
+        if (actionSheet.tag == kPhotosActionSheetTag) {
+            self.imagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeImage, nil];
+        } else if (actionSheet.tag == kVideosActionSheetTag) {
+            self.imagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeMovie, nil];
+        }
+        
         // On iPad use pop-overs.
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             [self.popover presentPopoverFromRect:self.popOverPresentRect
@@ -214,6 +136,7 @@
         }
         else {
             // On iPhone use full screen presentation.
+            
             [[self presentingViewController] presentViewController:self.imagePicker animated:YES completion:nil];
         }        
     }
@@ -231,14 +154,36 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    // If there is an edited image, take that one!
-    if ([info objectForKey:UIImagePickerControllerEditedImage]) {
-        [self.delegate takeController:self gotPhoto:[info objectForKey:UIImagePickerControllerEditedImage] withInfo:info];
-    } else {
-        // Otherwise take the original one.
-        [self.delegate takeController:self gotPhoto:[info objectForKey:UIImagePickerControllerOriginalImage] withInfo:info];
+    NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
+    UIImage *originalImage, *editedImage, *imageToSave;
+    
+    // Handle a still image capture
+    if (CFStringCompare ((CFStringRef) mediaType, kUTTypeImage, 0)
+        == kCFCompareEqualTo) {
+        
+        editedImage = (UIImage *) [info objectForKey:
+                                   UIImagePickerControllerEditedImage];
+        originalImage = (UIImage *) [info objectForKey:
+                                     UIImagePickerControllerOriginalImage];
+        
+        if (editedImage) {
+            imageToSave = editedImage;
+        } else {
+            imageToSave = originalImage;
+        }
+        
+        [self.delegate takeController:self gotPhoto:imageToSave withInfo:info];
     }
+    
+    // Handle a movie capture
+    if (CFStringCompare ((CFStringRef) mediaType, kUTTypeMovie, 0)
+        == kCFCompareEqualTo) {
+        [self.delegate takeController:self gotVideo:[info objectForKey:UIImagePickerControllerMediaURL] withInfo:info];
+    }
+    
     [picker dismissModalViewControllerAnimated:YES];
+    
+    [self _resetUI];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -246,9 +191,11 @@
     [picker dismissModalViewControllerAnimated:YES];
     if ([self.delegate respondsToSelector:@selector(takeController:didCancelAfterAttempting:)])
         [self.delegate takeController:self didCancelAfterAttempting:YES];
+    
+    [self _resetUI];
 }
 
-#pragma mark - Presenting view controller method
+#pragma mark - Private methods
 
 - (UIViewController*)presentingViewController
 {
@@ -262,6 +209,43 @@
         presentingViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
     }
     return presentingViewController;
+}
+
+- (void)_resetUI
+{
+    self.sources = [[NSMutableArray alloc] init];
+    self.buttonTitles = [[NSMutableArray alloc] init];
+}
+
+- (void)_setUpActionSheet
+{
+    if ([self.sources count]) {
+        self.actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+                                         destructiveButtonTitle:nil
+                                              otherButtonTitles:nil];
+        for (NSString *title in self.buttonTitles)
+            [self.actionSheet addButtonWithTitle:title];
+        [self.actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"cancel", @"FDTake", @"Decline to proceed with operation")];
+        self.actionSheet.cancelButtonIndex = self.sources.count;
+        
+        // If on iPad use the present rect and pop over style.
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [self.actionSheet showFromRect:self.popOverPresentRect inView:[self presentingViewController].view animated:YES];
+        }
+        else {
+            // Otherwise use iPhone style action sheet presentation.
+            [self.actionSheet showInView:[self presentingViewController].view];
+        }
+    } else {
+        NSString *str = NSLocalizedStringFromTable(@"noSources", @"FDTake", @"There are no sources available to select a photo");
+        [[[UIAlertView alloc] initWithTitle:nil
+                                    message:str
+                                   delegate:self
+                          cancelButtonTitle:nil
+                          otherButtonTitles:nil] show];
+    }
 }
 
 

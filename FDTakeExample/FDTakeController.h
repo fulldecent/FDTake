@@ -19,19 +19,17 @@
 
 @end
 
-@interface FDTakeController : NSObject
-
-+ (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize;
+@interface FDTakeController : NSObject <UIImagePickerControllerDelegate>
 
 - (void)takePhotoOrChooseFromLibrary;
 - (void)takeVideoOrChooseFromLibrary;
 - (void)takePhotoOrVideoOrChooseFromLibrary;
 
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
-@property (weak, nonatomic) id <FDTakeDelegate> delegate;
+@property (nonatomic, unsafe_unretained) id <FDTakeDelegate> delegate;
 
 // Optional view controller used for presenting the image picker controller
-@property (weak, nonatomic) UIViewController *viewControllerForPresenting;
+@property (unsafe_unretained, nonatomic) UIViewController *viewControllerForPresenting;
 // Rect used in presentPopoverFromRect on iPads
 @property (nonatomic, readwrite) CGRect popOverPresentRect;
 
