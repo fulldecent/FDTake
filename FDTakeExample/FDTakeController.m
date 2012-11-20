@@ -19,7 +19,7 @@
 @property (strong, nonatomic) UIActionSheet *actionSheet;
 @property (strong, nonatomic) UIPopoverController *popover;
 
-// Returns either optional view controll for presenting or main window.
+// Returns either optional view control for presenting or main window
 - (UIViewController*)presentingViewController;
 
 // encapsulation of actionsheet creation 
@@ -73,7 +73,7 @@
     }
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypePhotoLibrary]];
-        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromLibrary", @"FDTake", @"Option to select photo from library")];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromLibrary", @"FDTake", @"Option to select photo/video from library")];
     }
     else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeSavedPhotosAlbum]];
@@ -89,11 +89,11 @@
 {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
-        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"takeVideo", @"FDTake", @"Option to take photo using video")];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"takeVideo", @"FDTake", @"Option to take video using camera")];
     }
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypePhotoLibrary]];
-        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromLibrary", @"FDTake", @"Option to select photo from library")];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromLibrary", @"FDTake", @"Option to select photo/video from library")];
     }
     else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeSavedPhotosAlbum]];
@@ -114,6 +114,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    UIViewController *aViewController = [self _topViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController] ];
     if (buttonIndex == self.actionSheet.cancelButtonIndex) {
         if ([self.delegate respondsToSelector:@selector(takeController:didCancelAfterAttempting:)])
             [self.delegate takeController:self didCancelAfterAttempting:NO];
@@ -130,7 +131,7 @@
         // On iPad use pop-overs.
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             [self.popover presentPopoverFromRect:self.popOverPresentRect
-                                          inView:[self presentingViewController].view
+                                          inView:aViewController.view
                         permittedArrowDirections:UIPopoverArrowDirectionAny
                                         animated:YES];
         }
@@ -246,6 +247,23 @@
                           cancelButtonTitle:nil
                           otherButtonTitles:nil] show];
     }
+}
+
+// This is a hack required on iPad if you want to select a photo and you already have a popup on the screen
+// see: http://stackoverflow.com/questions/11748845/present-more-than-one-modalview-in-appdelegate
+- (UIViewController *)_topViewController:(UIViewController *)rootViewController
+{
+    if (rootViewController.presentedViewController == nil)
+        return rootViewController;
+    
+    if ([rootViewController.presentedViewController isMemberOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)rootViewController.presentedViewController;
+        UIViewController *lastViewController = [[navigationController viewControllers] lastObject];
+        return [self _topViewController:lastViewController];
+    }
+    
+    UIViewController *presentedViewController = (UIViewController *)rootViewController.presentedViewController;
+    return [self _topViewController:presentedViewController];
 }
 
 
