@@ -6,13 +6,13 @@ Helps you quickly take a picture or video like this:
 
 Behind the scenes we are doing all of this:
 
- * see if device has camera
- * create action sheet with appropriate options (take photo or select from library)
- * translate "Take Photo" and "Choose from Library" into every language
- * look for response
- * bring up image picker with selected image picking method
- * get response, extract image from a dictionary
- * dismiss picker, get image to delegate
+ * See if device has camera
+ * Create action sheet with appropriate options ("Take Photo" or "Choose from Library")
+ * Localize "Take Photo" and "Choose from Library" into user's language
+ * Wait for response
+ * Bring up image picker with selected image picking method
+ * Get response, extract image from a dictionary
+ * Dismiss picker, send image to delegate
 
 *Status*
 
