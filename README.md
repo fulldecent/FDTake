@@ -6,22 +6,20 @@ Helps you quickly take a picture or video like this:
 
 Behind the scenes we are doing all of this:
 
- * see if device has camera
- * create action sheet with appropriate options (take photo or select from library)
- * translate "Take Photo" and "Choose from Library" into every language
- * look for response
- * bring up image picker with selected image picking method
- * get response, extract image from a dictionary
- * dismiss picker, get image to delegate
+ * See if device has camera
+ * Create action sheet with appropriate options ("Take Photo" or "Choose from Library")
+ * Localize "Take Photo" and "Choose from Library" into user's language
+ * Wait for response
+ * Bring up image picker with selected image picking method
+ * Get response, extract image from a dictionary
+ * Dismiss picker, send image to delegate
 
 *Status*
 
- * Selecting a photo works, video is still in progress
- * Language support: English, Chinese, please help translate FDTake.strings for more languages
-
-*My Fork*
-
- * Turkish translation is added
- * `weak` annotations are converted to `unsafe_unretained` for backward-compatibility
- * A method `imageWithImage` is deleted since it is unrelated, and not used
- * General fixes to make it a better implementation
+ * You can select a photo or video, from iPhone and iPad
+ * Supported languages:
+   - English
+   - Chinese
+   - Turkish (thanks Suleyman Melikoglu)
+   - Please help translate FDTake.strings for more languages
+ * Works on iOS 4 or above, but requires ARC

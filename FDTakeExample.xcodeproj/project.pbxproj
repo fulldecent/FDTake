@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7723D770165092810009B197 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7723D76F165092810009B197 /* Default-568h@2x.png */; };
 		774CDAC915D3DCDF00B14C45 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774CDAC815D3DCDF00B14C45 /* UIKit.framework */; };
 		774CDACB15D3DCDF00B14C45 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774CDACA15D3DCDF00B14C45 /* Foundation.framework */; };
 		774CDACD15D3DCDF00B14C45 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774CDACC15D3DCDF00B14C45 /* CoreGraphics.framework */; };
@@ -17,10 +18,12 @@
 		774CDADF15D3DCDF00B14C45 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 774CDADD15D3DCDF00B14C45 /* MainStoryboard_iPad.storyboard */; };
 		774CDAE215D3DCDF00B14C45 /* FDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 774CDAE115D3DCDF00B14C45 /* FDViewController.m */; };
 		774CDAEB15D3DD1B00B14C45 /* FDTakeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 774CDAEA15D3DD1B00B14C45 /* FDTakeController.m */; };
+		77BEBAEF1653472B00CF7DC4 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77BEBAEE1653472B00CF7DC4 /* MobileCoreServices.framework */; };
 		77C46D41162B51A2001166D9 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77C46D43162B51A2001166D9 /* FDTake.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7723D76F165092810009B197 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		774CDAC415D3DCDF00B14C45 /* FDTakeExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FDTakeExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		774CDAC815D3DCDF00B14C45 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		774CDACA15D3DCDF00B14C45 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -37,6 +40,8 @@
 		774CDAE115D3DCDF00B14C45 /* FDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FDViewController.m; sourceTree = "<group>"; };
 		774CDAE915D3DD1B00B14C45 /* FDTakeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTakeController.h; sourceTree = "<group>"; };
 		774CDAEA15D3DD1B00B14C45 /* FDTakeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTakeController.m; sourceTree = "<group>"; };
+		77BEBAEC1653471000CF7DC4 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/FDTake.strings; sourceTree = "<group>"; };
+		77BEBAEE1653472B00CF7DC4 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		77C46D42162B51A2001166D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FDTake.strings; sourceTree = "<group>"; };
 		77C46D45162B51FE001166D9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/FDTake.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -46,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77BEBAEF1653472B00CF7DC4 /* MobileCoreServices.framework in Frameworks */,
 				774CDAC915D3DCDF00B14C45 /* UIKit.framework in Frameworks */,
 				774CDACB15D3DCDF00B14C45 /* Foundation.framework in Frameworks */,
 				774CDACD15D3DCDF00B14C45 /* CoreGraphics.framework in Frameworks */,
@@ -58,6 +64,8 @@
 		774CDAB915D3DCDF00B14C45 = {
 			isa = PBXGroup;
 			children = (
+				77BEBAEE1653472B00CF7DC4 /* MobileCoreServices.framework */,
+				7723D76F165092810009B197 /* Default-568h@2x.png */,
 				774CDACE15D3DCDF00B14C45 /* FDTakeExample */,
 				774CDAC715D3DCDF00B14C45 /* Frameworks */,
 				774CDAC515D3DCDF00B14C45 /* Products */,
@@ -164,6 +172,7 @@
 				en,
 				zh,
 				"zh-Hans",
+				tr,
 			);
 			mainGroup = 774CDAB915D3DCDF00B14C45;
 			productRefGroup = 774CDAC515D3DCDF00B14C45 /* Products */;
@@ -184,6 +193,7 @@
 				774CDADC15D3DCDF00B14C45 /* MainStoryboard_iPhone.storyboard in Resources */,
 				774CDADF15D3DCDF00B14C45 /* MainStoryboard_iPad.storyboard in Resources */,
 				77C46D41162B51A2001166D9 /* FDTake.strings in Resources */,
+				7723D770165092810009B197 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +243,7 @@
 			children = (
 				77C46D42162B51A2001166D9 /* en */,
 				77C46D45162B51FE001166D9 /* zh-Hans */,
+				77BEBAEC1653471000CF7DC4 /* tr */,
 			);
 			name = FDTake.strings;
 			sourceTree = "<group>";
