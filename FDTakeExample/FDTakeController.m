@@ -55,6 +55,11 @@
     if (!_imagePicker) {
         _imagePicker = [[UIImagePickerController alloc] init];
         _imagePicker.delegate = self;
+        
+        // when using iPad, didFinishPickingMediaWithInfo doesn't returns the image (UIImagePickerControllerOriginalImage).
+        // apparently, this is a bug from Apple, and for the time being, following is a workaround to this problem
+        // see: http://stackoverflow.com/questions/3196349/iphone-4-0-simulator-didfinishpickingmediawithinfo-is-missing-uiimagepickercont
+        _imagePicker.allowsEditing = YES;
     }
     return _imagePicker;
 }
@@ -166,13 +171,24 @@
         originalImage = (UIImage *) [info objectForKey:
                                      UIImagePickerControllerOriginalImage];
         
+        BOOL errorHappened = NO;
         if (editedImage) {
             imageToSave = editedImage;
-        } else {
+        } else if (originalImage) {
             imageToSave = originalImage;
+        } else {
+            // no image found, an unknown error happened
+            errorHappened = YES;
         }
         
-        [self.delegate takeController:self gotPhoto:imageToSave withInfo:info];
+        if (errorHappened) {
+            if ([self.delegate respondsToSelector:@selector(takeController:didFailAfterAttempting:)]) {
+                [self.delegate takeController:self didFailAfterAttempting:YES];
+                return;
+            }
+        } else {
+            [self.delegate takeController:self gotPhoto:imageToSave withInfo:info];
+        }
     }
     
     // Handle a movie capture

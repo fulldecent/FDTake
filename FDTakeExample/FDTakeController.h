@@ -14,9 +14,9 @@
 
 @optional
 - (void)takeController:(FDTakeController *)controller didCancelAfterAttempting:(BOOL)madeAttempt;
+- (void)takeController:(FDTakeController *)controller didFailAfterAttempting:(BOOL)madeAttempt;
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info;
 - (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)video withInfo:(NSDictionary *)info;
-
 @end
 
 @interface FDTakeController : NSObject <UIImagePickerControllerDelegate>
