@@ -27,10 +27,7 @@
 
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 @property (nonatomic, unsafe_unretained) id <FDTakeDelegate> delegate;
-
-// Optional view controller used for presenting the image picker controller
-@property (unsafe_unretained, nonatomic) UIViewController *viewControllerForPresenting;
-// Rect used in presentPopoverFromRect on iPads
-@property (nonatomic, readwrite) CGRect popOverPresentRect;
+@property (nonatomic, unsafe_unretained) UIViewController *viewControllerForPresentingImagePickerController;
+@property (nonatomic, readwrite) CGRect popOverPresentRect; // used in presentPopoverFromRect on iPads
 
 @end

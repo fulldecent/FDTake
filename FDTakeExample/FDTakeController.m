@@ -22,13 +22,8 @@
 // Returns either optional view control for presenting or main window
 - (UIViewController*)presentingViewController;
 
-// encapsulation of actionsheet creation 
+// encapsulation of actionsheet creation
 - (void)_setUpActionSheet;
-
-// we need to reset actionsheet items each time since we share sources and button titles
-// we could have a set of sources and titles for each actionsheet to prevent this
-- (void)_resetUI;
-
 @end
 
 @implementation FDTakeController
@@ -37,17 +32,34 @@
 @synthesize actionSheet = _actionSheet;
 @synthesize imagePicker = _imagePicker;
 @synthesize popover = _popover;
-@synthesize viewControllerForPresenting = _viewControllerForPresenting;
+@synthesize viewControllerForPresentingImagePickerController = _viewControllerForPresenting;
 @synthesize popOverPresentRect = _popOverPresentRect;
 
-- (id)init
+- (NSMutableArray *)sources
 {
-    self = [super init];
-    if (self) {
-        self.sources = [[NSMutableArray alloc] init];
-        self.buttonTitles = [[NSMutableArray alloc] init];
-    }
-    return self;
+    if (!_sources) _sources = [[NSMutableArray alloc] init];
+    return _sources;
+}
+
+- (NSMutableArray *)buttonTitles
+{
+    if (!_buttonTitles) _buttonTitles = [[NSMutableArray alloc] init];
+    return _buttonTitles;
+}
+
+- (CGRect)popOverPresentRect
+{
+    if (_popOverPresentRect.size.height == 0 || _popOverPresentRect.size.width == 0)
+        // See https://github.com/hborders/MGSplitViewController/commit/9247c81d6b8c9ad183f67ad01384a76302ed7f0b
+        // on iOS 5.1, passing a CGRectZero here produces this following ominous message:
+        // -[UIPopoverController presentPopoverFromRect:inView:permittedArrowDirections:animated:]: the rect passed in to this method must have non-zero width and height. This will be an exception in a future release.
+        // this workaround was tested thusly:
+        // On iOS 4.3, CGRectZero leaves a popover afterimage before rotation, so does the code below
+        // On iOS 5.0, CGRectZero leaves a popover afterimage before rotation, the code below does not
+        // On iOS 5.1, CGRectZero leaves a popover afterimage before rotation, so does the code below
+        // Basically, this hack performs slightly better than the CGRectZero hack, and does not cause an ominous warning.
+        _popOverPresentRect = CGRectMake(0, 0, 1, 1);
+    return _popOverPresentRect;
 }
 
 - (UIImagePickerController *)imagePicker
@@ -72,6 +84,8 @@
 
 - (void)takePhotoOrChooseFromLibrary
 {
+    self.sources = nil;
+    self.buttonTitles = nil;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
         [self.buttonTitles addObject:NSLocalizedStringFromTable(@"takePhoto", @"FDTake", @"Option to take photo using camera")];
@@ -84,14 +98,14 @@
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeSavedPhotosAlbum]];
         [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromPhotoRoll", @"FDTake", @"Option to select photo from photo roll")];
     }
-    
     [self _setUpActionSheet];
-    
     [self.actionSheet setTag:kPhotosActionSheetTag];
 }
 
 - (void)takeVideoOrChooseFromLibrary
 {
+    self.sources = nil;
+    self.buttonTitles = nil;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
         [self.buttonTitles addObject:NSLocalizedStringFromTable(@"takeVideo", @"FDTake", @"Option to take video using camera")];
@@ -104,9 +118,7 @@
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeSavedPhotosAlbum]];
         [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromPhotoRoll", @"FDTake", @"Option to select photo from photo roll")];
     }
-    
     [self _setUpActionSheet];
-    
     [self.actionSheet setTag:kVideosActionSheetTag];
 }
 
@@ -142,7 +154,6 @@
         }
         else {
             // On iPhone use full screen presentation.
-            
             [[self presentingViewController] presentViewController:self.imagePicker animated:YES completion:nil];
         }        
     }
@@ -172,35 +183,34 @@
         originalImage = (UIImage *) [info objectForKey:
                                      UIImagePickerControllerOriginalImage];
         
-        BOOL errorHappened = NO;
         if (editedImage) {
             imageToSave = editedImage;
         } else if (originalImage) {
             imageToSave = originalImage;
         } else {
-            // no image found, an unknown error happened
-            errorHappened = YES;
+            if ([self.delegate respondsToSelector:@selector(takeController:didFailAfterAttempting:)])
+                [self.delegate takeController:self didFailAfterAttempting:YES];
+            return;
         }
         
-        if (errorHappened) {
-            if ([self.delegate respondsToSelector:@selector(takeController:didFailAfterAttempting:)]) {
-                [self.delegate takeController:self didFailAfterAttempting:YES];
-                return;
-            }
-        } else {
+        if ([self.delegate respondsToSelector:@selector(takeController:gotPhoto:withInfo:)])
             [self.delegate takeController:self gotPhoto:imageToSave withInfo:info];
-        }
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            [self.popover dismissPopoverAnimated:YES];
     }
-    
     // Handle a movie capture
-    if (CFStringCompare ((CFStringRef) mediaType, kUTTypeMovie, 0)
+    else if (CFStringCompare ((CFStringRef) mediaType, kUTTypeMovie, 0)
         == kCFCompareEqualTo) {
-        [self.delegate takeController:self gotVideo:[info objectForKey:UIImagePickerControllerMediaURL] withInfo:info];
+        if ([self.delegate respondsToSelector:@selector(takeController:gotVideo:withInfo:)])
+            [self.delegate takeController:self gotVideo:[info objectForKey:UIImagePickerControllerMediaURL] withInfo:info];
     }
-    
-    [picker dismissModalViewControllerAnimated:YES];
-    
-    [self _resetUI];
+
+    // Workaround for iOS 4 compatibility http://stackoverflow.com/questions/12445190/dismissmodalviewcontrolleranimated-deprecated
+    if ([self respondsToSelector:@selector(dismissViewControllerAnimated:completion:)])
+        [picker dismissViewControllerAnimated:YES completion:nil];
+    else
+        [picker dismissModalViewControllerAnimated:YES];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -208,8 +218,6 @@
     [picker dismissModalViewControllerAnimated:YES];
     if ([self.delegate respondsToSelector:@selector(takeController:didCancelAfterAttempting:)])
         [self.delegate takeController:self didCancelAfterAttempting:YES];
-    
-    [self _resetUI];
 }
 
 #pragma mark - Private methods
@@ -218,20 +226,14 @@
 {
     // Use optional view controller for presenting the image picker if set
     UIViewController *presentingViewController = nil;
-    if (self.viewControllerForPresenting!=nil) {
-        presentingViewController = self.viewControllerForPresenting;
+    if (self.viewControllerForPresentingImagePickerController!=nil) {
+        presentingViewController = self.viewControllerForPresentingImagePickerController;
     }
     else {
         // Otherwise do this stuff (like in original source code)
         presentingViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
     }
     return presentingViewController;
-}
-
-- (void)_resetUI
-{
-    self.sources = [[NSMutableArray alloc] init];
-    self.buttonTitles = [[NSMutableArray alloc] init];
 }
 
 - (void)_setUpActionSheet
