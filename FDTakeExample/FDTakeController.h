@@ -23,7 +23,6 @@
 
 - (void)takePhotoOrChooseFromLibrary;
 - (void)takeVideoOrChooseFromLibrary;
-- (void)takePhotoOrVideoOrChooseFromLibrary;
 
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 @property (nonatomic, unsafe_unretained) id <FDTakeDelegate> delegate;
