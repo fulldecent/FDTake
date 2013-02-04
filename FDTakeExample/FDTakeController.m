@@ -122,11 +122,6 @@
     [self.actionSheet setTag:kVideosActionSheetTag];
 }
 
-- (void)takePhotoOrVideoOrChooseFromLibrary
-{
-#warning TODO
-}
-
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
