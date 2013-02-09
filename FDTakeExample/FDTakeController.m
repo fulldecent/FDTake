@@ -253,6 +253,9 @@
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             [self.actionSheet showFromRect:self.popOverPresentRect inView:[self presentingViewController].view animated:YES];
         }
+        else if(self.tabBar) {
+            [self.actionSheet showFromTabBar:self.tabBar];
+        }
         else {
             // Otherwise use iPhone style action sheet presentation.
             [self.actionSheet showInView:[self presentingViewController].view];
