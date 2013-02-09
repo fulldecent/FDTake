@@ -124,7 +124,26 @@
 
 - (void)takePhotoOrVideoOrChooseFromLibrary
 {
-#warning TODO
+    self.sources = nil;
+    self.buttonTitles = nil;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"takePhoto", @"FDTake", @"Option to take photo using camera")];
+    }
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"takeVideo", @"FDTake", @"Option to take video using camera")];
+    }
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypePhotoLibrary]];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromLibrary", @"FDTake", @"Option to select photo/video from library")];
+    }
+    else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+        [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeSavedPhotosAlbum]];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromPhotoRoll", @"FDTake", @"Option to select photo from photo roll")];
+    }
+    [self _setUpActionSheet];
+    [self.actionSheet setTag:kPhotosActionSheetTag];
 }
 
 #pragma mark - UIActionSheetDelegate
