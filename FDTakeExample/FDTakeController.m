@@ -234,7 +234,12 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [picker dismissModalViewControllerAnimated:YES];
+    // Workaround for iOS 4 compatibility http://stackoverflow.com/questions/12445190/dismissmodalviewcontrolleranimated-deprecated
+    if ([self respondsToSelector:@selector(dismissViewControllerAnimated:completion:)])
+        [picker dismissViewControllerAnimated:YES completion:nil];
+    else
+        [picker dismissModalViewControllerAnimated:YES];
+
     if ([self.delegate respondsToSelector:@selector(takeController:didCancelAfterAttempting:)])
         [self.delegate takeController:self didCancelAfterAttempting:YES];
 }
