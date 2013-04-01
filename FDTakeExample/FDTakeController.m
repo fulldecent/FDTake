@@ -129,21 +129,18 @@
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
         [self.buttonTitles addObject:NSLocalizedStringFromTable(@"takePhoto", @"FDTake", @"Option to take photo using camera")];
-    }
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
         [self.buttonTitles addObject:NSLocalizedStringFromTable(@"takeVideo", @"FDTake", @"Option to take video using camera")];
     }
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypePhotoLibrary]];
         [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromLibrary", @"FDTake", @"Option to select photo/video from library")];
-    }
-    else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+    } else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeSavedPhotosAlbum]];
         [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromPhotoRoll", @"FDTake", @"Option to select photo from photo roll")];
     }
     [self _setUpActionSheet];
-    [self.actionSheet setTag:kPhotosActionSheetTag];
+    [self.actionSheet setTag:kVideosOrPhotosActionSheetTag];
 }
 
 #pragma mark - UIActionSheetDelegate
@@ -162,6 +159,20 @@
             self.imagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeImage, nil];
         } else if (actionSheet.tag == kVideosActionSheetTag) {
             self.imagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeMovie, nil];
+        } else if (actionSheet.tag == kVideosOrPhotosActionSheetTag) {
+            if ([self.sources count] == 1) {
+                if (buttonIndex == 0) {
+                    self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
+                }
+            } else {
+                if (buttonIndex == 0) {
+                    self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
+                } else if (buttonIndex == 1) {
+                    self.imagePicker.mediaTypes = @[(NSString *)kUTTypeMovie];
+                } else if (buttonIndex == 2) {
+                    self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
+                }
+            }
         }
         
         // On iPad use pop-overs.
@@ -174,7 +185,7 @@
         else {
             // On iPhone use full screen presentation.
             [[self presentingViewController] presentViewController:self.imagePicker animated:YES completion:nil];
-        }        
+        }
     }
 }
 
