@@ -30,5 +30,7 @@
 @property (nonatomic, unsafe_unretained) UIViewController *viewControllerForPresentingImagePickerController;
 @property (nonatomic, readwrite) CGRect popOverPresentRect; // used in presentPopoverFromRect on iPads
 @property (strong, nonatomic) UITabBar *tabBar;
+@property (nonatomic, assign) BOOL allowsEditingPhoto;
+@property (nonatomic, assign) BOOL allowsEditingVideo;
 
 @end
