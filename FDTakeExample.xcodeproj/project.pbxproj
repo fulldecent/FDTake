@@ -64,7 +64,6 @@
 		774CDAB915D3DCDF00B14C45 = {
 			isa = PBXGroup;
 			children = (
-				77BEBAEE1653472B00CF7DC4 /* MobileCoreServices.framework */,
 				7723D76F165092810009B197 /* Default-568h@2x.png */,
 				774CDACE15D3DCDF00B14C45 /* FDTakeExample */,
 				774CDAC715D3DCDF00B14C45 /* Frameworks */,
@@ -83,6 +82,7 @@
 		774CDAC715D3DCDF00B14C45 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				77BEBAEE1653472B00CF7DC4 /* MobileCoreServices.framework */,
 				774CDAC815D3DCDF00B14C45 /* UIKit.framework */,
 				774CDACA15D3DCDF00B14C45 /* Foundation.framework */,
 				774CDACC15D3DCDF00B14C45 /* CoreGraphics.framework */,
@@ -119,19 +119,11 @@
 		774CDAE815D3DCEC00B14C45 /* FDTake */ = {
 			isa = PBXGroup;
 			children = (
-				77C46D44162B51A9001166D9 /* en.lproj */,
+				77C46D43162B51A2001166D9 /* FDTake.strings */,
 				774CDAE915D3DD1B00B14C45 /* FDTakeController.h */,
 				774CDAEA15D3DD1B00B14C45 /* FDTakeController.m */,
 			);
 			name = FDTake;
-			sourceTree = "<group>";
-		};
-		77C46D44162B51A9001166D9 /* en.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				77C46D43162B51A2001166D9 /* FDTake.strings */,
-			);
-			name = en.lproj;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
