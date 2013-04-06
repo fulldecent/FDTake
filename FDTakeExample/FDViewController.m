@@ -49,7 +49,8 @@
 
 - (IBAction)editingSwitchToggled:(id)sender
 {
-    self.takeController.imagePicker.allowsEditing = [(UISwitch *)sender isOn];
+    self.takeController.allowsEditingPhoto = [(UISwitch *)sender isOn];
+    self.takeController.allowsEditingVideo = [(UISwitch *)sender isOn];
 }
 
 
@@ -57,7 +58,11 @@
 
 - (void)takeController:(FDTakeController *)controller didCancelAfterAttempting:(BOOL)madeAttempt
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Example app" message:@"The take was cancelled" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alertView;
+    if (madeAttempt)
+        alertView = [[UIAlertView alloc] initWithTitle:@"Example app" message:@"The take was cancelled after selecting media" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    else
+        alertView = [[UIAlertView alloc] initWithTitle:@"Example app" message:@"The take was cancelled without selecting media" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
 }
 
@@ -65,7 +70,6 @@
 {
     [self.imageView setImage:photo];
 }
-
 
 - (void)viewDidUnload {
     [self setImageView:nil];
