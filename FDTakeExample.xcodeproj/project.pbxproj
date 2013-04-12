@@ -44,6 +44,7 @@
 		77BEBAEE1653472B00CF7DC4 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		77C46D42162B51A2001166D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FDTake.strings; sourceTree = "<group>"; };
 		77C46D45162B51FE001166D9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/FDTake.strings"; sourceTree = "<group>"; };
+		F03D6C171712F74F00407C60 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/FDTake.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +65,6 @@
 		774CDAB915D3DCDF00B14C45 = {
 			isa = PBXGroup;
 			children = (
-				77BEBAEE1653472B00CF7DC4 /* MobileCoreServices.framework */,
 				7723D76F165092810009B197 /* Default-568h@2x.png */,
 				774CDACE15D3DCDF00B14C45 /* FDTakeExample */,
 				774CDAC715D3DCDF00B14C45 /* Frameworks */,
@@ -83,6 +83,7 @@
 		774CDAC715D3DCDF00B14C45 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				77BEBAEE1653472B00CF7DC4 /* MobileCoreServices.framework */,
 				774CDAC815D3DCDF00B14C45 /* UIKit.framework */,
 				774CDACA15D3DCDF00B14C45 /* Foundation.framework */,
 				774CDACC15D3DCDF00B14C45 /* CoreGraphics.framework */,
@@ -119,19 +120,11 @@
 		774CDAE815D3DCEC00B14C45 /* FDTake */ = {
 			isa = PBXGroup;
 			children = (
-				77C46D44162B51A9001166D9 /* en.lproj */,
+				77C46D43162B51A2001166D9 /* FDTake.strings */,
 				774CDAE915D3DD1B00B14C45 /* FDTakeController.h */,
 				774CDAEA15D3DD1B00B14C45 /* FDTakeController.m */,
 			);
 			name = FDTake;
-			sourceTree = "<group>";
-		};
-		77C46D44162B51A9001166D9 /* en.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				77C46D43162B51A2001166D9 /* FDTake.strings */,
-			);
-			name = en.lproj;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -173,6 +166,7 @@
 				zh,
 				"zh-Hans",
 				tr,
+				fr,
 			);
 			mainGroup = 774CDAB915D3DCDF00B14C45;
 			productRefGroup = 774CDAC515D3DCDF00B14C45 /* Products */;
@@ -244,6 +238,7 @@
 				77C46D42162B51A2001166D9 /* en */,
 				77C46D45162B51FE001166D9 /* zh-Hans */,
 				77BEBAEC1653471000CF7DC4 /* tr */,
+				F03D6C171712F74F00407C60 /* fr */,
 			);
 			name = FDTake.strings;
 			sourceTree = "<group>";

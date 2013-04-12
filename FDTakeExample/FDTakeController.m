@@ -122,6 +122,27 @@
     [self.actionSheet setTag:kVideosActionSheetTag];
 }
 
+- (void)takePhotoOrVideoOrChooseFromLibrary
+{
+    self.sources = nil;
+    self.buttonTitles = nil;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"takePhoto", @"FDTake", @"Option to take photo using camera")];
+        [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"takeVideo", @"FDTake", @"Option to take video using camera")];
+    }
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypePhotoLibrary]];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromLibrary", @"FDTake", @"Option to select photo/video from library")];
+    } else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+        [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeSavedPhotosAlbum]];
+        [self.buttonTitles addObject:NSLocalizedStringFromTable(@"chooseFromPhotoRoll", @"FDTake", @"Option to select photo from photo roll")];
+    }
+    [self _setUpActionSheet];
+    [self.actionSheet setTag:kVideosOrPhotosActionSheetTag];
+}
+
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -135,9 +156,27 @@
         
         // set the media type: photo or video
         if (actionSheet.tag == kPhotosActionSheetTag) {
+            self.imagePicker.allowsEditing = self.allowsEditingPhoto;
             self.imagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeImage, nil];
         } else if (actionSheet.tag == kVideosActionSheetTag) {
+            self.imagePicker.allowsEditing = self.allowsEditingVideo;
             self.imagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeMovie, nil];
+        } else if (actionSheet.tag == kVideosOrPhotosActionSheetTag) {
+            if ([self.sources count] == 1) {
+                if (buttonIndex == 0) {
+                    self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
+                }
+            } else {
+                if (buttonIndex == 0) {
+                    self.imagePicker.allowsEditing = self.allowsEditingPhoto;
+                    self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
+                } else if (buttonIndex == 1) {
+                    self.imagePicker.allowsEditing = self.allowsEditingVideo;
+                    self.imagePicker.mediaTypes = @[(NSString *)kUTTypeMovie];
+                } else if (buttonIndex == 2) {
+                    self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
+                }
+            }
         }
         
         // On iPad use pop-overs.
@@ -150,7 +189,7 @@
         else {
             // On iPhone use full screen presentation.
             [[self presentingViewController] presentViewController:self.imagePicker animated:YES completion:nil];
-        }        
+        }
     }
 }
 
@@ -210,7 +249,12 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [picker dismissModalViewControllerAnimated:YES];
+    // Workaround for iOS 4 compatibility http://stackoverflow.com/questions/12445190/dismissmodalviewcontrolleranimated-deprecated
+    if ([self respondsToSelector:@selector(dismissViewControllerAnimated:completion:)])
+        [picker dismissViewControllerAnimated:YES completion:nil];
+    else
+        [picker dismissModalViewControllerAnimated:YES];
+
     if ([self.delegate respondsToSelector:@selector(takeController:didCancelAfterAttempting:)])
         [self.delegate takeController:self didCancelAfterAttempting:YES];
 }
@@ -247,6 +291,9 @@
         // If on iPad use the present rect and pop over style.
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             [self.actionSheet showFromRect:self.popOverPresentRect inView:[self presentingViewController].view animated:YES];
+        }
+        else if(self.tabBar) {
+            [self.actionSheet showFromTabBar:self.tabBar];
         }
         else {
             // Otherwise use iPhone style action sheet presentation.
