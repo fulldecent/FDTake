@@ -44,6 +44,7 @@
 		77BEBAEE1653472B00CF7DC4 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		77C46D42162B51A2001166D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FDTake.strings; sourceTree = "<group>"; };
 		77C46D45162B51FE001166D9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/FDTake.strings"; sourceTree = "<group>"; };
+		D51AFEB81719968900B0543C /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/FDTake.strings; sourceTree = "<group>"; };
 		F03D6C171712F74F00407C60 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/FDTake.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -167,6 +168,7 @@
 				"zh-Hans",
 				tr,
 				fr,
+				nl,
 			);
 			mainGroup = 774CDAB915D3DCDF00B14C45;
 			productRefGroup = 774CDAC515D3DCDF00B14C45 /* Products */;
@@ -239,6 +241,7 @@
 				77C46D45162B51FE001166D9 /* zh-Hans */,
 				77BEBAEC1653471000CF7DC4 /* tr */,
 				F03D6C171712F74F00407C60 /* fr */,
+				D51AFEB81719968900B0543C /* nl */,
 			);
 			name = FDTake.strings;
 			sourceTree = "<group>";
