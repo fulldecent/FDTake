@@ -31,6 +31,7 @@ Project status
    - Turkish (thanks Suleyman Melikoglu)
    - French (thanks Guillaume Algis)
    - Dutch (thanks Mathijs Kadijk)
-   - Chinese Traditional (thanks Quig Ao)
+   - Chinese Traditional (thanks Qing Ao)
    - Please help translate <a href="https://github.com/fulldecent/FDTake/blob/master/FDTakeExample/en.lproj/FDTake.strings">`FDTake.strings`</a> to more languages
  * Works on iOS 4 or above, but requires ARC
+
