@@ -23,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		77046A291771104200F31874 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/FDTake.strings; sourceTree = "<group>"; };
 		7723D76F165092810009B197 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		774CDAC415D3DCDF00B14C45 /* FDTakeExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FDTakeExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		774CDAC815D3DCDF00B14C45 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -171,6 +172,7 @@
 				fr,
 				nl,
 				"zh-Hant",
+				de,
 			);
 			mainGroup = 774CDAB915D3DCDF00B14C45;
 			productRefGroup = 774CDAC515D3DCDF00B14C45 /* Products */;
@@ -245,6 +247,7 @@
 				F03D6C171712F74F00407C60 /* fr */,
 				D51AFEB81719968900B0543C /* nl */,
 				C162211F171EC648000E0D6F /* zh-Hant */,
+				77046A291771104200F31874 /* de */,
 			);
 			name = FDTake.strings;
 			sourceTree = "<group>";
