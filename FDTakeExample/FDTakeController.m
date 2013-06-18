@@ -244,7 +244,7 @@
     if ([self respondsToSelector:@selector(dismissViewControllerAnimated:completion:)])
         [picker dismissViewControllerAnimated:YES completion:nil];
     else
-        [picker dismissModalViewControllerAnimated:YES];
+        [picker performSelector:@selector(dismissModalViewControllerAnimated:) withObject:@(YES)];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -253,7 +253,10 @@
     if ([self respondsToSelector:@selector(dismissViewControllerAnimated:completion:)])
         [picker dismissViewControllerAnimated:YES completion:nil];
     else
-        [picker dismissModalViewControllerAnimated:YES];
+    {
+        [picker performSelector:@selector(dismissModalViewControllerAnimated:) withObject:@(YES)];
+    }
+        
 
     if ([self.delegate respondsToSelector:@selector(takeController:didCancelAfterAttempting:)])
         [self.delegate takeController:self didCancelAfterAttempting:YES];
