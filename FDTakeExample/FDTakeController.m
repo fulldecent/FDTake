@@ -13,6 +13,14 @@
 #define kVideosActionSheetTag 2
 #define kVideosOrPhotosActionSheetTag 3
 
+static NSString * const kTakePhotoKey = @"takePhoto";
+static NSString * const kTakeVideoKey = @"takeVideo";
+static NSString * const kChooseFromLibraryKey = @"chooseFromLibrary";
+static NSString * const kChooseFromPhotoRollKey = @"chooseFromPhotoRoll";
+static NSString * const kCancelKey = @"cancel";
+static NSString * const kNoSourcesKey = @"noSources";
+static NSString * const kStringsTableName = @"FDTake";
+
 @interface FDTakeController() <UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (strong, nonatomic) NSMutableArray *sources;
 @property (strong, nonatomic) NSMutableArray *buttonTitles;
@@ -89,15 +97,15 @@
     self.buttonTitles = nil;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
-        [self.buttonTitles addObject:[self textForButtonWithTitle:@"takePhoto"]];
+        [self.buttonTitles addObject:[self textForButtonWithTitle:kTakePhotoKey]];
     }
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypePhotoLibrary]];
-        [self.buttonTitles addObject:[self textForButtonWithTitle:@"chooseFromLibrary"]];
+        [self.buttonTitles addObject:[self textForButtonWithTitle:kChooseFromLibraryKey]];
     }
     else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeSavedPhotosAlbum]];
-        [self.buttonTitles addObject:[self textForButtonWithTitle:@"chooseFromPhotoRoll"]];
+        [self.buttonTitles addObject:[self textForButtonWithTitle:kChooseFromPhotoRollKey]];
     }
     [self _setUpActionSheet];
     [self.actionSheet setTag:kPhotosActionSheetTag];
@@ -109,15 +117,15 @@
     self.buttonTitles = nil;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
-        [self.buttonTitles addObject:[self textForButtonWithTitle:@"takeVideo"]];
+        [self.buttonTitles addObject:[self textForButtonWithTitle:kTakeVideoKey]];
     }
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypePhotoLibrary]];
-        [self.buttonTitles addObject:[self textForButtonWithTitle:@"chooseFromLibrary"]];
+        [self.buttonTitles addObject:[self textForButtonWithTitle:kChooseFromLibraryKey]];
     }
     else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeSavedPhotosAlbum]];
-        [self.buttonTitles addObject:[self textForButtonWithTitle:@"chooseFromPhotoRoll"]];
+        [self.buttonTitles addObject:[self textForButtonWithTitle:kChooseFromPhotoRollKey]];
     }
     [self _setUpActionSheet];
     [self.actionSheet setTag:kVideosActionSheetTag];
@@ -129,16 +137,16 @@
     self.buttonTitles = nil;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
-        [self.buttonTitles addObject:[self textForButtonWithTitle:@"takePhoto"]];
+        [self.buttonTitles addObject:[self textForButtonWithTitle:kTakePhotoKey]];
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeCamera]];
-        [self.buttonTitles addObject:[self textForButtonWithTitle:@"takeVideo"]];
+        [self.buttonTitles addObject:[self textForButtonWithTitle:kTakeVideoKey]];
     }
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypePhotoLibrary]];
-        [self.buttonTitles addObject:[self textForButtonWithTitle:@"chooseFromLibrary"]];
+        [self.buttonTitles addObject:[self textForButtonWithTitle:kChooseFromLibraryKey]];
     } else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
         [self.sources addObject:[NSNumber numberWithInteger:UIImagePickerControllerSourceTypeSavedPhotosAlbum]];
-        [self.buttonTitles addObject:[self textForButtonWithTitle:@"chooseFromPhotoRoll"]];
+        [self.buttonTitles addObject:[self textForButtonWithTitle:kChooseFromPhotoRollKey]];
     }
     [self _setUpActionSheet];
     [self.actionSheet setTag:kVideosOrPhotosActionSheetTag];
@@ -289,7 +297,7 @@
                                               otherButtonTitles:nil];
         for (NSString *title in self.buttonTitles)
             [self.actionSheet addButtonWithTitle:title];
-        [self.actionSheet addButtonWithTitle:[self textForButtonWithTitle:@"cancel"]];
+        [self.actionSheet addButtonWithTitle:[self textForButtonWithTitle:kCancelKey]];
         self.actionSheet.cancelButtonIndex = self.sources.count;
         
         // If on iPad use the present rect and pop over style.
@@ -304,7 +312,7 @@
             [self.actionSheet showInView:[self presentingViewController].view];
         }
     } else {
-        NSString *str = [self textForButtonWithTitle:@"noSources"];
+        NSString *str = [self textForButtonWithTitle:kNoSourcesKey];
         [[[UIAlertView alloc] initWithTitle:nil
                                     message:str
                                    delegate:self
@@ -332,30 +340,22 @@
 
 - (NSString*)textForButtonWithTitle:(NSString*)title
 {
-	if ([title isEqualToString:@"takePhoto"])
-	{
-		return self.takePhotoText ?: NSLocalizedStringFromTable(@"takePhoto", @"FDTake", @"Option to take photo using camera");
-	}
-	else if ([title isEqualToString:@"takeVideo"])
-	{
-		return self.takeVideoText ?: NSLocalizedStringFromTable(@"takeVideo", @"FDTake", @"Option to take video using camera");
-	}
-	else if ([title isEqualToString:@"chooseFromLibrary"])
-	{
-		return self.chooseFromLibraryText ?: NSLocalizedStringFromTable(@"chooseFromLibrary", @"FDTake", @"Option to select photo/video from library");
-	}
-	else if ([title isEqualToString:@"chooseFromPhotoRoll"])
-	{
-		return self.chooseFromPhotoRollText ?: NSLocalizedStringFromTable(@"chooseFromPhotoRoll", @"FDTake", @"Option to select photo from photo roll");
-	}
-	else if ([title isEqualToString:@"cancel"])
-	{
-		return self.cancelText ?: NSLocalizedStringFromTable(@"cancel", @"FDTake", @"Decline to proceed with operation");
-	}
-	else if ([title isEqualToString:@"noSources"])
-	{
-		return self.noSourcesText ?: NSLocalizedStringFromTable(@"noSources", @"FDTake", @"There are no sources available to select a photo");
-	}
+	if ([title isEqualToString:kTakePhotoKey])
+		return self.takePhotoText ?: NSLocalizedStringFromTable(kTakePhotoKey, kStringsTableName, @"Option to take photo using camera");
+	else if ([title isEqualToString:kTakeVideoKey])
+		return self.takeVideoText ?: NSLocalizedStringFromTable(kTakeVideoKey, kStringsTableName, @"Option to take video using camera");
+	else if ([title isEqualToString:kChooseFromLibraryKey])
+		return self.chooseFromLibraryText ?: NSLocalizedStringFromTable(kChooseFromLibraryKey, kStringsTableName, @"Option to select photo/video from library");
+	else if ([title isEqualToString:kChooseFromPhotoRollKey])
+		return self.chooseFromPhotoRollText ?: NSLocalizedStringFromTable(kChooseFromPhotoRollKey, kStringsTableName, @"Option to select photo from photo roll");
+	else if ([title isEqualToString:kCancelKey])
+		return self.cancelText ?: NSLocalizedStringFromTable(kCancelKey, kStringsTableName, @"Decline to proceed with operation");
+	else if ([title isEqualToString:kNoSourcesKey])
+		return self.noSourcesText ?: NSLocalizedStringFromTable(kNoSourcesKey, kStringsTableName, @"There are no sources available to select a photo");
+	
+	NSAssert(NO, @"Invalid title passed to textForButtonWithTitle:");
+	
+	return nil;
 }
 
 @end
