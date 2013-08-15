@@ -35,13 +35,13 @@
     [super viewDidLoad];
     self.takeController = [[FDTakeController alloc] init];
     self.takeController.delegate = self;
-	self.takeController.takePhotoText = @"Take Photo";
-	self.takeController.takeVideoText = @"Take Video";
-	self.takeController.chooseFromPhotoRollText = @"Choose Existing";
-	self.takeController.chooseFromLibraryText = @"Choose Existing";
-	self.takeController.cancelText = @"Cancel";
-	self.takeController.noSourcesText = @"No Photos Available";
-    
+	// You can optionally override action sheet titles
+//	self.takeController.takePhotoText = @"Take Photo";
+//	self.takeController.takeVideoText = @"Take Video";
+//	self.takeController.chooseFromPhotoRollText = @"Choose Existing";
+//	self.takeController.chooseFromLibraryText = @"Choose Existing";
+//	self.takeController.cancelText = @"Cancel";
+//	self.takeController.noSourcesText = @"No Photos Available";
     
     NSBundle* myBundle = [NSBundle bundleWithIdentifier:@"FDTakeTranslations"];
     NSLog(@"%@", myBundle);
