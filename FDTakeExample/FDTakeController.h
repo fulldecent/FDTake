@@ -33,4 +33,12 @@
 @property (nonatomic, assign) BOOL allowsEditingPhoto;
 @property (nonatomic, assign) BOOL allowsEditingVideo;
 
+// set these strings for custom action sheet button titles
+@property (nonatomic, copy) NSString *takePhotoText;
+@property (nonatomic, copy) NSString *takeVideoText;
+@property (nonatomic, copy) NSString *chooseFromLibraryText;
+@property (nonatomic, copy) NSString *chooseFromPhotoRollText;
+@property (nonatomic, copy) NSString *cancelText;
+@property (nonatomic, copy) NSString *noSourcesText;
+
 @end
