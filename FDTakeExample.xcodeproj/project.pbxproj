@@ -48,6 +48,7 @@
 		77F31B04178633B70032DFC5 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FDTake.strings; sourceTree = "<group>"; };
 		C162211F171EC648000E0D6F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/FDTake.strings"; sourceTree = "<group>"; };
 		D51AFEB81719968900B0543C /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/FDTake.strings; sourceTree = "<group>"; };
+		E3A0368017E60AB000892B76 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/FDTake.strings; sourceTree = "<group>"; };
 		F03D6C171712F74F00407C60 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/FDTake.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -175,6 +176,7 @@
 				"zh-Hant",
 				de,
 				ru,
+				nb,
 			);
 			mainGroup = 774CDAB915D3DCDF00B14C45;
 			productRefGroup = 774CDAC515D3DCDF00B14C45 /* Products */;
@@ -220,6 +222,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				774CDAD215D3DCDF00B14C45 /* en */,
+				E3A0368317E60AB000892B76 /* nb */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				774CDADB15D3DCDF00B14C45 /* en */,
+				E3A0368117E60AB000892B76 /* nb */,
 			);
 			name = MainStoryboard_iPhone.storyboard;
 			sourceTree = "<group>";
@@ -236,6 +240,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				774CDADE15D3DCDF00B14C45 /* en */,
+				E3A0368217E60AB000892B76 /* nb */,
 			);
 			name = MainStoryboard_iPad.storyboard;
 			sourceTree = "<group>";
@@ -251,6 +256,7 @@
 				C162211F171EC648000E0D6F /* zh-Hant */,
 				77046A291771104200F31874 /* de */,
 				77F31B04178633B70032DFC5 /* ru */,
+				E3A0368017E60AB000892B76 /* nb */,
 			);
 			name = FDTake.strings;
 			sourceTree = "<group>";
