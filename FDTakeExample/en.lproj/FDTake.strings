@@ -1,23 +1,17 @@
-��/* Decline to proceed with operation */
-/*Arabic */
+/* Decline to proceed with operation */
 "cancel" = "Cancel";
-"cancel" = "إلغاء";
+
 /* Option to select photo from library */
 "chooseFromLibrary" = "Choose from library";
-"chooseFromLibrary" = "إختر من المكتبة";
 
 /* Option to select photo from photo roll */
 "chooseFromPhotoRoll" = "Choose from photo roll";
-"chooseFromPhotoRoll" = "إختر من معرض الصور";
 
 /* There are no sources available to select a photo */
 "noSources" = "There are no sources available to select a photo";
-"noSources" = "لا يوجد مصدر متاح لإختيار الصورة";
 
 /* Option to take photo using camera */
 "takePhoto" = "Take photo";
-"takePhoto" = "التقط صورة";
 
 /* Option to take video using camera */
 "takeVideo" = "Take video";
-"takeVideo" = "التقط فيديو";
