@@ -166,9 +166,15 @@ static NSString * const kStringsTableName = @"FDTake";
         // set the media type: photo or video
         if (actionSheet.tag == kPhotosActionSheetTag) {
             self.imagePicker.allowsEditing = self.allowsEditingPhoto;
+            if (self.cameraInSelfieDirection) {
+            	[self.imagePicker setCameraDevice:UIImagePickerControllerCameraDeviceFront];
+            }
             self.imagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeImage, nil];
         } else if (actionSheet.tag == kVideosActionSheetTag) {
             self.imagePicker.allowsEditing = self.allowsEditingVideo;
+            if (self.cameraInSelfieDirection) {
+            	[self.imagePicker setCameraDevice:UIImagePickerControllerCameraDeviceFront];
+            }
             self.imagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeMovie, nil];
         } else if (actionSheet.tag == kVideosOrPhotosActionSheetTag) {
             if ([self.sources count] == 1) {
@@ -178,9 +184,15 @@ static NSString * const kStringsTableName = @"FDTake";
             } else {
                 if (buttonIndex == 0) {
                     self.imagePicker.allowsEditing = self.allowsEditingPhoto;
+                    if (self.cameraInSelfieDirection) {
+            		[self.imagePicker setCameraDevice:UIImagePickerControllerCameraDeviceFront];
+        	    }
                     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
                 } else if (buttonIndex == 1) {
                     self.imagePicker.allowsEditing = self.allowsEditingVideo;
+                    if (self.cameraInSelfieDirection) {
+            	    	[self.imagePicker setCameraDevice:UIImagePickerControllerCameraDeviceFront];
+        	    }
                     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeMovie];
                 } else if (buttonIndex == 2) {
                     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
