@@ -314,8 +314,13 @@ static NSString * const kStringsTableName = @"FDTake";
         }
         else {
             // Otherwise use iPhone style action sheet presentation.
-            [self.actionSheet showInView:[self presentingViewController].view];
-        }
+  	    UIWindow* window = [[[UIApplication sharedApplication] delegate] window];
+            if ([window.subviews containsObject:[self presentingViewController].view]) {
+                [self.actionSheet showInView:[self presentingViewController].view];
+            } else {
+                [self.actionSheet showInView:window];
+            	}
+            }
     } else {
         NSString *str = [self textForButtonWithTitle:kNoSourcesKey];
         [[[UIAlertView alloc] initWithTitle:nil
