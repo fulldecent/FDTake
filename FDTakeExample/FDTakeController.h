@@ -32,7 +32,7 @@
 @property (strong, nonatomic) UITabBar *tabBar;
 @property (nonatomic, assign) BOOL allowsEditingPhoto;
 @property (nonatomic, assign) BOOL allowsEditingVideo;
-@property (nonatomic, assign) BOOL cameraInSelfieDirection;
+@property (nonatomic, assign) BOOL defaultToFrontCamera;
 
 
 // set these strings for custom action sheet button titles

@@ -164,7 +164,7 @@ static NSString * const kStringsTableName = @"FDTake";
         self.imagePicker.sourceType = [[self.sources objectAtIndex:buttonIndex] integerValue];
         
         if ((self.imagePicker.sourceType==UIImagePickerControllerSourceTypeCamera) || (self.imagePicker.sourceType==UIImagePickerControllerSourceTypeCamera)) {
-            if (self.cameraInSelfieDirection) {
+            if (self.defaultToFrontCamera && [UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront]) {
                 [self.imagePicker setCameraDevice:UIImagePickerControllerCameraDeviceFront];
             }
         }

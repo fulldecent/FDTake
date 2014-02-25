@@ -19,8 +19,9 @@ What we do
  3. Localize "Take Photo" and "Choose from Library" into user's language
  4. Wait for response
  5. Bring up image picker with selected image picking method
- 6. Get response, extract image from a dictionary
- 7. Dismiss picker, send image to delegate
+ 6. Default to selfie mode if so configured
+ 7. Get response, extract image from a dictionary
+ 8. Dismiss picker, send image to delegate
 
 Project status
 ----------------
