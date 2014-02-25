@@ -163,6 +163,11 @@ static NSString * const kStringsTableName = @"FDTake";
     } else {
         self.imagePicker.sourceType = [[self.sources objectAtIndex:buttonIndex] integerValue];
         
+        if ((self.imagePicker.sourceType==UIImagePickerControllerSourceTypeCamera) || (self.imagePicker.sourceType==UIImagePickerControllerSourceTypeCamera)) {
+            if (self.cameraInSelfieDirection) {
+                [self.imagePicker setCameraDevice:UIImagePickerControllerCameraDeviceFront];
+            }
+        }
         // set the media type: photo or video
         if (actionSheet.tag == kPhotosActionSheetTag) {
             self.imagePicker.allowsEditing = self.allowsEditingPhoto;
