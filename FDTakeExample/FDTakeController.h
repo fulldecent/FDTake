@@ -25,7 +25,6 @@
 - (void)takeVideoOrChooseFromLibrary;
 - (void)takePhotoOrVideoOrChooseFromLibrary;
 
-@property (strong, nonatomic) UIImagePickerController *imagePicker;
 @property (nonatomic, unsafe_unretained) id <FDTakeDelegate> delegate;
 @property (nonatomic, unsafe_unretained) UIViewController *viewControllerForPresentingImagePickerController;
 @property (nonatomic, readwrite) CGRect popOverPresentRect; // used in presentPopoverFromRect on iPads

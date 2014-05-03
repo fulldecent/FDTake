@@ -26,6 +26,7 @@ static NSString * const kStringsTableName = @"FDTake";
 @property (strong, nonatomic) NSMutableArray *buttonTitles;
 @property (strong, nonatomic) UIActionSheet *actionSheet;
 @property (strong, nonatomic) UIPopoverController *popover;
+@property (strong, nonatomic) UIImagePickerController *imagePicker;
 
 // Returns either optional view control for presenting or main window
 - (UIViewController*)presentingViewController;
