@@ -220,6 +220,9 @@ static NSString * const kStringsTableName = @"FDTake";
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
     NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
     UIImage *originalImage, *editedImage, *imageToSave;
     
@@ -264,6 +267,9 @@ static NSString * const kStringsTableName = @"FDTake";
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
     // Workaround for iOS 4 compatibility http://stackoverflow.com/questions/12445190/dismissmodalviewcontrolleranimated-deprecated
     if ([self respondsToSelector:@selector(dismissViewControllerAnimated:completion:)])
         [picker dismissViewControllerAnimated:YES completion:nil];
@@ -288,9 +294,26 @@ static NSString * const kStringsTableName = @"FDTake";
     }
     else {
         // Otherwise do this stuff (like in original source code)
-        presentingViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+        presentingViewController = [self topViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
     }
     return presentingViewController;
+}
+
+//Added by me
+- (UIViewController *)topViewController:(UIViewController *)rootViewController
+{
+    if (rootViewController.presentedViewController == nil) {
+        return rootViewController;
+    }
+    
+    if ([rootViewController.presentedViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)rootViewController.presentedViewController;
+        UIViewController *lastViewController = [[navigationController viewControllers] lastObject];
+        return [self topViewController:lastViewController];
+    }
+    
+    UIViewController *presentedViewController = (UIViewController *)rootViewController.presentedViewController;
+    return [self topViewController:presentedViewController];
 }
 
 - (void)_setUpActionSheet
@@ -367,6 +390,12 @@ static NSString * const kStringsTableName = @"FDTake";
 	NSAssert(NO, @"Invalid title passed to textForButtonWithTitle:");
 	
 	return nil;
+}
+
+#pragma mark - UINavigationControllerDelegate
+
+-(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
+
 }
 
 @end
