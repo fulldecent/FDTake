@@ -1,4 +1,4 @@
-FDTake
+FDTake [![Build Status](https://travis-ci.org/fulldecent/FDTake.svg?branch=master)](https://travis-ci.org/fulldecent/FDTake)
 ================
 Helps you quickly take a picture or video like this:
 
