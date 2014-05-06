@@ -38,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2A98B8241918FF6B006AB3F0 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/FDTake.strings; sourceTree = "<group>"; };
 		620D875018D1C03600A11273 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/FDTake.strings; sourceTree = "<group>"; };
 		77046A291771104200F31874 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/FDTake.strings; sourceTree = "<group>"; };
 		7723D76F165092810009B197 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -263,6 +264,7 @@
 				es,
 				he,
 				da,
+				sv,
 			);
 			mainGroup = 774CDAB915D3DCDF00B14C45;
 			productRefGroup = 774CDAC515D3DCDF00B14C45 /* Products */;
@@ -370,6 +372,7 @@
 				D9DCE05C18AD70AA0013E7DB /* es */,
 				D9CDB4B718BC1BF300EE14FA /* he */,
 				620D875018D1C03600A11273 /* da */,
+				2A98B8241918FF6B006AB3F0 /* sv */,
 			);
 			name = FDTake.strings;
 			sourceTree = "<group>";
@@ -556,6 +559,7 @@
 				D96F40681915AAC300D99C30 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
