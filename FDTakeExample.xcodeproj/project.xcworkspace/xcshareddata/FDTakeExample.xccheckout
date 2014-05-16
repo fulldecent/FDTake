@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>B59AD099-7BF2-4624-8F88-8CCE62C85D7E</string>
+	<string>CFE72B51-6BC9-416C-B353-FF37D0D80FF1</string>
 	<key>IDESourceControlProjectName</key>
 	<string>FDTakeExample</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>5962EE25-8F4F-4784-862F-ED0E47A06B32</key>
-		<string>https://github.com/ppeelen/FDTake.git</string>
+		<key>D35B381D-F9A3-4A61-8D69-53C4FF18EF55</key>
+		<string>https://github.com/natanrolnik/FDTake.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>FDTakeExample.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>5962EE25-8F4F-4784-862F-ED0E47A06B32</key>
+		<key>D35B381D-F9A3-4A61-8D69-53C4FF18EF55</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/ppeelen/FDTake.git</string>
+	<string>https://github.com/natanrolnik/FDTake.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>5962EE25-8F4F-4784-862F-ED0E47A06B32</string>
+	<string>D35B381D-F9A3-4A61-8D69-53C4FF18EF55</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>5962EE25-8F4F-4784-862F-ED0E47A06B32</string>
+			<string>D35B381D-F9A3-4A61-8D69-53C4FF18EF55</string>
 			<key>IDESourceControlWCCName</key>
 			<string>FDTake</string>
 		</dict>
