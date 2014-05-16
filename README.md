@@ -42,6 +42,7 @@ Project status
    - Hebrew (thanks Asaf Siman-Tov)
    - Danish (thanks kaspernissen)
    - Sweedish (thanks Paul Peelen)
+   - Portugese (thanks Natan Rolnik)
    - Please help translate <a href="https://github.com/fulldecent/FDTake/blob/master/FDTakeExample/en.lproj/FDTake.strings">`FDTake.strings`</a> to more languages
  * Works on iOS 4 or above, but requires ARC
 
