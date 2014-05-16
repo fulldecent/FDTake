@@ -11,7 +11,7 @@
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>D35B381D-F9A3-4A61-8D69-53C4FF18EF55</key>
-		<string>https://github.com/natanrolnik/FDTake.git</string>
+		<string>https://github.com/fulldecent/FDTake.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>FDTakeExample.xcodeproj/project.xcworkspace</string>
@@ -21,7 +21,7 @@
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/natanrolnik/FDTake.git</string>
+	<string>https://github.com/fulldecent/FDTake.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
