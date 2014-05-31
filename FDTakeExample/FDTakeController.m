@@ -92,6 +92,14 @@ static NSString * const kStringsTableName = @"FDTake";
     return _popover;
 }
 
+- (void)takePhoto
+{
+    self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    self.imagePicker.allowsEditing = NO;
+    self.imagePicker.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeImage, nil];
+    [[self presentingViewController] presentViewController:self.imagePicker animated:YES completion:nil];
+}
+
 - (void)takePhotoOrChooseFromLibrary
 {
     self.sources = nil;
@@ -277,7 +285,7 @@ static NSString * const kStringsTableName = @"FDTake";
     {
         [picker performSelector:@selector(dismissModalViewControllerAnimated:) withObject:@(YES)];
     }
-        
+
 
     if ([self.delegate respondsToSelector:@selector(takeController:didCancelAfterAttempting:)])
         [self.delegate takeController:self didCancelAfterAttempting:YES];

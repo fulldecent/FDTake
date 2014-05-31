@@ -21,6 +21,7 @@
 
 @interface FDTakeController : NSObject <UIImagePickerControllerDelegate>
 
+- (void)takePhoto;
 - (void)takePhotoOrChooseFromLibrary;
 - (void)takeVideoOrChooseFromLibrary;
 - (void)takePhotoOrVideoOrChooseFromLibrary;
