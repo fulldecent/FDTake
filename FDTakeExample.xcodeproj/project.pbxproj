@@ -64,6 +64,7 @@
 		77C46D42162B51A2001166D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FDTake.strings; sourceTree = "<group>"; };
 		77C46D45162B51FE001166D9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/FDTake.strings"; sourceTree = "<group>"; };
 		77F31B04178633B70032DFC5 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FDTake.strings; sourceTree = "<group>"; };
+		844FD351193C54C1007B1816 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/FDTake.strings; sourceTree = "<group>"; };
 		C162211F171EC648000E0D6F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/FDTake.strings"; sourceTree = "<group>"; };
 		D51AFEB81719968900B0543C /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/FDTake.strings; sourceTree = "<group>"; };
 		D96F40571915AAC200D99C30 /* FDTakeExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FDTakeExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -267,6 +268,7 @@
 				da,
 				sv,
 				pt,
+				el,
 			);
 			mainGroup = 774CDAB915D3DCDF00B14C45;
 			productRefGroup = 774CDAC515D3DCDF00B14C45 /* Products */;
@@ -376,6 +378,7 @@
 				620D875018D1C03600A11273 /* da */,
 				2A98B8241918FF6B006AB3F0 /* sv */,
 				4C7A51E71926108C00C8CA34 /* pt */,
+				844FD351193C54C1007B1816 /* el */,
 			);
 			name = FDTake.strings;
 			sourceTree = "<group>";
