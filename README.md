@@ -12,6 +12,8 @@ What you do
  2. Implement `FDTakeDelegate` and handle `- (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info`
  3. Implement anything else you want in <a href="https://github.com/fulldecent/FDTake/blob/master/FDTakeExample/FDTakeController.h">`FDTakeController.h`</a>
 
+See also: <a href="http://cocoadocs.org/docsets/FDTake/0.2.1/">CocoaDocs for FDTake</a>.
+
 What we do
 ----------------
  1. See if device has camera

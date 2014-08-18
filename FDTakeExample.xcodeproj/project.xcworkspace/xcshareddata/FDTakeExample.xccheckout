@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>792E48D0-009A-4B0D-9ECC-2CBDFD903D90</string>
+	<string>5AB3F89B-6784-4C5D-8C21-A7A270857B75</string>
 	<key>IDESourceControlProjectName</key>
 	<string>FDTakeExample</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>8FA1063E-4C89-4122-96F0-4AB499E54026</key>
-		<string>https://github.com/mythodeia/FDTake.git</string>
+		<key>1C021671-55C8-45CA-96BA-4E435FF4F250</key>
+		<string>ssh://github.com/fulldecent/FDTake.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>FDTakeExample.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>8FA1063E-4C89-4122-96F0-4AB499E54026</key>
+		<key>1C021671-55C8-45CA-96BA-4E435FF4F250</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/mythodeia/FDTake.git</string>
+	<string>ssh://github.com/fulldecent/FDTake.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>8FA1063E-4C89-4122-96F0-4AB499E54026</string>
+	<string>1C021671-55C8-45CA-96BA-4E435FF4F250</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>8FA1063E-4C89-4122-96F0-4AB499E54026</string>
+			<string>1C021671-55C8-45CA-96BA-4E435FF4F250</string>
 			<key>IDESourceControlWCCName</key>
 			<string>FDTake</string>
 		</dict>
