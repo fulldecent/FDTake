@@ -258,6 +258,7 @@ static NSString * const kStringsTableName = @"FDTake";
             [self.delegate takeController:self gotVideo:[info objectForKey:UIImagePickerControllerMediaURL] withInfo:info];
     }
 
+    picker.delegate = nil;
     // Workaround for iOS 4 compatibility http://stackoverflow.com/questions/12445190/dismissmodalviewcontrolleranimated-deprecated
     if ([self respondsToSelector:@selector(dismissViewControllerAnimated:completion:)])
         [picker dismissViewControllerAnimated:YES completion:nil];
@@ -269,7 +270,8 @@ static NSString * const kStringsTableName = @"FDTake";
 {
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
+    picker.delegate = nil;
+
     // Workaround for iOS 4 compatibility http://stackoverflow.com/questions/12445190/dismissmodalviewcontrolleranimated-deprecated
     if ([self respondsToSelector:@selector(dismissViewControllerAnimated:completion:)])
         [picker dismissViewControllerAnimated:YES completion:nil];
