@@ -1,6 +1,6 @@
 FDTake [![Build Status](https://travis-ci.org/fulldecent/FDTake.svg?branch=master)](https://travis-ci.org/fulldecent/FDTake)
 ================
-`FDTake` helps you quickly have the user take a choose an existing photo or video.
+`FDTake` helps you quickly have the user take or choose an existing photo or video.
 
 <img src="https://i.imgur.com/SpSJzmS.png" alt="screenshot" height=400/>
 
