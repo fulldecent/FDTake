@@ -10,29 +10,29 @@
 	<string>FDTakeExample</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>1C021671-55C8-45CA-96BA-4E435FF4F250</key>
+		<key>74B30E916FEB3F1F00C0CC7B7C62B66787E7FA1D</key>
 		<string>ssh://github.com/fulldecent/FDTake.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>FDTakeExample.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>1C021671-55C8-45CA-96BA-4E435FF4F250</key>
+		<key>74B30E916FEB3F1F00C0CC7B7C62B66787E7FA1D</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/fulldecent/FDTake.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>1C021671-55C8-45CA-96BA-4E435FF4F250</string>
+	<string>74B30E916FEB3F1F00C0CC7B7C62B66787E7FA1D</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>1C021671-55C8-45CA-96BA-4E435FF4F250</string>
+			<string>74B30E916FEB3F1F00C0CC7B7C62B66787E7FA1D</string>
 			<key>IDESourceControlWCCName</key>
 			<string>FDTake</string>
 		</dict>

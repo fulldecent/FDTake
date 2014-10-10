@@ -59,15 +59,8 @@ static NSString * const kStringsTableName = @"FDTake";
 
 - (CGRect)popOverPresentRect
 {
+    // See https://github.com/hborders/MGSplitViewController/commit/9247c81d6b8c9ad183f67ad01384a76302ed7f0b
     if (_popOverPresentRect.size.height == 0 || _popOverPresentRect.size.width == 0)
-        // See https://github.com/hborders/MGSplitViewController/commit/9247c81d6b8c9ad183f67ad01384a76302ed7f0b
-        // on iOS 5.1, passing a CGRectZero here produces this following ominous message:
-        // -[UIPopoverController presentPopoverFromRect:inView:permittedArrowDirections:animated:]: the rect passed in to this method must have non-zero width and height. This will be an exception in a future release.
-        // this workaround was tested thusly:
-        // On iOS 4.3, CGRectZero leaves a popover afterimage before rotation, so does the code below
-        // On iOS 5.0, CGRectZero leaves a popover afterimage before rotation, the code below does not
-        // On iOS 5.1, CGRectZero leaves a popover afterimage before rotation, so does the code below
-        // Basically, this hack performs slightly better than the CGRectZero hack, and does not cause an ominous warning.
         _popOverPresentRect = CGRectMake(0, 0, 1, 1);
     return _popOverPresentRect;
 }
@@ -259,11 +252,7 @@ static NSString * const kStringsTableName = @"FDTake";
     }
 
     picker.delegate = nil;
-    // Workaround for iOS 4 compatibility http://stackoverflow.com/questions/12445190/dismissmodalviewcontrolleranimated-deprecated
-    if ([self respondsToSelector:@selector(dismissViewControllerAnimated:completion:)])
-        [picker dismissViewControllerAnimated:YES completion:nil];
-    else
-        [picker performSelector:@selector(dismissModalViewControllerAnimated:) withObject:@(YES)];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -271,15 +260,7 @@ static NSString * const kStringsTableName = @"FDTake";
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     picker.delegate = nil;
-
-    // Workaround for iOS 4 compatibility http://stackoverflow.com/questions/12445190/dismissmodalviewcontrolleranimated-deprecated
-    if ([self respondsToSelector:@selector(dismissViewControllerAnimated:completion:)])
-        [picker dismissViewControllerAnimated:YES completion:nil];
-    else
-    {
-        [picker performSelector:@selector(dismissModalViewControllerAnimated:) withObject:@(YES)];
-    }
-        
+    [picker dismissViewControllerAnimated:YES completion:nil];
 
     if ([self.delegate respondsToSelector:@selector(takeController:didCancelAfterAttempting:)])
         [self.delegate takeController:self didCancelAfterAttempting:YES];

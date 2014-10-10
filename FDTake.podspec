@@ -5,8 +5,8 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/fulldecent/FDTake"
   s.license      = 'MIT'
   s.author       = { "William Entriken" => "github.com@phor.net" }
-  s.source       = { :git => "https://github.com/fulldecent/FDTake.git", :tag => "v0.2.2" }
-  s.platform     = :ios, '4.0'
+  s.source       = { :git => "https://github.com/fulldecent/FDTake.git", :tag => "v0.2.3" }
+  s.platform     = :ios, '5.0'
   s.source_files = 'FDTakeExample/FDTakeController.{h,m}'
   s.resources = "FDTakeExample/*.lproj"
   s.frameworks = 'CoreGraphics', 'MobileCoreServices'
