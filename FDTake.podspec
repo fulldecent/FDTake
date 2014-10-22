@@ -12,5 +12,6 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "5.0"
   s.source       = { :git => "https://github.com/fulldecent/FDTake.git", :tag => "v0.2.3" }
   s.source_files  = "FDTakeExample/FDTakeController.{h,m}"
+  s.resources = "FDTakeExample/*.lproj"
   s.requires_arc = true
 end
