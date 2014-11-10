@@ -70,10 +70,6 @@ static NSString * const kStringsTableName = @"FDTake";
     if (!_imagePicker) {
         _imagePicker = [[UIImagePickerController alloc] init];
         _imagePicker.delegate = self;
-        
-        // when using iPad, didFinishPickingMediaWithInfo doesn't returns the image (UIImagePickerControllerOriginalImage).
-        // apparently, this is a bug from Apple, and for the time being, following is a workaround to this problem
-        // see: http://stackoverflow.com/questions/3196349/iphone-4-0-simulator-didfinishpickingmediawithinfo-is-missing-uiimagepickercont
         _imagePicker.allowsEditing = YES;
     }
     return _imagePicker;
@@ -251,16 +247,16 @@ static NSString * const kStringsTableName = @"FDTake";
             [self.delegate takeController:self gotVideo:[info objectForKey:UIImagePickerControllerMediaURL] withInfo:info];
     }
 
-    picker.delegate = nil;
     [picker dismissViewControllerAnimated:YES completion:nil];
+    self.imagePicker = nil;
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    picker.delegate = nil;
     [picker dismissViewControllerAnimated:YES completion:nil];
+    self.imagePicker = nil;
 
     if ([self.delegate respondsToSelector:@selector(takeController:didCancelAfterAttempting:)])
         [self.delegate takeController:self didCancelAfterAttempting:YES];
