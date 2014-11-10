@@ -1,5 +1,11 @@
-FDTake [![Build Status](https://travis-ci.org/fulldecent/FDTake.svg?branch=master)](https://travis-ci.org/fulldecent/FDTake)
+FDTake
 ================
+
+[![CI Status](http://img.shields.io/travis/fulldecent/FDTake.svg?style=flat)](https://travis-ci.org/fulldecent/FDTake)
+[![Version](https://img.shields.io/cocoapods/v/FDTake.svg?style=flat)](http://cocoadocs.org/docsets/FDTake)
+[![License](https://img.shields.io/cocoapods/l/FDTake.svg?style=flat)](http://cocoadocs.org/docsets/FDTake)
+[![Platform](https://img.shields.io/cocoapods/p/FDTake.svg?style=flat)](http://cocoadocs.org/docsets/FDTake)
+
 `FDTake` helps you quickly have the user take or choose an existing photo or video.
 
 <img src="https://i.imgur.com/SpSJzmS.png" alt="screenshot" height=400/>
