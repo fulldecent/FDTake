@@ -1,7 +1,9 @@
-language: objective-c
-xcode_project: FDTakeExample.xcodeproj
-xcode_scheme: FDTakeExample
+# reference: http://www.objc.io/issue-6/travis-ci.html
 
+language: objective-c
+# before_install: cd Example && pod install && cd -
+script:
+- xctool test -project FDTakeExample.xcodeproj -scheme FDTakeExample -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
 notifications:
   email:
     fdtake@phor.net
