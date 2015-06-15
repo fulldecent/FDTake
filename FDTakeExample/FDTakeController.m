@@ -13,6 +13,7 @@
 #define kVideosActionSheetTag 2
 #define kVideosOrPhotosActionSheetTag 3
 
+
 static NSString * const kTakePhotoKey = @"takePhoto";
 static NSString * const kTakeVideoKey = @"takeVideo";
 static NSString * const kChooseFromLibraryKey = @"chooseFromLibrary";
@@ -354,21 +355,38 @@ static NSString * const kStringsTableName = @"FDTake";
 - (NSString*)textForButtonWithTitle:(NSString*)title
 {
 	if ([title isEqualToString:kTakePhotoKey])
-		return self.takePhotoText ?: NSLocalizedStringFromTable(kTakePhotoKey, kStringsTableName, @"Option to take photo using camera");
+		return self.takePhotoText ?: FDLOCALIZATION(kTakePhotoKey, @"Option to take photo using camera");
 	else if ([title isEqualToString:kTakeVideoKey])
-		return self.takeVideoText ?: NSLocalizedStringFromTable(kTakeVideoKey, kStringsTableName, @"Option to take video using camera");
+		return self.takeVideoText ?: FDLOCALIZATION(kTakeVideoKey, @"Option to take video using camera");
 	else if ([title isEqualToString:kChooseFromLibraryKey])
-		return self.chooseFromLibraryText ?: NSLocalizedStringFromTable(kChooseFromLibraryKey, kStringsTableName, @"Option to select photo/video from library");
+		return self.chooseFromLibraryText ?: FDLOCALIZATION(kChooseFromLibraryKey, @"Option to select photo/video from library");
 	else if ([title isEqualToString:kChooseFromPhotoRollKey])
-		return self.chooseFromPhotoRollText ?: NSLocalizedStringFromTable(kChooseFromPhotoRollKey, kStringsTableName, @"Option to select photo from photo roll");
+		return self.chooseFromPhotoRollText ?: FDLOCALIZATION(kChooseFromPhotoRollKey, @"Option to select photo from photo roll");
 	else if ([title isEqualToString:kCancelKey])
-		return self.cancelText ?: NSLocalizedStringFromTable(kCancelKey, kStringsTableName, @"Decline to proceed with operation");
+		return self.cancelText ?: FDLOCALIZATION(kCancelKey, @"Decline to proceed with operation");
 	else if ([title isEqualToString:kNoSourcesKey])
-		return self.noSourcesText ?: NSLocalizedStringFromTable(kNoSourcesKey, kStringsTableName, @"There are no sources available to select a photo");
+		return self.noSourcesText ?: FDLOCALIZATION(kNoSourcesKey, @"There are no sources available to select a photo");
 	
 	NSAssert(NO, @"Invalid title passed to textForButtonWithTitle:");
 	
 	return nil;
+}
+
+#pragma mark - Loczlization from bundle
+
++ (NSBundle *)frameworkBundle {
+    static NSBundle* frameworkBundle = nil;
+    static dispatch_once_t predicate;
+    dispatch_once(&predicate, ^{
+        NSString* mainBundlePath = [[NSBundle bundleForClass:[self class]] resourcePath];
+        NSString* frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:@"FDTakeResources.bundle"];
+        frameworkBundle = [NSBundle bundleWithPath:frameworkBundlePath];
+    });
+    return frameworkBundle;
+}
+
+static inline NSString * FDLOCALIZATION(NSString *key, NSString *comment) {
+    return NSLocalizedStringWithDefaultValue((key), kStringsTableName, [FDTakeController frameworkBundle], @" ", comment);
 }
 
 #pragma mark - UINavigationControllerDelegate
