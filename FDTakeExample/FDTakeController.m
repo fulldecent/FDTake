@@ -372,7 +372,7 @@ static NSString * const kStringsTableName = @"FDTake";
 	return nil;
 }
 
-#pragma mark - Loczlization from bundle
+#pragma mark - Localization from bundle
 
 + (NSBundle *)frameworkBundle {
     static NSBundle* frameworkBundle = nil;
