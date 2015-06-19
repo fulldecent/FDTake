@@ -17,6 +17,7 @@
 
 - (IBAction)takePhotoOrChooseFromLibrary
 {
+    [self.takeController addCustiomButton:@"Custom"];
     [self.takeController takePhotoOrChooseFromLibrary];
 }
 
@@ -36,12 +37,12 @@
     self.takeController = [[FDTakeController alloc] init];
     self.takeController.delegate = self;
 	// You can optionally override action sheet titles
-//	self.takeController.takePhotoText = @"Take Photo";
-//	self.takeController.takeVideoText = @"Take Video";
-//	self.takeController.chooseFromPhotoRollText = @"Choose Existing";
-//	self.takeController.chooseFromLibraryText = @"Choose Existing";
-//	self.takeController.cancelText = @"Cancel";
-//	self.takeController.noSourcesText = @"No Photos Available";
+	self.takeController.takePhotoText = @"Take Photo";
+	self.takeController.takeVideoText = @"Take Video";
+	self.takeController.chooseFromPhotoRollText = @"Choose Existing";
+	self.takeController.chooseFromLibraryText = @"Choose Existing";
+	self.takeController.cancelText = @"Cancel";
+	self.takeController.noSourcesText = @"No Photos Available";
     
     NSBundle* myBundle = [NSBundle bundleWithIdentifier:@"FDTakeTranslations"];
     NSLog(@"%@", myBundle);
@@ -61,6 +62,10 @@
 
 
 #pragma mark - FDTakeDelegate
+
+-(void)takeController:(FDTakeController *)controller customButtonPressed:(NSString *)buttonTitle {
+    NSLog(@"Pressed custom buttons with title :%@",buttonTitle);
+}
 
 - (void)takeController:(FDTakeController *)controller didCancelAfterAttempting:(BOOL)madeAttempt
 {
