@@ -14,6 +14,11 @@
 
 @optional
 /**
+ * Delegate method after the custom button was pressed
+ */
+- (void)takeController:(FDTakeController *)controller customButtonPressed:(NSString *)buttonTitle;
+
+/**
  * Delegate method after the user has started a take operation but cancelled it
  */
 - (void)takeController:(FDTakeController *)controller didCancelAfterAttempting:(BOOL)madeAttempt;
@@ -35,6 +40,12 @@
 @end
 
 @interface FDTakeController : NSObject <UIImagePickerControllerDelegate>
+
+/**
+ * Allow to add custom button to the sheet
+ */
+
+- (void) addCustiomButton:(NSString *)title;
 
 /**
  * Presents the user with an option to take a photo or choose a photo from the library

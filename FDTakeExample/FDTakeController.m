@@ -23,6 +23,7 @@ static NSString * const kNoSourcesKey = @"noSources";
 static NSString * const kStringsTableName = @"FDTake";
 
 @interface FDTakeController() <UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@property (strong, nonatomic) NSMutableArray *customButtons;
 @property (strong, nonatomic) NSMutableArray *sources;
 @property (strong, nonatomic) NSMutableArray *buttonTitles;
 @property (strong, nonatomic) UIActionSheet *actionSheet;
@@ -38,6 +39,7 @@ static NSString * const kStringsTableName = @"FDTake";
 @end
 
 @implementation FDTakeController
+@synthesize customButtons = _customButtons;
 @synthesize sources = _sources;
 @synthesize buttonTitles = _buttonTitles;
 @synthesize actionSheet = _actionSheet;
@@ -45,6 +47,13 @@ static NSString * const kStringsTableName = @"FDTake";
 @synthesize popover = _popover;
 @synthesize viewControllerForPresentingImagePickerController = _viewControllerForPresenting;
 @synthesize popOverPresentRect = _popOverPresentRect;
+
+- (void) addCustiomButton:(NSString *)title {
+    if(!self.customButtons) {
+        self.customButtons = [NSMutableArray new];
+    }
+    [self.customButtons addObject:title];
+}
 
 - (NSMutableArray *)sources
 {
@@ -151,7 +160,7 @@ static NSString * const kStringsTableName = @"FDTake";
     if (buttonIndex == self.actionSheet.cancelButtonIndex) {
         if ([self.delegate respondsToSelector:@selector(takeController:didCancelAfterAttempting:)])
             [self.delegate takeController:self didCancelAfterAttempting:NO];
-    } else {
+    } else if(buttonIndex < self.sources.count){
         self.imagePicker.sourceType = [[self.sources objectAtIndex:buttonIndex] integerValue];
         
         if ((self.imagePicker.sourceType==UIImagePickerControllerSourceTypeCamera) || (self.imagePicker.sourceType==UIImagePickerControllerSourceTypeCamera)) {
@@ -194,6 +203,11 @@ static NSString * const kStringsTableName = @"FDTake";
         else {
             // On iPhone use full screen presentation.
             [[self presentingViewController] presentViewController:self.imagePicker animated:YES completion:nil];
+        }
+    } else {
+        NSString *title =  self.customButtons[buttonIndex - self.sources.count];
+        if([self.delegate respondsToSelector:@selector(takeController:customButtonPressed:)]) {
+            [self.delegate takeController:self customButtonPressed:title];
         }
     }
 }
@@ -306,8 +320,10 @@ static NSString * const kStringsTableName = @"FDTake";
                                               otherButtonTitles:nil];
         for (NSString *title in self.buttonTitles)
             [self.actionSheet addButtonWithTitle:title];
+        for (NSString *title in self.customButtons)
+            [self.actionSheet addButtonWithTitle:title];
         [self.actionSheet addButtonWithTitle:[self textForButtonWithTitle:kCancelKey]];
-        self.actionSheet.cancelButtonIndex = self.sources.count;
+        self.actionSheet.cancelButtonIndex = self.sources.count + self.customButtons.count;
         
         // If on iPad use the present rect and pop over style.
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
