@@ -39,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		2A98B8241918FF6B006AB3F0 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/FDTake.strings; sourceTree = "<group>"; };
+		2FC632FF1B3743A800D37E53 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/FDTake.strings; sourceTree = "<group>"; };
 		4C7A51E71926108C00C8CA34 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/FDTake.strings; sourceTree = "<group>"; };
 		620D875018D1C03600A11273 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/FDTake.strings; sourceTree = "<group>"; };
 		77046A291771104200F31874 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/FDTake.strings; sourceTree = "<group>"; };
@@ -269,6 +270,7 @@
 				sv,
 				pt,
 				el,
+				it,
 			);
 			mainGroup = 774CDAB915D3DCDF00B14C45;
 			productRefGroup = 774CDAC515D3DCDF00B14C45 /* Products */;
@@ -379,6 +381,7 @@
 				2A98B8241918FF6B006AB3F0 /* sv */,
 				4C7A51E71926108C00C8CA34 /* pt */,
 				844FD351193C54C1007B1816 /* el */,
+				2FC632FF1B3743A800D37E53 /* it */,
 			);
 			name = FDTake.strings;
 			sourceTree = "<group>";
