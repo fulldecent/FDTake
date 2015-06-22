@@ -59,6 +59,7 @@ Support
    - Sweedish (thanks Paul Peelen)
    - Portugese (thanks Natan Rolnik)
    - Greek (thanks Konstantinos)
+   - Italian (thanks Giuseppe Filograno)
    - Please help translate <a href="https://github.com/fulldecent/FDTake/blob/master/FDTakeExample/en.lproj/FDTake.strings">`FDTake.strings`</a> to more languages
  * Supports ARC and iOS 5+
  * Includes unit tests which run successfully using Travis CI.
