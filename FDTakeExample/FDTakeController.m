@@ -382,7 +382,7 @@ static NSString * const kStringsTableName = @"FDTake";
         NSString* frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:@"FDTakeResources.bundle"];
         frameworkBundle = [NSBundle bundleWithPath:frameworkBundlePath];
     });
-    return frameworkBundle;
+    return frameworkBundle ?: [NSBundle mainBundle];
 }
 
 static inline NSString * FDLOCALIZATION(NSString *key, NSString *comment) {
