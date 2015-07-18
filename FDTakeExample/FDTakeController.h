@@ -37,14 +37,35 @@
 @interface FDTakeController : NSObject <UIImagePickerControllerDelegate>
 
 /**
+ *  Presents the user with an option to take a photo or choose a photo from the library
+ *
+ *  @param sender The sender (e.g. UIButton, UIBarButtonItem) passed in the IBAction that call this method
+ */
+- (void)takePhotoOrChooseFromLibrary:(id)sender;
+
+/**
  * Presents the user with an option to take a photo or choose a photo from the library
  */
 - (void)takePhotoOrChooseFromLibrary;
 
 /**
+ *  Presents the user with an option to take a video or choose a video from the library
+ *
+ *  @param sender The sender (e.g. UIButton, UIBarButtonItem) passed in the IBAction that call this method
+ */
+- (void)takeVideoOrChooseFromLibrary:(id)sender;
+
+/**
  * Presents the user with an option to take a video or choose a video from the library
  */
 - (void)takeVideoOrChooseFromLibrary;
+
+/**
+ *  Presents the user with an option to take a photo/video or choose a photo/video from the library
+ *
+ *  @param sender The sender (e.g. UIButton, UIBarButtonItem) passed in the IBAction that call this method
+ */
+- (void)takePhotoOrVideoOrChooseFromLibrary:(id)sender;
 
 /**
  * Presents the user with an option to take a photo/video or choose a photo/video from the library
