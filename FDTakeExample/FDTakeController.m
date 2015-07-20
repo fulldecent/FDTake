@@ -33,7 +33,7 @@ static NSString * const kStringsTableName = @"FDTake";
 - (UIViewController*)presentingViewController;
 
 // encapsulation of actionsheet creation
-- (void)_setUpActionSheet;
+- (void)_setUpActionSheet:(id)sender;
 - (NSString*)textForButtonWithTitle:(NSString*)title;
 @end
 
@@ -82,7 +82,7 @@ static NSString * const kStringsTableName = @"FDTake";
     return _popover;
 }
 
-- (void)takePhotoOrChooseFromLibrary
+- (void)takePhotoOrChooseFromLibrary:(id)sender
 {
     self.sources = nil;
     self.buttonTitles = nil;
@@ -98,11 +98,16 @@ static NSString * const kStringsTableName = @"FDTake";
         [self.sources addObject:@(UIImagePickerControllerSourceTypeSavedPhotosAlbum)];
         [self.buttonTitles addObject:[self textForButtonWithTitle:kChooseFromPhotoRollKey]];
     }
-    [self _setUpActionSheet];
+    [self _setUpActionSheet:sender];
     [self.actionSheet setTag:kPhotosActionSheetTag];
 }
 
-- (void)takeVideoOrChooseFromLibrary
+- (void)takePhotoOrChooseFromLibrary
+{
+    [self takePhotoOrChooseFromLibrary:nil];
+}
+
+- (void)takeVideoOrChooseFromLibrary:(id)sender
 {
     self.sources = nil;
     self.buttonTitles = nil;
@@ -118,11 +123,16 @@ static NSString * const kStringsTableName = @"FDTake";
         [self.sources addObject:@(UIImagePickerControllerSourceTypeSavedPhotosAlbum)];
         [self.buttonTitles addObject:[self textForButtonWithTitle:kChooseFromPhotoRollKey]];
     }
-    [self _setUpActionSheet];
+    [self _setUpActionSheet:sender];
     [self.actionSheet setTag:kVideosActionSheetTag];
 }
 
-- (void)takePhotoOrVideoOrChooseFromLibrary
+- (void)takeVideoOrChooseFromLibrary
+{
+    [self takeVideoOrChooseFromLibrary:nil];
+}
+
+- (void)takePhotoOrVideoOrChooseFromLibrary:(id)sender
 {
     self.sources = nil;
     self.buttonTitles = nil;
@@ -139,8 +149,13 @@ static NSString * const kStringsTableName = @"FDTake";
         [self.sources addObject:@(UIImagePickerControllerSourceTypeSavedPhotosAlbum)];
         [self.buttonTitles addObject:[self textForButtonWithTitle:kChooseFromPhotoRollKey]];
     }
-    [self _setUpActionSheet];
+    [self _setUpActionSheet:sender];
     [self.actionSheet setTag:kVideosOrPhotosActionSheetTag];
+}
+
+- (void)takePhotoOrVideoOrChooseFromLibrary
+{
+    [self takePhotoOrVideoOrChooseFromLibrary:nil];
 }
 
 #pragma mark - UIActionSheetDelegate
@@ -294,7 +309,7 @@ static NSString * const kStringsTableName = @"FDTake";
     return [self topViewController:presentedViewController];
 }
 
-- (void)_setUpActionSheet
+- (void)_setUpActionSheet:(id)sender
 {
     if ([self.sources count]) {
         self.actionSheet = [[UIActionSheet alloc] initWithTitle:nil
@@ -309,7 +324,11 @@ static NSString * const kStringsTableName = @"FDTake";
         
         // If on iPad use the present rect and pop over style.
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [self.actionSheet showFromRect:self.popOverPresentRect inView:[self presentingViewController].view animated:YES];
+            if ([sender isKindOfClass:[UIBarButtonItem class]]) {
+                [self.actionSheet showFromBarButtonItem:sender animated:YES];
+            } else {
+                [self.actionSheet showFromRect:self.popOverPresentRect inView:[self presentingViewController].view animated:YES];
+            }
         }
         else if(self.tabBar) {
             [self.actionSheet showFromTabBar:self.tabBar];
