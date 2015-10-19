@@ -73,6 +73,13 @@
 - (void)takePhotoOrVideoOrChooseFromLibrary;
 
 /**
+ *  Dismisses the displayed view (actionsheet or imagepicker). 
+ *  Especially handy if the sheet is displayed while suspending the app,
+ *  and you want to go back to a default state of the UI.
+ */
+- (void)dismissView;
+
+/**
  * The delegate to receive updates from FDTake
  */
 @property (nonatomic, unsafe_unretained) id <FDTakeDelegate> delegate;
