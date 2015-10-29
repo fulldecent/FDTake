@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FDTakeController.h"
 
 @interface FDAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) FDTakeController *fdTake;
 
 @end

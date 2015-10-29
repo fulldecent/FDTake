@@ -158,6 +158,16 @@ static NSString * const kStringsTableName = @"FDTake";
     [self takePhotoOrVideoOrChooseFromLibrary:nil];
 }
 
+- (void)dismissView {
+    if (_actionSheet) {
+        [_actionSheet dismissWithClickedButtonIndex:_sources.count animated:false];
+    } else  if (_imagePicker) {
+        [_imagePicker dismissViewControllerAnimated:false completion:nil];
+    } else {
+        NSLog(@"Other view");
+    }
+}
+
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -211,6 +221,7 @@ static NSString * const kStringsTableName = @"FDTake";
             [[self presentingViewController] presentViewController:self.imagePicker animated:YES completion:nil];
         }
     }
+    _actionSheet = nil;
 }
 
 #pragma mark - UIAlertViewDelegate

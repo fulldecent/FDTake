@@ -7,6 +7,7 @@
 //
 
 #import "FDViewController.h"
+#import "FDAppDelegate.h"
 
 @interface FDViewController () <FDTakeDelegate>
 
@@ -50,6 +51,7 @@
                                                        [NSBundle bundleWithIdentifier:@"FDTakeTranslations"],
                                                        @"There are no sources available to select a photo");
     NSLog(@"%@", str);
+    [(FDAppDelegate*)[[UIApplication sharedApplication] delegate] setFdTake:_takeController];
     
 }
 
@@ -64,12 +66,11 @@
 
 - (void)takeController:(FDTakeController *)controller didCancelAfterAttempting:(BOOL)madeAttempt
 {
-    UIAlertView *alertView;
-    if (madeAttempt)
-        alertView = [[UIAlertView alloc] initWithTitle:@"Example app" message:@"The take was cancelled after selecting media" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    else
-        alertView = [[UIAlertView alloc] initWithTitle:@"Example app" message:@"The take was cancelled without selecting media" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alertView show];
+    if (madeAttempt) {
+        NSLog(@"The take was cancelled after selecting media");
+    } else {
+        NSLog(@"The take was cancelled without selecting media");
+    }
 }
 
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info
