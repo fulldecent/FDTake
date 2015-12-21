@@ -9,18 +9,18 @@ import Foundation
 import MobileCoreServices
 import UIKit
 
-public protocol FDTakeDelegate: class {
+public protocol FDTakeDelegate: NSObject {
     /// Delegate method after the user has started a take operation but cancelled it
-    func takeController(controller: FDTakeController, didCancelAfterAttempting madeAttempt: Bool)
+    optional func takeController(controller: FDTakeController, didCancelAfterAttempting madeAttempt: Bool)
 
     /// Delegate method after the user has started a take operation but it failed
-    func takeController(controller: FDTakeController, didFailAfterAttempting madeAttempt: Bool)
+    optional func takeController(controller: FDTakeController, didFailAfterAttempting madeAttempt: Bool)
 
     /// Delegate method after the user has successfully taken or selected a photo
-    func takeController(controller: FDTakeController, gotPhoto photo: UIImage, withInfo info: [NSObject : AnyObject])
+    optional func takeController(controller: FDTakeController, gotPhoto photo: UIImage, withInfo info: [NSObject : AnyObject])
 
     /// Delegate method after the user has successfully taken or selected a video
-    func takeController(controller: FDTakeController, gotVideo video: NSURL, withInfo info: [NSObject : AnyObject])
+    optional func takeController(controller: FDTakeController, gotVideo video: NSURL, withInfo info: [NSObject : AnyObject])
 }
 
 public class FDTakeController: NSObject /*, UIImagePickerControllerDelegate, UINavigationControllerDelegate */ {
@@ -106,33 +106,32 @@ public class FDTakeController: NSObject /*, UIImagePickerControllerDelegate, UIN
         if let presentingViewController = self.presentingViewController {
             return presentingViewController
         }
-        return self.topViewController(UIApplication.sharedApplication().keyWindow!.rootViewController!)
+        return self.topViewController()
     }
     
     // This is a hack required on iPad if you want to select a photo and you already have a popup on the screen
-    // see: http://stackoverflow.com/questions/11748845/present-more-than-one-modalview-in-appdelegate
-    private func topViewController(rootViewController: UIViewController) -> UIViewController {
-        if rootViewController.presentedViewController == nil {
-            return rootViewController
-        }
-        if rootViewController.presentedViewController.isMemberOfClass(UINavigationController) {
-            var navigationController: UINavigationController = rootViewController.presentedViewController as! UINavigationController
-            var lastViewController: UIViewController = navigationController.viewControllers.lastObject()
-            return self._topViewController(lastViewController)
-        }
-        var presentedViewController: UIViewController = rootViewController.presentedViewController as! UIViewController
-        return self._topViewController(presentedViewController)
+    // see: http://stackoverflow.com/a/34392409/300224
+    private func topViewController() -> UIViewController {
+        var rootViewController = UIApplication.sharedApplication().keyWindow!.rootViewController!
+        repeat {
+            if rootViewController.presentingViewController == nil {
+                return rootViewController
+            }
+            if let navigationController = rootViewController.presentedViewController as? UINavigationController {
+                rootViewController = navigationController.viewControllers.last!
+            }
+            rootViewController = rootViewController.presentedViewController!
+        } while true
     }
     
-    // Localization
+    // MARK: - Localization
     
     private let frameworkBundle : NSBundle = {
-        var mainBundlePath: String = NSBundle.bundleForClass(self).resourcePath()
-        var frameworkBundlePath: String = mainBundlePath.stringByAppendingPathComponent("FDTakeResources.bundle")
-        var frameworkBundle = NSBundle.bundleWithPath(frameworkBundlePath)
+        let mainBundleURL = NSBundle(forClass: self).resourceURL
+        let frameworkBundleURL = mainBundleURL.URLByAppendingPathComponent("FDTakeResources.bundle")
+        let frameworkBundle = NSBundle(path: frameworkBundleURL)
         return frameworkBundle ?? NSBundle.mainBundle()
     }()
-    
     
     private func localize(key: String, comment: String) -> String {
         return NSLocalizedString(key, tableName: kStringsTableName, bundle: self.frameworkBundle, value: key, comment: comment)
@@ -157,7 +156,6 @@ public class FDTakeController: NSObject /*, UIImagePickerControllerDelegate, UIN
             return "ERROR"
         }
     }
-    
     
     /**
      *  Presents the user with an option to take a photo or choose a photo from the library
@@ -189,6 +187,7 @@ public class FDTakeController: NSObject /*, UIImagePickerControllerDelegate, UIN
         guard self.sources.count > 0 else {
             var str: String = self.textForButtonWithTitle(kNoSourcesKey)
             UIAlertView(title: nil, message: str, delegate: nil, cancelButtonTitle: nil).show()
+            return
         }
 
         let sender = self.presentingView
@@ -234,7 +233,7 @@ public class FDTakeController: NSObject /*, UIImagePickerControllerDelegate, UIN
      *  and you want to go back to a default state of the UI.
      */
     public func dismiss() {
-        if actionSheet != nil {
+        if let actionSheet = self.actionSheet {
             actionSheet.dismissWithClickedButtonIndex(sources.count, animated: false)
         }
         else if imagePicker != nil {
@@ -246,103 +245,41 @@ public class FDTakeController: NSObject /*, UIImagePickerControllerDelegate, UIN
     }
 }
 
-private extension FDTakeController : UIImagePickerControllerDelegate {
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-        UIApplication.sharedApplication().statusBarHidden = true
-        var mediaType: String = info[UIImagePickerControllerMediaType]
-        var originalImage: UIImage
-        var editedImage: UIImage
-        var imageToSave: UIImage
-        // Handle a still image capture
-        if CFStringCompare(mediaType as! CFString, kUTTypeImage, 0) == kCFCompareEqualTo {
-            editedImage = info[UIImagePickerControllerEditedImage] as! UIImage
-            originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-            if editedImage != nil {
-                imageToSave = editedImage
-            }
-            else if originalImage != nil {
-                imageToSave = originalImage
-            }
-            else {
-                if self.delegate.respondsToSelector("takeController:didFailAfterAttempting:") {
-                    self.delegate.takeController(self, didFailAfterAttempting: true)
-                }
-                return
-            }
-            
-            if self.delegate.respondsToSelector("takeController:gotPhoto:withInfo:") {
-                self.delegate.takeController(self, gotPhoto: imageToSave, withInfo: info)
-            }
-            if UI_USER_INTERFACE_IDIOM() == .Pad {
-                self.popover.dismissPopoverAnimated(true)
-            }
-        }
-        else if CFStringCompare(mediaType as! CFString, kUTTypeMovie, 0) == kCFCompareEqualTo {
-            if self.delegate.respondsToSelector("takeController:gotVideo:withInfo:") {
-                self.delegate.takeController(self, gotVideo: info[UIImagePickerControllerMediaURL], withInfo: info)
-            }
-        }
-        
-        picker.dismissViewControllerAnimated(true, completion: { _ in })
-        self.imagePicker = nil
-    }
-    
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        UIApplication.sharedApplication().statusBarHidden = true
-        picker.dismissViewControllerAnimated(true, completion: { _ in })
-        self.imagePicker = nil
-        if self.delegate.respondsToSelector("takeController:didCancelAfterAttempting:") {
-            self.delegate.takeController(self, didCancelAfterAttempting: true)
-        }
-    }
-}
-
-private extension FDTakeController : UIActionSheetDelegate {
-    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        var aViewController: UIViewController = self._topViewController(UIApplication.sharedApplication().keyWindow().rootViewController())
-        if buttonIndex == self.actionSheet.cancelButtonIndex {
-            if self.delegate.respondsToSelector("takeController:didCancelAfterAttempting:") {
-                self.delegate.takeController(self, didCancelAfterAttempting: false)
-            }
+extension FDTakeController : UIActionSheetDelegate {
+    public func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+        var aViewController: UIViewController = self.topViewController()
+        if buttonIndex == actionSheet.cancelButtonIndex {
+            self.delegate?.takeController(self, didCancelAfterAttempting: false)
         } else {
-            self.imagePicker.sourceType = CInteger((self.sources)[buttonIndex])!
+            self.imagePicker.sourceType = self.sources[buttonIndex]
             if (self.imagePicker.sourceType == .Camera) || (self.imagePicker.sourceType == .Camera) {
                 if self.defaultToFrontCamera && UIImagePickerController.isCameraDeviceAvailable(.Front) {
                     self.imagePicker.cameraDevice = .Front
                 }
             }
             // set the media type: photo or video
-            if actionSheet.tag == kPhotosActionSheetTag {
-                self.imagePicker.allowsEditing = self.allowsEditingPhoto
-                self.imagePicker.mediaTypes = [String(kUTTypeImage)]
+            self.imagePicker.allowsEditing = self.allowEditing
+            self.imagePicker.mediaTypes = []
+            if self.allowPhoto {
+                self.imagePicker.mediaTypes.append(String(kUTTypeImage))
             }
-            else if actionSheet.tag == kVideosActionSheetTag {
-                self.imagePicker.allowsEditing = self.allowsEditingVideo
-                self.imagePicker.mediaTypes = [String(kUTTypeMovie)]
+            if self.allowVideo {
+                self.imagePicker.mediaTypes.append(String(kUTTypeMovie))
             }
-            else if actionSheet.tag == kVideosOrPhotosActionSheetTag {
-                if self.sources.count == 1 {
-                    if buttonIndex == 0 {
-                        self.imagePicker.mediaTypes = [String(kUTTypeImage), String(kUTTypeMovie)]
-                    }
+            if self.allowPhoto && self.allowVideo && self.sources.count > 1 {
+                if buttonIndex == 0 {
+                    self.imagePicker.mediaTypes = [String(kUTTypeImage)]
                 }
-                else {
-                    if buttonIndex == 0 {
-                        self.imagePicker.allowsEditing = self.allowsEditingPhoto
-                        self.imagePicker.mediaTypes = [String(kUTTypeImage)]
-                    }
-                    else if buttonIndex == 1 {
-                        self.imagePicker.allowsEditing = self.allowsEditingVideo
-                        self.imagePicker.mediaTypes = [String(kUTTypeMovie)]
-                    }
-                    else if buttonIndex == 2 {
-                        self.imagePicker.mediaTypes = [String(kUTTypeImage), String(kUTTypeMovie)]
-                    }
+                else if buttonIndex == 1 {
+                    self.imagePicker.mediaTypes = [String(kUTTypeMovie)]
+                }
+                else if buttonIndex == 2 {
+                    self.imagePicker.mediaTypes = [String(kUTTypeImage), String(kUTTypeMovie)]
                 }
             }
             
-            var popOverPresentRect: CGRect = self.popOverPresentRect
-            if self.popOverPresentRect.size.height == 0 || self.popOverPresentRect.size.width == 0 {
+            var popOverPresentRect: CGRect = self.presentingRect ?? CGRectMake(0, 0, 1, 1)
+            if popOverPresentRect.size.height == 0 || popOverPresentRect.size.width == 0 {
                 popOverPresentRect = CGRectMake(0, 0, 1, 1)
             }
             // On iPad use pop-overs.
@@ -354,65 +291,48 @@ private extension FDTakeController : UIActionSheetDelegate {
                 self.calculatedViewController().presentViewController(self.imagePicker, animated: true, completion: { _ in })
             }
         }
-        _actionSheet = nil
+        self.actionSheet = nil
     }
 }
 
-private extension FDTakeController : UIAlertViewDelegate {
-    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
-        if self.delegate.respondsToSelector("takeController:didCancelAfterAttempting:") {
-            self.delegate.takeController(self, didCancelAfterAttempting: false)
-        }
-    }
-}
-
-private extension FDTakeController : UIImagePickerControllerDelegate {
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+extension FDTakeController : UIImagePickerControllerDelegate {
+    public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         UIApplication.sharedApplication().statusBarHidden = true
         var mediaType: String = info[UIImagePickerControllerMediaType]
-        var originalImage: UIImage
-        var editedImage: UIImage
         var imageToSave: UIImage
         // Handle a still image capture
-        if CFStringCompare(mediaType as! CFString, kUTTypeImage, 0) == kCFCompareEqualTo {
-            editedImage = info[UIImagePickerControllerEditedImage] as! UIImage
-            originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-            if editedImage != nil {
+        if mediaType == kUTTypeImage as String {
+            if let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
                 imageToSave = editedImage
-            }
-            else if originalImage != nil {
+            } else if let originalImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
                 imageToSave = originalImage
-            }
-            else {
-                if self.delegate.respondsToSelector("takeController:didFailAfterAttempting:") {
-                    self.delegate.takeController(self, didFailAfterAttempting: true)
-                }
+            } else {
+                self.delegate?.takeController(self, didFailAfterAttempting: true)
                 return
             }
-            
-            if self.delegate.respondsToSelector("takeController:gotPhoto:withInfo:") {
-                self.delegate.takeController(self, gotPhoto: imageToSave, withInfo: info)
-            }
+            self.delegate?.takeController(self, gotPhoto: imageToSave, withInfo: info)
             if UI_USER_INTERFACE_IDIOM() == .Pad {
                 self.popover.dismissPopoverAnimated(true)
             }
+        } else if mediaType == kUTTypeMovie as String {
+            self.delegate?.takeController(self, gotVideo: info[UIImagePickerControllerMediaURL], withInfo: info)
         }
-        else if CFStringCompare(mediaType as! CFString, kUTTypeMovie, 0) == kCFCompareEqualTo {
-            if self.delegate.respondsToSelector("takeController:gotVideo:withInfo:") {
-                self.delegate.takeController(self, gotVideo: info[UIImagePickerControllerMediaURL], withInfo: info)
-            }
-        }
-        
-        picker.dismissViewControllerAnimated(true, completion: { _ in })
+
+        picker.dismissViewControllerAnimated(true, completion: nil)
         self.imagePicker = nil
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         UIApplication.sharedApplication().statusBarHidden = true
         picker.dismissViewControllerAnimated(true, completion: { _ in })
         self.imagePicker = nil
-        if self.delegate.respondsToSelector("takeController:didCancelAfterAttempting:") {
-            self.delegate.takeController(self, didCancelAfterAttempting: true)
-        }
+        self.delegate?.takeController(self, didCancelAfterAttempting: true)
+    }
+}
+
+
+extension FDTakeController : UIAlertViewDelegate {
+    public func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+        self.delegate?.takeController(self, didCancelAfterAttempting: false)
     }
 }
