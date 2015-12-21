@@ -13,7 +13,6 @@
 #define kVideosActionSheetTag 2
 #define kVideosOrPhotosActionSheetTag 3
 
-
 static NSString * const kTakePhotoKey = @"takePhoto";
 static NSString * const kTakeVideoKey = @"takeVideo";
 static NSString * const kChooseFromLibraryKey = @"chooseFromLibrary";
@@ -56,14 +55,6 @@ static NSString * const kStringsTableName = @"FDTake";
 {
     if (!_buttonTitles) _buttonTitles = [[NSMutableArray alloc] init];
     return _buttonTitles;
-}
-
-- (CGRect)popOverPresentRect
-{
-    // See https://github.com/hborders/MGSplitViewController/commit/9247c81d6b8c9ad183f67ad01384a76302ed7f0b
-    if (_popOverPresentRect.size.height == 0 || _popOverPresentRect.size.width == 0)
-        _popOverPresentRect = CGRectMake(0, 0, 1, 1);
-    return _popOverPresentRect;
 }
 
 - (UIImagePickerController *)imagePicker
@@ -209,9 +200,14 @@ static NSString * const kStringsTableName = @"FDTake";
             }
         }
         
+        CGRect popOverPresentRect = self.popOverPresentRect;
+        if (self.popOverPresentRect.size.height == 0 || self.popOverPresentRect.size.width == 0) {
+            popOverPresentRect = CGRectMake(0, 0, 1, 1);
+        }
+        
         // On iPad use pop-overs.
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [self.popover presentPopoverFromRect:self.popOverPresentRect
+            [self.popover presentPopoverFromRect:popOverPresentRect
                                           inView:aViewController.view
                         permittedArrowDirections:UIPopoverArrowDirectionAny
                                         animated:YES];
@@ -333,12 +329,17 @@ static NSString * const kStringsTableName = @"FDTake";
         [self.actionSheet addButtonWithTitle:[self textForButtonWithTitle:kCancelKey]];
         self.actionSheet.cancelButtonIndex = self.sources.count;
         
+        CGRect popOverPresentRect = self.popOverPresentRect;
+        if (self.popOverPresentRect.size.height == 0 || self.popOverPresentRect.size.width == 0) {
+            popOverPresentRect = CGRectMake(0, 0, 1, 1);
+        }
+        
         // If on iPad use the present rect and pop over style.
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             if ([sender isKindOfClass:[UIBarButtonItem class]]) {
                 [self.actionSheet showFromBarButtonItem:sender animated:YES];
             } else {
-                [self.actionSheet showFromRect:self.popOverPresentRect inView:[self presentingViewController].view animated:YES];
+                [self.actionSheet showFromRect:popOverPresentRect inView:[self presentingViewController].view animated:YES];
             }
         }
         else if(self.tabBar) {
