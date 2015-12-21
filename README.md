@@ -22,7 +22,7 @@ then implement `FDTakeDelegate` to receive the photo with
                   gotPhoto:(UIImage *)photo 
                   withInfo:(NSDictionary *)info`
 
-Other available options are documented at <a href="http://cocoadocs.org/docsets/FDTake/0.2.1/">CocoaDocs for FDTake</a>.
+Other available options are documented at <a href="http://cocoadocs.org/docsets/FDTake/">CocoaDocs for FDTake</a>.
 
 How it works
 ----------------
