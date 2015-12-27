@@ -128,7 +128,7 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
     
     private lazy var popover: UIPopoverController = {
         [unowned self] in
-        return UIPopoverController(initWithContentViewController: self.imagePicker)
+        return UIPopoverController(contentViewController: self.imagePicker)
     }()
     
     private var actionSheet: UIActionSheet? = nil
@@ -241,9 +241,10 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
         }
         else {
             // Otherwise use iPhone style action sheet presentation.
-            let window = UIApplication.sharedApplication().delegate!.window as! UIWindow
+            // UIWindow hack: http://stackoverflow.com/a/28902549/300224
+            let window = (UIApplication.sharedApplication().delegate!.window ?? nil)! as UIWindow
             let topVC = topViewController(presentingViewController)
-            if window?.subviews.contains(topVC.view!) {
+            if window.subviews.contains(topVC.view!) {
                 actionSheet.showInView(topVC.view)
             }
             else {
@@ -260,19 +261,15 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
     public func dismiss() {
         if let actionSheet = self.actionSheet {
             actionSheet.dismissWithClickedButtonIndex(sources.count, animated: false)
-        }
-        else if imagePicker != nil {
+        } else {
             imagePicker.dismissViewControllerAnimated(false, completion: nil)
-        }
-        else {
-            NSLog("Other view")
         }
     }
 }
 
 extension FDTakeController : UIActionSheetDelegate {
     public func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        var aViewController: UIViewController = self.topViewController(self.presentingViewController)
+        let aViewController: UIViewController = self.topViewController(self.presentingViewController)
         if buttonIndex == actionSheet.cancelButtonIndex {
             self.didDeny?()
         } else {
@@ -324,7 +321,7 @@ extension FDTakeController : UIActionSheetDelegate {
 extension FDTakeController : UIImagePickerControllerDelegate {
     public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         UIApplication.sharedApplication().statusBarHidden = true
-        var mediaType: String = info[UIImagePickerControllerMediaType] as! String
+        let mediaType: String = info[UIImagePickerControllerMediaType] as! String
         var imageToSave: UIImage
         // Handle a still image capture
         if mediaType == kUTTypeImage as String {
@@ -345,13 +342,11 @@ extension FDTakeController : UIImagePickerControllerDelegate {
         }
         
         picker.dismissViewControllerAnimated(true, completion: nil)
-        self.imagePicker = nil
     }
     
     public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         UIApplication.sharedApplication().statusBarHidden = true
         picker.dismissViewControllerAnimated(true, completion: { _ in })
-        self.imagePicker = nil
         self.didCancel?()
     }
 }
