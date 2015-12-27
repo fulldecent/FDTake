@@ -117,7 +117,7 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
     
     private var buttonTitles = [String]()
     
-    private lazy var imagePicker = {
+    private lazy var imagePicker: UIImagePickerController = {
         [unowned self] in
         let retval = UIImagePickerController()
         let selfDelegate = self as! protocol<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -126,7 +126,7 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
         return retval
     }()
     
-    private lazy var popover = {
+    private lazy var popover: UIPopoverController = {
         [unowned self] in
         return UIPopoverController(initWithContentViewController: self.imagePicker)
     }()
