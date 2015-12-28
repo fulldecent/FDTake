@@ -68,23 +68,32 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uiZ-XJ-hve">
+                                <rect key="frame" x="20" y="28" width="51" height="31"/>
+                            </switch>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1t3-vK-Y83">
+                                <rect key="frame" x="20" y="262" width="51" height="31"/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Full screen camera on iPad" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LGF-4u-Pmw">
+                                <rect key="frame" x="77" y="262" width="503" height="31"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Y0-Hg-2J6">
-                                <rect key="frame" x="20" y="262" width="219" height="30"/>
+                                <rect key="frame" x="20" y="301" width="219" height="30"/>
                                 <state key="normal" title="Present from this button"/>
                                 <connections>
                                     <action selector="presentFromButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="xo8-WX-tAp"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fxf-eD-6YO">
-                                <rect key="frame" x="20" y="300" width="219" height="30"/>
+                                <rect key="frame" x="20" y="339" width="219" height="30"/>
                                 <state key="normal" title="Present from window"/>
                                 <connections>
                                     <action selector="presentFromWindow:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="kca-wq-LtA"/>
                                 </connections>
                             </button>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uiZ-XJ-hve">
-                                <rect key="frame" x="20" y="28" width="51" height="31"/>
-                            </switch>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -95,6 +104,7 @@
                         <outlet property="allowsTake" destination="Arn-KJ-MwA" id="RQq-Wr-dqc"/>
                         <outlet property="allowsVideo" destination="Uif-hf-1SB" id="mJP-Rd-9q4"/>
                         <outlet property="defaultsToFrontCamera" destination="VQV-A9-pqa" id="hrJ-wj-yij"/>
+                        <outlet property="iPadFullScreenCamera" destination="1t3-vK-Y83" id="wxk-r1-gq2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

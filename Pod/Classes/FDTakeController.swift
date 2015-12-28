@@ -44,6 +44,8 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
     
     public var allowsEditing = false
     
+    public var iPadUsesFullScreenCamera = false
+    
     public var defaultsToFrontCamera = false
     
     //WARNING: THESE WILL DISAPPEAR AND YOU WILL GET NEW PRESENT FUNCTIONS! MAYBE!!
@@ -243,13 +245,13 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
                     popOverPresentRect = CGRectMake(0, 0, 1, 1)
                 }
                 let topVC = self.topViewController(self.presentingViewController)
-                // On iPad use pop-overs.
-                if UI_USER_INTERFACE_IDIOM() == .Pad {
-                    self.popover.presentPopoverFromRect(popOverPresentRect, inView: topVC.view!, permittedArrowDirections: .Any, animated: true)
-                }
-                else {
-                    // On iPhone use full screen presentation.
+                
+                // 
+                if UI_USER_INTERFACE_IDIOM() == .Phone || (source == .Camera && self.iPadUsesFullScreenCamera) {
                     topVC.presentViewController(self.imagePicker, animated: true, completion: { _ in })
+                } else {
+                    // On iPad use pop-overs.
+                    self.popover.presentPopoverFromRect(popOverPresentRect, inView: topVC.view!, permittedArrowDirections: .Any, animated: true)
                 }
                 
                 NSLog("DID SELECT!")

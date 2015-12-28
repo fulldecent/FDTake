@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var allowsSelectFromLibrary: UISwitch!
     @IBOutlet weak var allowsEditing: UISwitch!
     @IBOutlet weak var defaultsToFrontCamera: UISwitch!
+    @IBOutlet weak var iPadFullScreenCamera: UISwitch!
     
     private func resetFDTakeController () -> Void {
         fdTakeController = FDTakeController()
@@ -28,6 +29,7 @@ class ViewController: UIViewController {
         fdTakeController.allowsSelectFromLibrary = allowsSelectFromLibrary.on
         fdTakeController.allowsEditing = allowsEditing.on
         fdTakeController.defaultsToFrontCamera = defaultsToFrontCamera.on
+        FDTakeController.iPadUsesFullScreenCamera = iPadFullScreenCamera.on
         fdTakeController.didDeny = {
             let alert = UIAlertController(title: "Denied", message: "User did not select a photo/video", preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
