@@ -13,35 +13,26 @@ import UIKit
 
 public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINavigationControllerDelegate*/ {
     
-    // MARK: - Initializers
+    // MARK: - Initializers & Class Convenience Methods
     
     public override init() {
         super.init()
     }
     
-    /*
-    
-    class func getPhotoWithCallback (callback: (photo: UIImage, info: [NSObject : AnyObject]) -> Void) {
+    class func getPhotoWithCallback(getPhotoWithCallback callback: (photo: UIImage, info: [NSObject : AnyObject]) -> Void) {
         let fdTake = FDTakeController()
         fdTake.allowsVideo = false
-        fdTake.didGetPhoto.callback = callback
+        fdTake.didGetPhoto = callback
+        fdTake.present()
+    }
+    
+    class func getVideoWithCallback(getVideoWithCallback callback: (video: NSURL, info: [NSObject : AnyObject]) -> Void) {
+        let fdTake = FDTakeController()
+        fdTake.allowsPhoto = false
+        fdTake.didGetVideo = callback
         fdTake.present()
     }
 
-    */
-
-    public convenience init(getPhotoWithCallback callback: (photo: UIImage, info: [NSObject : AnyObject]) -> Void) {
-        self.init()
-        self.allowsVideo = false
-        self.didGetPhoto = callback
-    }
-    
-    public convenience init(getVideoWithCallback callback: (video: NSURL, info: [NSObject : AnyObject]) -> Void) {
-        self.init()
-        self.allowsPhoto  = false
-        self.didGetVideo = callback
-    }
-    
     
     // MARK: - Configuration options
     
@@ -56,6 +47,9 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
     public var allowsEditing = false
     
     public var defaultsToFrontCamera = false
+    
+    //WARNING: THESE WILL DISAPPEAR AND YOU WILL GET NEW PRESENT FUNCTIONS! MAYBE!!
+    public var presentingBarButtonItem: UIBarButtonItem? = nil
     
     public var presentingView: UIView? = nil
     
@@ -124,15 +118,10 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
     
     // MARK: - Private
     
-    private var sources = [UIImagePickerControllerSourceType]()
-    
-    private var buttonTitles = [String]()
-    
     private lazy var imagePicker: UIImagePickerController = {
         [unowned self] in
         let retval = UIImagePickerController()
-        let selfDelegate = self as! protocol<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
-        retval.delegate = selfDelegate
+        retval.delegate = self
         retval.allowsEditing = true
         return retval
         }()
@@ -142,7 +131,7 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
         return UIPopoverController(contentViewController: self.imagePicker)
         }()
     
-    private var actionSheet: UIActionSheet? = nil
+    private var alertController: UIAlertController? = nil
     
     // This is a hack required on iPad if you want to select a photo and you already have a popup on the screen
     // see: http://stackoverflow.com/a/34392409/300224
@@ -158,6 +147,7 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
             rootViewController = rootViewController.presentedViewController!
         } while true
     }
+    
     
     // MARK: - Localization
     
@@ -189,72 +179,102 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
      *  Presents the user with an option to take a photo or choose a photo from the library
      */
     public func present() {
-        self.sources = []
-        self.buttonTitles = []
+        //TODO: maybe encapsulate source selection?
+        var titleToSource = [(buttonTitle: String, source: UIImagePickerControllerSourceType)]()
         
         if self.allowsTake && UIImagePickerController.isSourceTypeAvailable(.Camera) {
             if self.allowsPhoto {
-                self.sources.append(.Camera)
-                self.buttonTitles.append(self.textForButtonWithTitle(kTakePhotoKey))
+                titleToSource.append((buttonTitle: kTakePhotoKey, source: .Camera))
             }
             if self.allowsVideo {
-                self.sources.append(.Camera)
-                self.buttonTitles.append(self.textForButtonWithTitle(kTakeVideoKey))
+                titleToSource.append((buttonTitle: kTakeVideoKey, source: .Camera))
             }
         }
         if self.allowsSelectFromLibrary {
             if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) {
-                self.sources.append(.PhotoLibrary)
-                self.buttonTitles.append(self.textForButtonWithTitle(kChooseFromLibraryKey))
+                titleToSource.append((buttonTitle: kChooseFromLibraryKey, source: .PhotoLibrary))
             } else if UIImagePickerController.isSourceTypeAvailable(.SavedPhotosAlbum) {
-                self.sources.append(.SavedPhotosAlbum)
-                self.buttonTitles.append(self.textForButtonWithTitle(kChooseFromPhotoRollKey))
+                titleToSource.append((buttonTitle: kChooseFromPhotoRollKey, source: .SavedPhotosAlbum))
             }
         }
         
-        guard self.sources.count > 0 else {
-            var str: String = self.textForButtonWithTitle(kNoSourcesKey)
-            UIAlertView(title: nil, message: str, delegate: nil, cancelButtonTitle: textForButtonWithTitle(kCancelKey)).show()
+        guard titleToSource.count > 0 else {
+            let str: String = self.textForButtonWithTitle(kNoSourcesKey)
+
+            //TODO: Encapsulate this
+            //TODO: These has got to be a better way to do this
+            let alert = UIAlertController(title: nil, message: str, preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: textForButtonWithTitle(kCancelKey), style: .Default, handler: nil))
+            
+            // http://stackoverflow.com/a/34487871/300224
+            let alertWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
+            alertWindow.rootViewController = UIViewController()
+            alertWindow.windowLevel = UIWindowLevelAlert + 1;
+            alertWindow.makeKeyAndVisible()
+            alertWindow.rootViewController?.presentViewController(alert, animated: true, completion: nil)
             return
         }
-        
-        let sender = self.presentingView
-        let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
-        for title in self.buttonTitles {
-            actionSheet.addButtonWithTitle(title)
-        }
-        actionSheet.addButtonWithTitle(self.textForButtonWithTitle(kCancelKey))
-        actionSheet.cancelButtonIndex = self.sources.count
         
         var popOverPresentRect : CGRect = self.presentingRect ?? CGRectMake(0, 0, 1, 1)
         if popOverPresentRect.size.height == 0 || popOverPresentRect.size.width == 0 {
             popOverPresentRect = CGRectMake(0, 0, 1, 1)
         }
         
-        self.actionSheet = actionSheet
-        // If on iPad use the present rect and pop over style.
-        if UI_USER_INTERFACE_IDIOM() == .Pad {
-            if let barButtonItem = sender as? UIBarButtonItem {
-                actionSheet.showFromBarButtonItem(barButtonItem, animated: true)
-            } else {
-                actionSheet.showFromRect(popOverPresentRect, inView: topViewController(presentingViewController).view!, animated: true)
+        alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        for (title, source) in titleToSource {
+            let action = UIAlertAction(title: textForButtonWithTitle(title), style: .Default) {
+                (UIAlertAction) -> Void in
+                self.imagePicker.sourceType = source
+                if source == .Camera && self.defaultsToFrontCamera && UIImagePickerController.isCameraDeviceAvailable(.Front) {
+                    self.imagePicker.cameraDevice = .Front
+                }
+                // set the media type: photo or video
+                self.imagePicker.allowsEditing = self.allowsEditing
+                var mediaTypes = [String]()
+                if self.allowsPhoto {
+                    mediaTypes.append(String(kUTTypeImage))
+                }
+                if self.allowsVideo {
+                    mediaTypes.append(String(kUTTypeMovie))
+                }
+                self.imagePicker.mediaTypes = mediaTypes
+
+                //TODO: Need to encapsulate popover code
+                var popOverPresentRect: CGRect = self.presentingRect ?? CGRectMake(0, 0, 1, 1)
+                if popOverPresentRect.size.height == 0 || popOverPresentRect.size.width == 0 {
+                    popOverPresentRect = CGRectMake(0, 0, 1, 1)
+                }
+                let topVC = self.topViewController(self.presentingViewController)
+                // On iPad use pop-overs.
+                if UI_USER_INTERFACE_IDIOM() == .Pad {
+                    self.popover.presentPopoverFromRect(popOverPresentRect, inView: topVC.view!, permittedArrowDirections: .Any, animated: true)
+                }
+                else {
+                    // On iPhone use full screen presentation.
+                    topVC.presentViewController(self.imagePicker, animated: true, completion: { _ in })
+                }
+                
+                NSLog("DID SELECT!")
             }
+            alertController!.addAction(action)
         }
-        else if let tabBar = self.presentingTabBar {
-            actionSheet.showFromTabBar(tabBar)
+        let cancelAction = UIAlertAction(title: textForButtonWithTitle(kCancelKey), style: .Cancel) {
+            (UIAlertAction) -> Void in
+            self.didDeny?()
         }
-        else {
-            // Otherwise use iPhone style action sheet presentation.
-            // UIWindow hack: http://stackoverflow.com/a/28902549/300224
-            let window = (UIApplication.sharedApplication().delegate!.window ?? nil)! as UIWindow
-            let topVC = topViewController(presentingViewController)
-            if window.subviews.contains(topVC.view!) {
-                actionSheet.showInView(topVC.view)
+        alertController!.addAction(cancelAction)
+        
+        let topVC = topViewController(presentingViewController)
+  
+        alertController?.modalPresentationStyle = .Popover
+        if let presenter = alertController!.popoverPresentationController {
+            presenter.sourceView = presentingView;
+            if let presentingRect = self.presentingRect {
+                presenter.sourceRect = presentingRect
             }
-            else {
-                actionSheet.showInView(window)
-            }
+            //WARNING: on ipad this fails if no SOURCEVIEW AND SOURCE RECT is provided
         }
+        topVC.presentViewController(alertController!, animated: true, completion: nil)
     }
     
     /**
@@ -263,63 +283,8 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
      *  and you want to go back to a default state of the UI.
      */
     public func dismiss() {
-        if let actionSheet = self.actionSheet {
-            actionSheet.dismissWithClickedButtonIndex(sources.count, animated: false)
-        } else {
-            imagePicker.dismissViewControllerAnimated(false, completion: nil)
-        }
-    }
-}
-
-extension FDTakeController : UIActionSheetDelegate {
-    public func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        let aViewController: UIViewController = self.topViewController(self.presentingViewController)
-        if buttonIndex == actionSheet.cancelButtonIndex {
-            self.didDeny?()
-        } else {
-            self.imagePicker.sourceType = self.sources[buttonIndex]
-            if (self.imagePicker.sourceType == .Camera) || (self.imagePicker.sourceType == .Camera) {
-                if self.defaultsToFrontCamera && UIImagePickerController.isCameraDeviceAvailable(.Front) {
-                    self.imagePicker.cameraDevice = .Front
-                }
-            }
-            // set the media type: photo or video
-            self.imagePicker.allowsEditing = self.allowsEditing
-            var mediaTypes = [String]()
-            if self.allowsPhoto {
-                mediaTypes.append(String(kUTTypeImage))
-            }
-            if self.allowsVideo {
-                mediaTypes.append(String(kUTTypeMovie))
-            }
-            if self.allowsPhoto && self.allowsVideo && self.sources.count > 1 {
-                if buttonIndex == 0 {
-                    mediaTypes = [String(kUTTypeImage)]
-                }
-                else if buttonIndex == 1 {
-                    mediaTypes = [String(kUTTypeMovie)]
-                }
-                else if buttonIndex == 2 {
-                    mediaTypes = [String(kUTTypeImage), String(kUTTypeMovie)]
-                }
-            }
-            self.imagePicker.mediaTypes = mediaTypes
-            
-            var popOverPresentRect: CGRect = self.presentingRect ?? CGRectMake(0, 0, 1, 1)
-            if popOverPresentRect.size.height == 0 || popOverPresentRect.size.width == 0 {
-                popOverPresentRect = CGRectMake(0, 0, 1, 1)
-            }
-            // On iPad use pop-overs.
-            if UI_USER_INTERFACE_IDIOM() == .Pad {
-                self.popover.presentPopoverFromRect(popOverPresentRect, inView: aViewController.view!, permittedArrowDirections: .Any, animated: true)
-            }
-            else {
-                // On iPhone use full screen presentation.
-                let topVC = topViewController(self.presentingViewController)
-                topVC.presentViewController(self.imagePicker, animated: true, completion: { _ in })
-            }
-        }
-        self.actionSheet = nil
+        alertController?.dismissViewControllerAnimated(true, completion: nil)
+        imagePicker.dismissViewControllerAnimated(true, completion: nil)
     }
 }
 
@@ -353,11 +318,5 @@ extension FDTakeController : UIImagePickerControllerDelegate, UINavigationContro
         UIApplication.sharedApplication().statusBarHidden = true
         picker.dismissViewControllerAnimated(true, completion: { _ in })
         self.didCancel?()
-    }
-}
-
-extension FDTakeController : UIAlertViewDelegate {
-    public func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
-        self.didDeny?()
     }
 }
