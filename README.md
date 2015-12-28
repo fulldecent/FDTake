@@ -37,7 +37,7 @@ Other available options are documented at <a href="http://cocoadocs.org/docsets/
 
 ## Support
 
- * Supports iPhones, iPods and iPads
+ * Supports iPhones, iPods, iPads and tvOS (but not tested)
  * Supported languages:
    - English
    - Chinese Simplified
@@ -59,7 +59,10 @@ Other available options are documented at <a href="http://cocoadocs.org/docsets/
    - Italian (thanks Giuseppe Filograno)
    - Please help translate <a href="https://github.com/fulldecent/FDTake/blob/master/FDTakeExample/en.lproj/FDTake.strings">`FDTake.strings`</a> to more languages
  * Pure Swift support and iOS 8+ required
- * Unit tests running on Travis CI
+ * Compile testing running on Travis CI
+ * In progress: functional test cases ([please help](https://github.com/fulldecent/FDTake/issues/72))
+ * In progress: UI test cases ([please help](https://github.com/fulldecent/FDTake/issues/72))
+ * In progress: select last photo used ([please help](https://github.com/fulldecent/FDTake/issues/22))
 
 
 ## Installation
