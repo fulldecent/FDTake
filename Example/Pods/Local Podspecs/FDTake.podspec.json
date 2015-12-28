@@ -1,0 +1,25 @@
+{
+  "name": "FDTake",
+  "version": "0.1.0",
+  "summary": "A short description of FDTake.",
+  "description": "",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/FDTake",
+  "license": "MIT",
+  "authors": {
+    "William Entriken": "github.com@phor.net"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/FDTake.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "requires_arc": true,
+  "source_files": "Pod/Classes/**/*",
+  "resource_bundles": {
+    "FDTake": [
+      "Pod/Assets/*.png"
+    ]
+  }
+}
