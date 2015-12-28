@@ -9,8 +9,6 @@ import Foundation
 import MobileCoreServices
 import UIKit
 
-//FIXME: - THIS FAILS: pod lib lint FDTake.podspec
-
 public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINavigationControllerDelegate*/ {
     
     // MARK: - Initializers & Class Convenience Methods
