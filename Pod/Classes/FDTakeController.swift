@@ -260,7 +260,7 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
         }
         let cancelAction = UIAlertAction(title: textForButtonWithTitle(kCancelKey), style: .Cancel) {
             (UIAlertAction) -> Void in
-            self.didDeny?()
+            self.didCancel?()
         }
         alertController!.addAction(cancelAction)
         
@@ -317,6 +317,6 @@ extension FDTakeController : UIImagePickerControllerDelegate, UINavigationContro
     public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         UIApplication.sharedApplication().statusBarHidden = true
         picker.dismissViewControllerAnimated(true, completion: { _ in })
-        self.didCancel?()
+        self.didDeny?()
     }
 }
