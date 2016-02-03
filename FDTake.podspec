@@ -9,10 +9,8 @@ Pod::Spec.new do |s|
   s.screenshots  = "https://i.imgur.com/SpSJzmS.png"
   s.license      = "MIT"
   s.author       = { "William Entriken" => "github.com@phor.net" }
-  s.platform     = :ios, "5.0"
   s.source       = { :git => "https://github.com/fulldecent/FDTake.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/fulldecent'
-
   s.platform     = :ios, '8.0'
   s.requires_arc = true
 
