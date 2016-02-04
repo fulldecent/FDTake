@@ -17,14 +17,14 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
         super.init()
     }
     
-    class func getPhotoWithCallback(getPhotoWithCallback callback: (photo: UIImage, info: [NSObject : AnyObject]) -> Void) {
+    public class func getPhotoWithCallback(getPhotoWithCallback callback: (photo: UIImage, info: [NSObject : AnyObject]) -> Void) {
         let fdTake = FDTakeController()
         fdTake.allowsVideo = false
         fdTake.didGetPhoto = callback
         fdTake.present()
     }
     
-    class func getVideoWithCallback(getVideoWithCallback callback: (video: NSURL, info: [NSObject : AnyObject]) -> Void) {
+    public class func getVideoWithCallback(getVideoWithCallback callback: (video: NSURL, info: [NSObject : AnyObject]) -> Void) {
         let fdTake = FDTakeController()
         fdTake.allowsPhoto = false
         fdTake.didGetVideo = callback
