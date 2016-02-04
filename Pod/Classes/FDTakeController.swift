@@ -138,16 +138,18 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
     private func topViewController(rootViewController: UIViewController) -> UIViewController {
         var rootViewController = UIApplication.sharedApplication().keyWindow!.rootViewController!
         repeat {
-            if rootViewController.presentingViewController == nil {
+            guard let presentedViewController = rootViewController.presentedViewController else {
                 return rootViewController
             }
+            
             if let navigationController = rootViewController.presentedViewController as? UINavigationController {
-                rootViewController = navigationController.viewControllers.last!
+                rootViewController = navigationController.topViewController ?? navigationController
+                
+            } else {
+                rootViewController = presentedViewController
             }
-            rootViewController = rootViewController.presentedViewController!
         } while true
     }
-    
     
     // MARK: - Localization
     
