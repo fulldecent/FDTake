@@ -255,8 +255,6 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
                     // On iPad use pop-overs.
                     self.popover.presentPopoverFromRect(popOverPresentRect, inView: topVC.view!, permittedArrowDirections: .Any, animated: true)
                 }
-                
-                NSLog("DID SELECT!")
             }
             alertController!.addAction(action)
         }
