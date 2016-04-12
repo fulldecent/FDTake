@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         fdTakeController.allowsSelectFromLibrary = allowsSelectFromLibrary.on
         fdTakeController.allowsEditing = allowsEditing.on
         fdTakeController.defaultsToFrontCamera = defaultsToFrontCamera.on
-        FDTakeController.iPadUsesFullScreenCamera = iPadFullScreenCamera.on
+        fdTakeController.iPadUsesFullScreenCamera = iPadFullScreenCamera.on
         fdTakeController.didDeny = {
             let alert = UIAlertController(title: "Denied", message: "User did not select a photo/video", preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))

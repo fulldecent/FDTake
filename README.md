@@ -57,6 +57,7 @@ Other available options are documented at <a href="http://cocoadocs.org/docsets/
    - Portugese (thanks Natan Rolnik)
    - Greek (thanks Konstantinos)
    - Italian (thanks Giuseppe Filograno)
+   - Hungarian (thanks Andras Kadar)
    - Please help translate <a href="https://github.com/fulldecent/FDTake/blob/master/FDTakeExample/en.lproj/FDTake.strings">`FDTake.strings`</a> to more languages
  * Pure Swift support and iOS 8+ required
  * Compile testing running on Travis CI
