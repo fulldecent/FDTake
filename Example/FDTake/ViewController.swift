@@ -79,6 +79,7 @@ class ViewController: UIViewController {
 
     @IBAction func presentFromWindow(sender: UIButton) {
         resetFDTakeController()
+        fdTakeController.presentingView = self.view
         fdTakeController.present()
     }
 }
