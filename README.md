@@ -4,6 +4,7 @@
 [![Version](https://img.shields.io/cocoapods/v/FDTake.svg?style=flat)](http://cocoapods.org/pods/FDTake)
 [![License](https://img.shields.io/cocoapods/l/FDTake.svg?style=flat)](http://cocoapods.org/pods/FDTake)
 [![Platform](https://img.shields.io/cocoapods/p/FDTake.svg?style=flat)](http://cocoapods.org/pods/FDTake)
+[![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=fulldecent/FDTake)](http://clayallsopp.github.io/readme-score?url=fulldecent/FDTake)
 
 
 ## Usage
@@ -19,6 +20,94 @@ To use it in your project, add an `FDTakeController` to your view controller and
 then call:
 
     fdTakeController.present()
+
+The full API is:
+
+```swift
+/// Public initializer
+public override init()
+
+/// Convenience method for getting a photo
+public class func getPhotoWithCallback(getPhotoWithCallback callback: (photo: UIImage, info: [NSObject : AnyObject]) -> Void)
+
+/// Convenience method for getting a video
+public class func getVideoWithCallback(getVideoWithCallback callback: (video: NSURL, info: [NSObject : AnyObject]) -> Void)
+
+/// Whether to allow selecting a photo
+public var allowsPhoto: Bool
+
+/// Whether to allow selecting a video
+public var allowsVideo: Bool
+
+/// Whether to allow capturing a photo/video with the camera
+public var allowsTake: Bool
+
+/// Whether to allow selecting existing media
+public var allowsSelectFromLibrary: Bool
+
+/// Whether to allow editing the media after capturing/selection
+public var allowsEditing: Bool
+
+/// Whether to use full screen camera preview on the iPad
+public var iPadUsesFullScreenCamera: Bool
+
+/// Enable selfie mode by default
+public var defaultsToFrontCamera: Bool
+
+/// The UIBarButtonItem to present from (may be replaced by a overloaded methods)
+public var presentingBarButtonItem: UIBarButtonItem?
+
+/// The UIView to present from (may be replaced by a overloaded methods)
+public var presentingView: UIView?
+
+/// The UIRect to present from (may be replaced by a overloaded methods)
+public var presentingRect: CGRect?
+
+/// The UITabBar to present from (may be replaced by a overloaded methods)
+public var presentingTabBar: UITabBar?
+
+/// The UIViewController to present from (may be replaced by a overloaded methods)
+public lazy var presentingViewController: UIViewController { get set }
+
+/// A photo was selected
+public var didGetPhoto: ((photo: UIImage, info: [NSObject : AnyObject]) -> Void)?
+
+/// A video was selected
+public var didGetVideo: ((video: NSURL, info: [NSObject : AnyObject]) -> Void)?
+
+/// The user selected did not attempt to select a photo
+public var didDeny: (() -> Void)?
+
+/// The user started selecting a photo or took a photo and then hit cancel
+public var didCancel: (() -> Void)?
+
+/// A photo or video was selected but the ImagePicker had NIL for EditedImage and OriginalImage
+public var didFail: (() -> Void)?
+
+/// Custom UI text (skips localization)
+public var takePhotoText: String?
+
+/// Custom UI text (skips localization)
+public var takeVideoText: String?
+
+/// Custom UI text (skips localization)
+public var chooseFromLibraryText: String?
+
+/// Custom UI text (skips localization)
+public var chooseFromPhotoRollText: String?
+
+/// Custom UI text (skips localization)
+public var cancelText: String?
+
+/// Custom UI text (skips localization)
+public var noSourcesText: String?
+
+/// Presents the user with an option to take a photo or choose a photo from the library
+public func present()
+
+/// Dismisses the displayed view. Especially handy if the sheet is displayed while suspending the app,
+public func dismiss()
+```
 
 Other available options are documented at <a href="http://cocoadocs.org/docsets/FDTake/">CocoaDocs for FDTake</a>.
 
