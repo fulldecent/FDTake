@@ -14,6 +14,9 @@ All notable changes to this project will be documented in this file.
   - Added by [William Entriken](https://github.com/fulldecent)
 - Full API documentation with headerdoc
   - Added by [William Entriken](https://github.com/fulldecent)
+- Contributing guidelines and release process documentation
+  - Added by [William Entriken](https://github.com/fulldecent) in regards to issue
+  [#93](https://github.com/fulldecent/FDBarGuage/issues/93).
 
 #### Fixed
 - Crash of the iPad example when present from window is tapped
