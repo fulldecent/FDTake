@@ -260,13 +260,16 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
                     popOverPresentRect = CGRectMake(0, 0, 1, 1)
                 }
                 let topVC = self.topViewController(self.presentingViewController)
-
-                //
+                
                 if UI_USER_INTERFACE_IDIOM() == .Phone || (source == .Camera && self.iPadUsesFullScreenCamera) {
                     topVC.presentViewController(self.imagePicker, animated: true, completion: { _ in })
                 } else {
                     // On iPad use pop-overs.
-                    self.popover.presentPopoverFromRect(popOverPresentRect, inView: topVC.view!, permittedArrowDirections: .Any, animated: true)
+                    if self.presentingBarButtonItem != nil{
+                        self.popover.presentPopoverFromBarButtonItem(self.presentingBarButtonItem!, permittedArrowDirections: .Any, animated: true)
+                    }else{
+                        self.popover.presentPopoverFromRect(popOverPresentRect, inView: topVC.view!, permittedArrowDirections: .Any, animated: true)
+                    }
                 }
             }
             alertController!.addAction(action)
@@ -300,7 +303,6 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
 extension FDTakeController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     /// Conformance for ImagePicker delegate
     public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        UIApplication.sharedApplication().statusBarHidden = true
         let mediaType: String = info[UIImagePickerControllerMediaType] as! String
         var imageToSave: UIImage
         // Handle a still image capture
@@ -326,7 +328,6 @@ extension FDTakeController : UIImagePickerControllerDelegate, UINavigationContro
 
     /// Conformance for image picker delegate
     public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        UIApplication.sharedApplication().statusBarHidden = true
         picker.dismissViewControllerAnimated(true, completion: { _ in })
         self.didDeny?()
     }
