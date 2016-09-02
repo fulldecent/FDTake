@@ -6,6 +6,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/fulldecent/FDBarGuage/compare/0.3.3...master)
 
+#### Added
+- Automated CocoaPods Quality Indexes testing
+  - Added by [Hayden Holligan](https://github.com/haydenholligan) in regards to issue
+  [#95](https://github.com/fulldecent/FDTake/issues/95).
+
 ---
 
 ## [0.3.3](https://github.com/fulldecent/FDBarGuage/releases/tag/0.3.3)
