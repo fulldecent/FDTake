@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [Master](https://github.com/fulldecent/FDBarGuage/compare/0.4.0...master)
+## [Master](https://github.com/fulldecent/FDBarGuage/compare/0.4.1...master)
+
+---
+
+## [0.4.1](https://github.com/fulldecent/FDBarGuage/releases/tag/0.4.1)
+Released on 2016-09-17.
 
 #### Added
 - Support for Swift Package Manager
