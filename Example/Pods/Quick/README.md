@@ -31,11 +31,11 @@ class TableOfContentsSpec: QuickSpec {
 }
 ```
 #### Nimble
-Quick comes together with [Nimble](https://github.com/Quick/Nimble) — a matcher framework for your tests. You can learn why `XCTAssert()` statements make your expectations unclear and how to fix that using Nimble assertions [here](./Documentation/NimbleAssertions.md).
+Quick comes together with [Nimble](https://github.com/Quick/Nimble) — a matcher framework for your tests. You can learn why `XCTAssert()` statements make your expectations unclear and how to fix that using Nimble assertions [here](./Documentation/en-us/NimbleAssertions.md).
 
 ## Documentation
 
-All documentation can be found in the [Documentation folder](./Documentation), including [detailed installation instructions](./Documentation/InstallingQuick.md) for CocoaPods, Carthage, Git submodules, and more. For example, you can install Quick and [Nimble](https://github.com/Quick/Nimble) using CocoaPods by adding the following to your Podfile:
+All documentation can be found in the [Documentation folder](./Documentation), including [detailed installation instructions](./Documentation/en-us/InstallingQuick.md) for CocoaPods, Carthage, Git submodules, and more. For example, you can install Quick and [Nimble](https://github.com/Quick/Nimble) using CocoaPods by adding the following to your Podfile:
 
 ```rb
 # Podfile
@@ -43,13 +43,8 @@ All documentation can be found in the [Documentation folder](./Documentation), i
 use_frameworks!
 
 def testing_pods
-    # If you're using Xcode 7 / Swift 2
-    pod 'Quick', '~> 0.6.0'
-    pod 'Nimble', '2.0.0-rc.3'
-
-    # If you're using Xcode 6 / Swift 1.2
-    pod 'Quick', '~> 0.3.0'
-    pod 'Nimble', '~> 1.0.0'
+    pod 'Quick'
+    pod 'Nimble'
 end
 
 target 'MyTests' do
@@ -61,6 +56,12 @@ target 'MyUITests' do
 end
 ```
 
+## Projects using Quick
+
+Many apps use both Quick and Nimble however, as they are not included in the app binary, neither appear in “Top Used Libraries” blog posts. Therefore, it would be greatly appreciated to remind contributors that their efforts are valued by compiling a list of organizations and projects that use them. 
+
+Does your organization or project use Quick and Nimble? If yes, [please add your project to the list](https://github.com/Quick/Quick/wiki/Projects-using-Quick).
+
 ## License
 
-Apache 2.0 license. See the `LICENSE` file for details.
+Apache 2.0 license. See the [`LICENSE`](LICENSE) file for details.

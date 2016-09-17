@@ -1,17 +1,19 @@
 {
   "name": "FDTake",
-  "version": "0.1.0",
-  "summary": "A short description of FDTake.",
-  "description": "",
-  "homepage": "https://github.com/<GITHUB_USERNAME>/FDTake",
+  "version": "0.3.3",
+  "summary": "Easily take a photo or video or choose from library",
+  "description": "`FDTake` helps you quickly have the user take or choose an existing photo or video.",
+  "homepage": "https://github.com/fulldecent/FDTake",
+  "screenshots": "https://i.imgur.com/SpSJzmS.png",
   "license": "MIT",
   "authors": {
     "William Entriken": "github.com@phor.net"
   },
   "source": {
-    "git": "https://github.com/<GITHUB_USERNAME>/FDTake.git",
-    "tag": "0.1.0"
+    "git": "https://github.com/fulldecent/FDTake.git",
+    "tag": "0.3.3"
   },
+  "social_media_url": "https://twitter.com/fulldecent",
   "platforms": {
     "ios": "8.0"
   },
@@ -19,7 +21,7 @@
   "source_files": "Pod/Classes/**/*",
   "resource_bundles": {
     "FDTake": [
-      "Pod/Assets/*.png"
+      "Pod/*.lproj"
     ]
   }
 }

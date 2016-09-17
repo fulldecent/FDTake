@@ -1,15 +1,15 @@
 source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
-target 'FDTake_Example', :exclusive => true do
+target 'FDTake_Example' do
   pod "FDTake", :path => "../"
 end
 
-target 'FDTake_Tests', :exclusive => true do
+target 'FDTake_Tests' do
   pod "FDTake", :path => "../"
 
-  pod 'Quick', '~> 0.8.0'
-  pod 'Nimble', '3.0.0'
-  pod 'FBSnapshotTestCase'
+  pod 'Quick', :git => 'https://github.com/Quick/Quick.git', :branch => 'swift-3.0'
+  pod 'Nimble', :git => 'https://github.com/Quick/Nimble.git', :branch => 'master'
+  pod 'FBSnapshotTestCase', :git => 'https://github.com/facebook/ios-snapshot-test-case.git', :branch => 'swift-beta-3'
   pod 'Nimble-Snapshots'
 end

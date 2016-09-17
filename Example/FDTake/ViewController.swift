@@ -21,63 +21,63 @@ class ViewController: UIViewController {
     @IBOutlet weak var defaultsToFrontCamera: UISwitch!
     @IBOutlet weak var iPadFullScreenCamera: UISwitch!
     
-    private func resetFDTakeController () -> Void {
+    fileprivate func resetFDTakeController () -> Void {
         fdTakeController = FDTakeController()
-        fdTakeController.allowsPhoto = allowsPhoto.on
-        fdTakeController.allowsVideo = allowsVideo.on
-        fdTakeController.allowsTake = allowsTake.on
-        fdTakeController.allowsSelectFromLibrary = allowsSelectFromLibrary.on
-        fdTakeController.allowsEditing = allowsEditing.on
-        fdTakeController.defaultsToFrontCamera = defaultsToFrontCamera.on
-        fdTakeController.iPadUsesFullScreenCamera = iPadFullScreenCamera.on
+        fdTakeController.allowsPhoto = allowsPhoto.isOn
+        fdTakeController.allowsVideo = allowsVideo.isOn
+        fdTakeController.allowsTake = allowsTake.isOn
+        fdTakeController.allowsSelectFromLibrary = allowsSelectFromLibrary.isOn
+        fdTakeController.allowsEditing = allowsEditing.isOn
+        fdTakeController.defaultsToFrontCamera = defaultsToFrontCamera.isOn
+        fdTakeController.iPadUsesFullScreenCamera = iPadFullScreenCamera.isOn
         fdTakeController.didDeny = {
-            let alert = UIAlertController(title: "Denied", message: "User did not select a photo/video", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: "Denied", message: "User did not select a photo/video", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
         fdTakeController.didCancel = {
-            let alert = UIAlertController(title: "Cancelled", message: "User did cancel while selecting", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: "Cancelled", message: "User did cancel while selecting", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
         fdTakeController.didFail = {
-            let alert = UIAlertController(title: "Failed", message: "User selected but API failed", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: "Failed", message: "User selected but API failed", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
         fdTakeController.didGetPhoto = {
-            (photo: UIImage, info: [NSObject : AnyObject]) -> Void in
-            let alert = UIAlertController(title: "Got photo", message: "User selected photo", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            (photo: UIImage, info: [AnyHashable: Any]) -> Void in
+            let alert = UIAlertController(title: "Got photo", message: "User selected photo", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             
             // http://stackoverflow.com/a/34487871/300224
-            let alertWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
+            let alertWindow = UIWindow(frame: UIScreen.main.bounds)
             alertWindow.rootViewController = UIViewController()
             alertWindow.windowLevel = UIWindowLevelAlert + 1;
             alertWindow.makeKeyAndVisible()
-            alertWindow.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+            alertWindow.rootViewController?.present(alert, animated: true, completion: nil)
         }
         fdTakeController.didGetVideo = {
-            (video: NSURL, info: [NSObject : AnyObject]) -> Void in
-            let alert = UIAlertController(title: "Got photo", message: "User selected photo", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            (video: URL, info: [AnyHashable: Any]) -> Void in
+            let alert = UIAlertController(title: "Got photo", message: "User selected photo", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             
             // http://stackoverflow.com/a/34487871/300224
-            let alertWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
+            let alertWindow = UIWindow(frame: UIScreen.main.bounds)
             alertWindow.rootViewController = UIViewController()
             alertWindow.windowLevel = UIWindowLevelAlert + 1;
             alertWindow.makeKeyAndVisible()
-            alertWindow.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+            alertWindow.rootViewController?.present(alert, animated: true, completion: nil)
         }
     }
     
-    @IBAction func presentFromButton(sender: UIButton) {
+    @IBAction func presentFromButton(_ sender: UIButton) {
         resetFDTakeController()
         fdTakeController.presentingView = sender
         fdTakeController.present()
     }
 
-    @IBAction func presentFromWindow(sender: UIButton) {
+    @IBAction func presentFromWindow(_ sender: UIButton) {
         resetFDTakeController()
         fdTakeController.presentingView = self.view
         fdTakeController.present()

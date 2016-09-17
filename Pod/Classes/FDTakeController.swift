@@ -10,7 +10,7 @@ import MobileCoreServices
 import UIKit
 
 /// A class for select and taking photos
-public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINavigationControllerDelegate*/ {
+open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINavigationControllerDelegate*/ {
 
     // MARK: - Initializers & Class Convenience Methods
 
@@ -20,7 +20,7 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
     }
 
     /// Convenience method for getting a photo
-    public class func getPhotoWithCallback(getPhotoWithCallback callback: (photo: UIImage, info: [NSObject : AnyObject]) -> Void) {
+    open class func getPhotoWithCallback(getPhotoWithCallback callback: @escaping (_ photo: UIImage, _ info: [AnyHashable: Any]) -> Void) {
         let fdTake = FDTakeController()
         fdTake.allowsVideo = false
         fdTake.didGetPhoto = callback
@@ -28,7 +28,7 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
     }
 
     /// Convenience method for getting a video
-    public class func getVideoWithCallback(getVideoWithCallback callback: (video: NSURL, info: [NSObject : AnyObject]) -> Void) {
+    open class func getVideoWithCallback(getVideoWithCallback callback: @escaping (_ video: URL, _ info: [AnyHashable: Any]) -> Void) {
         let fdTake = FDTakeController()
         fdTake.allowsPhoto = false
         fdTake.didGetVideo = callback
@@ -39,101 +39,101 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
     // MARK: - Configuration options
 
     /// Whether to allow selecting a photo
-    public var allowsPhoto = true
+    open var allowsPhoto = true
 
     /// Whether to allow selecting a video
-    public var allowsVideo = true
+    open var allowsVideo = true
 
     /// Whether to allow capturing a photo/video with the camera
-    public var allowsTake = true
+    open var allowsTake = true
 
     /// Whether to allow selecting existing media
-    public var allowsSelectFromLibrary = true
+    open var allowsSelectFromLibrary = true
 
     /// Whether to allow editing the media after capturing/selection
-    public var allowsEditing = false
+    open var allowsEditing = false
 
     /// Whether to use full screen camera preview on the iPad
-    public var iPadUsesFullScreenCamera = false
+    open var iPadUsesFullScreenCamera = false
 
     /// Enable selfie mode by default
-    public var defaultsToFrontCamera = false
+    open var defaultsToFrontCamera = false
 
     /// The UIBarButtonItem to present from (may be replaced by a overloaded methods)
-    public var presentingBarButtonItem: UIBarButtonItem? = nil
+    open var presentingBarButtonItem: UIBarButtonItem? = nil
 
     /// The UIView to present from (may be replaced by a overloaded methods)
-    public var presentingView: UIView? = nil
+    open var presentingView: UIView? = nil
 
     /// The UIRect to present from (may be replaced by a overloaded methods)
-    public var presentingRect: CGRect? = nil
+    open var presentingRect: CGRect? = nil
 
     /// The UITabBar to present from (may be replaced by a overloaded methods)
-    public var presentingTabBar: UITabBar? = nil
+    open var presentingTabBar: UITabBar? = nil
 
     /// The UIViewController to present from (may be replaced by a overloaded methods)
-    public lazy var presentingViewController: UIViewController = {
-        return UIApplication.sharedApplication().keyWindow!.rootViewController!
+    open lazy var presentingViewController: UIViewController = {
+        return UIApplication.shared.keyWindow!.rootViewController!
     }()
 
 
     // MARK: - Callbacks
 
     /// A photo was selected
-    public var didGetPhoto: ((photo: UIImage, info: [NSObject : AnyObject]) -> Void)?
+    open var didGetPhoto: ((_ photo: UIImage, _ info: [AnyHashable: Any]) -> Void)?
 
     /// A video was selected
-    public var didGetVideo: ((video: NSURL, info: [NSObject : AnyObject]) -> Void)?
+    open var didGetVideo: ((_ video: URL, _ info: [AnyHashable: Any]) -> Void)?
 
     /// The user selected did not attempt to select a photo
-    public var didDeny: (() -> Void)?
+    open var didDeny: (() -> Void)?
 
     /// The user started selecting a photo or took a photo and then hit cancel
-    public var didCancel: (() -> Void)?
+    open var didCancel: (() -> Void)?
 
     /// A photo or video was selected but the ImagePicker had NIL for EditedImage and OriginalImage
-    public var didFail: (() -> Void)?
+    open var didFail: (() -> Void)?
 
 
     // MARK: - Localization overrides
 
     /// Custom UI text (skips localization)
-    public var takePhotoText: String? = nil
+    open var takePhotoText: String? = nil
 
     /// Custom UI text (skips localization)
-    public var takeVideoText: String? = nil
+    open var takeVideoText: String? = nil
 
     /// Custom UI text (skips localization)
-    public var chooseFromLibraryText: String? = nil
+    open var chooseFromLibraryText: String? = nil
 
     /// Custom UI text (skips localization)
-    public var chooseFromPhotoRollText: String? = nil
+    open var chooseFromPhotoRollText: String? = nil
 
     /// Custom UI text (skips localization)
-    public var cancelText: String? = nil
+    open var cancelText: String? = nil
 
     /// Custom UI text (skips localization)
-    public var noSourcesText: String? = nil
+    open var noSourcesText: String? = nil
 
 
     // MARK: - String constants
 
-    private let kTakePhotoKey: String = "takePhoto"
+    fileprivate let kTakePhotoKey: String = "takePhoto"
 
-    private let kTakeVideoKey: String = "takeVideo"
+    fileprivate let kTakeVideoKey: String = "takeVideo"
 
-    private let kChooseFromLibraryKey: String = "chooseFromLibrary"
+    fileprivate let kChooseFromLibraryKey: String = "chooseFromLibrary"
 
-    private let kChooseFromPhotoRollKey: String = "chooseFromPhotoRoll"
+    fileprivate let kChooseFromPhotoRollKey: String = "chooseFromPhotoRoll"
 
-    private let kCancelKey: String = "cancel"
+    fileprivate let kCancelKey: String = "cancel"
 
-    private let kNoSourcesKey: String = "noSources"
+    fileprivate let kNoSourcesKey: String = "noSources"
 
 
     // MARK: - Private
 
-    private lazy var imagePicker: UIImagePickerController = {
+    fileprivate lazy var imagePicker: UIImagePickerController = {
         [unowned self] in
         let retval = UIImagePickerController()
         retval.delegate = self
@@ -141,17 +141,17 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
         return retval
         }()
 
-    private lazy var popover: UIPopoverController = {
+    fileprivate lazy var popover: UIPopoverController = {
         [unowned self] in
         return UIPopoverController(contentViewController: self.imagePicker)
         }()
 
-    private var alertController: UIAlertController? = nil
+    fileprivate var alertController: UIAlertController? = nil
 
     // This is a hack required on iPad if you want to select a photo and you already have a popup on the screen
     // see: http://stackoverflow.com/a/34392409/300224
-    private func topViewController(rootViewController: UIViewController) -> UIViewController {
-        var rootViewController = UIApplication.sharedApplication().keyWindow!.rootViewController!
+    fileprivate func topViewController(_ rootViewController: UIViewController) -> UIViewController {
+        var rootViewController = UIApplication.shared.keyWindow!.rootViewController!
         repeat {
             guard let presentedViewController = rootViewController.presentedViewController else {
                 return rootViewController
@@ -168,11 +168,11 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
 
     // MARK: - Localization
 
-    private func localize(key: String, comment: String) -> String {
-        return NSLocalizedString(key, tableName: nil, bundle: NSBundle(URL: NSBundle(forClass: self.dynamicType).resourceURL!.URLByAppendingPathComponent("FDTake.bundle"))!, value: key, comment: comment)
+    fileprivate func localize(_ key: String, comment: String) -> String {
+        return NSLocalizedString(key, tableName: nil, bundle: Bundle(url: Bundle(for: type(of: self)).resourceURL!.appendingPathComponent("FDTake.bundle"))!, value: key, comment: comment)
     }
 
-    private func textForButtonWithTitle(title: String) -> String {
+    fileprivate func textForButtonWithTitle(_ title: String) -> String {
         switch title {
         case kTakePhotoKey:
             return self.takePhotoText ?? localize(kTakePhotoKey, comment: "Option to take photo using camera")
@@ -193,23 +193,23 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
     }
 
     /// Presents the user with an option to take a photo or choose a photo from the library
-    public func present() {
+    open func present() {
         //TODO: maybe encapsulate source selection?
         var titleToSource = [(buttonTitle: String, source: UIImagePickerControllerSourceType)]()
 
-        if self.allowsTake && UIImagePickerController.isSourceTypeAvailable(.Camera) {
+        if self.allowsTake && UIImagePickerController.isSourceTypeAvailable(.camera) {
             if self.allowsPhoto {
-                titleToSource.append((buttonTitle: kTakePhotoKey, source: .Camera))
+                titleToSource.append((buttonTitle: kTakePhotoKey, source: .camera))
             }
             if self.allowsVideo {
-                titleToSource.append((buttonTitle: kTakeVideoKey, source: .Camera))
+                titleToSource.append((buttonTitle: kTakeVideoKey, source: .camera))
             }
         }
         if self.allowsSelectFromLibrary {
-            if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) {
-                titleToSource.append((buttonTitle: kChooseFromLibraryKey, source: .PhotoLibrary))
-            } else if UIImagePickerController.isSourceTypeAvailable(.SavedPhotosAlbum) {
-                titleToSource.append((buttonTitle: kChooseFromPhotoRollKey, source: .SavedPhotosAlbum))
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                titleToSource.append((buttonTitle: kChooseFromLibraryKey, source: .photoLibrary))
+            } else if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+                titleToSource.append((buttonTitle: kChooseFromPhotoRollKey, source: .savedPhotosAlbum))
             }
         }
 
@@ -218,30 +218,30 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
 
             //TODO: Encapsulate this
             //TODO: These has got to be a better way to do this
-            let alert = UIAlertController(title: nil, message: str, preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: textForButtonWithTitle(kCancelKey), style: .Default, handler: nil))
+            let alert = UIAlertController(title: nil, message: str, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: textForButtonWithTitle(kCancelKey), style: .default, handler: nil))
 
             // http://stackoverflow.com/a/34487871/300224
-            let alertWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
+            let alertWindow = UIWindow(frame: UIScreen.main.bounds)
             alertWindow.rootViewController = UIViewController()
             alertWindow.windowLevel = UIWindowLevelAlert + 1;
             alertWindow.makeKeyAndVisible()
-            alertWindow.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+            alertWindow.rootViewController?.present(alert, animated: true, completion: nil)
             return
         }
 
-        var popOverPresentRect : CGRect = self.presentingRect ?? CGRectMake(0, 0, 1, 1)
+        var popOverPresentRect : CGRect = self.presentingRect ?? CGRect(x: 0, y: 0, width: 1, height: 1)
         if popOverPresentRect.size.height == 0 || popOverPresentRect.size.width == 0 {
-            popOverPresentRect = CGRectMake(0, 0, 1, 1)
+            popOverPresentRect = CGRect(x: 0, y: 0, width: 1, height: 1)
         }
 
-        alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         for (title, source) in titleToSource {
-            let action = UIAlertAction(title: textForButtonWithTitle(title), style: .Default) {
+            let action = UIAlertAction(title: textForButtonWithTitle(title), style: .default) {
                 (UIAlertAction) -> Void in
                 self.imagePicker.sourceType = source
-                if source == .Camera && self.defaultsToFrontCamera && UIImagePickerController.isCameraDeviceAvailable(.Front) {
-                    self.imagePicker.cameraDevice = .Front
+                if source == .camera && self.defaultsToFrontCamera && UIImagePickerController.isCameraDeviceAvailable(.front) {
+                    self.imagePicker.cameraDevice = .front
                 }
                 // set the media type: photo or video
                 self.imagePicker.allowsEditing = self.allowsEditing
@@ -255,23 +255,23 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
                 self.imagePicker.mediaTypes = mediaTypes
 
                 //TODO: Need to encapsulate popover code
-                var popOverPresentRect: CGRect = self.presentingRect ?? CGRectMake(0, 0, 1, 1)
+                var popOverPresentRect: CGRect = self.presentingRect ?? CGRect(x: 0, y: 0, width: 1, height: 1)
                 if popOverPresentRect.size.height == 0 || popOverPresentRect.size.width == 0 {
-                    popOverPresentRect = CGRectMake(0, 0, 1, 1)
+                    popOverPresentRect = CGRect(x: 0, y: 0, width: 1, height: 1)
                 }
                 let topVC = self.topViewController(self.presentingViewController)
 
                 //
-                if UI_USER_INTERFACE_IDIOM() == .Phone || (source == .Camera && self.iPadUsesFullScreenCamera) {
-                    topVC.presentViewController(self.imagePicker, animated: true, completion: { _ in })
+                if UI_USER_INTERFACE_IDIOM() == .phone || (source == .camera && self.iPadUsesFullScreenCamera) {
+                    topVC.present(self.imagePicker, animated: true, completion: { _ in })
                 } else {
                     // On iPad use pop-overs.
-                    self.popover.presentPopoverFromRect(popOverPresentRect, inView: topVC.view!, permittedArrowDirections: .Any, animated: true)
+                    self.popover.present(from: popOverPresentRect, in: topVC.view!, permittedArrowDirections: .any, animated: true)
                 }
             }
             alertController!.addAction(action)
         }
-        let cancelAction = UIAlertAction(title: textForButtonWithTitle(kCancelKey), style: .Cancel) {
+        let cancelAction = UIAlertAction(title: textForButtonWithTitle(kCancelKey), style: .cancel) {
             (UIAlertAction) -> Void in
             self.didCancel?()
         }
@@ -279,7 +279,7 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
 
         let topVC = topViewController(presentingViewController)
 
-        alertController?.modalPresentationStyle = .Popover
+        alertController?.modalPresentationStyle = .popover
         if let presenter = alertController!.popoverPresentationController {
             presenter.sourceView = presentingView;
             if let presentingRect = self.presentingRect {
@@ -287,20 +287,20 @@ public class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UI
             }
             //WARNING: on ipad this fails if no SOURCEVIEW AND SOURCE RECT is provided
         }
-        topVC.presentViewController(alertController!, animated: true, completion: nil)
+        topVC.present(alertController!, animated: true, completion: nil)
     }
 
     /// Dismisses the displayed view. Especially handy if the sheet is displayed while suspending the app,
-    public func dismiss() {
-        alertController?.dismissViewControllerAnimated(true, completion: nil)
-        imagePicker.dismissViewControllerAnimated(true, completion: nil)
+    open func dismiss() {
+        alertController?.dismiss(animated: true, completion: nil)
+        imagePicker.dismiss(animated: true, completion: nil)
     }
 }
 
 extension FDTakeController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     /// Conformance for ImagePicker delegate
-    public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        UIApplication.sharedApplication().statusBarHidden = true
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        UIApplication.shared.isStatusBarHidden = true
         let mediaType: String = info[UIImagePickerControllerMediaType] as! String
         var imageToSave: UIImage
         // Handle a still image capture
@@ -313,21 +313,21 @@ extension FDTakeController : UIImagePickerControllerDelegate, UINavigationContro
                 self.didCancel?()
                 return
             }
-            self.didGetPhoto?(photo: imageToSave, info: info)
-            if UI_USER_INTERFACE_IDIOM() == .Pad {
-                self.popover.dismissPopoverAnimated(true)
+            self.didGetPhoto?(imageToSave, info)
+            if UI_USER_INTERFACE_IDIOM() == .pad {
+                self.popover.dismiss(animated: true)
             }
         } else if mediaType == kUTTypeMovie as String {
-            self.didGetVideo?(video: info[UIImagePickerControllerMediaURL] as! NSURL, info: info)
+            self.didGetVideo?(info[UIImagePickerControllerMediaURL] as! URL, info)
         }
 
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
 
     /// Conformance for image picker delegate
-    public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        UIApplication.sharedApplication().statusBarHidden = true
-        picker.dismissViewControllerAnimated(true, completion: { _ in })
+    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        UIApplication.shared.isStatusBarHidden = true
+        picker.dismiss(animated: true, completion: { _ in })
         self.didDeny?()
     }
 }

@@ -1,33 +1,55 @@
 PODS:
-  - FBSnapshotTestCase (2.0.7):
-    - FBSnapshotTestCase/SwiftSupport (= 2.0.7)
-  - FBSnapshotTestCase/Core (2.0.7)
-  - FBSnapshotTestCase/SwiftSupport (2.0.7):
+  - FBSnapshotTestCase (2.1.2):
+    - FBSnapshotTestCase/SwiftSupport (= 2.1.2)
+  - FBSnapshotTestCase/Core (2.1.2)
+  - FBSnapshotTestCase/SwiftSupport (2.1.2):
     - FBSnapshotTestCase/Core
-  - FDTake (0.1.0)
-  - Nimble (3.0.0)
-  - Nimble-Snapshots (3.0.0):
-    - FBSnapshotTestCase (~> 2.0.7)
+  - FDTake (0.3.3)
+  - Nimble (5.0.0-alpha.30p1)
+  - Nimble-Snapshots (4.1.0):
+    - FBSnapshotTestCase (~> 2.0)
     - Nimble
     - Quick
-  - Quick (0.8.0)
+  - Quick (0.9.3)
 
 DEPENDENCIES:
-  - FBSnapshotTestCase
+  - FBSnapshotTestCase (from `https://github.com/facebook/ios-snapshot-test-case.git`, branch `swift-beta-3`)
   - FDTake (from `../`)
-  - Nimble (= 3.0.0)
+  - Nimble (from `https://github.com/Quick/Nimble.git`, branch `master`)
   - Nimble-Snapshots
-  - Quick (~> 0.8.0)
+  - Quick (from `https://github.com/Quick/Quick.git`, branch `swift-3.0`)
 
 EXTERNAL SOURCES:
+  FBSnapshotTestCase:
+    :branch: swift-beta-3
+    :git: https://github.com/facebook/ios-snapshot-test-case.git
   FDTake:
-    :path: ../
+    :path: "../"
+  Nimble:
+    :branch: master
+    :git: https://github.com/Quick/Nimble.git
+  Quick:
+    :branch: swift-3.0
+    :git: https://github.com/Quick/Quick.git
+
+CHECKOUT OPTIONS:
+  FBSnapshotTestCase:
+    :commit: a9ea64f015a081a63e88c1a37784249a616f9dcc
+    :git: https://github.com/facebook/ios-snapshot-test-case.git
+  Nimble:
+    :commit: db706fc1d7130f6ac96c56aaf0e635fa3217fe57
+    :git: https://github.com/Quick/Nimble.git
+  Quick:
+    :commit: 8f2bc636ecfa2cc20696f62548b38d4ab943e299
+    :git: https://github.com/Quick/Quick.git
 
 SPEC CHECKSUMS:
-  FBSnapshotTestCase: 7e85180d0d141a0cf472352edda7e80d7eaeb547
-  FDTake: 1a93d39ead038566178e0fb448a12980391c2d9c
-  Nimble: 4c353d43735b38b545cbb4cb91504588eb5de926
-  Nimble-Snapshots: ab41dd737dcd33a0b0cb005a30465fef70b7207a
-  Quick: 563d0f6ec5f72e394645adb377708639b7dd38ab
+  FBSnapshotTestCase: 918c55861356ee83aee7843d759f55a18ff6982b
+  FDTake: 5dab16fcd1e8e29acf7021299473930cb7fbc000
+  Nimble: c5b995b4cd57789ec44b0cfb79640fc00e61a8c7
+  Nimble-Snapshots: 2da4d2ec829b458d6886c06812c52493fce284c9
+  Quick: 31fb576b6cbb6b028cc5e0016e4366accbb346f5
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 690e7c5a92e360e7bd9d3e5dd623ddbdfd6a72d6
+
+COCOAPODS: 1.1.0.rc.2

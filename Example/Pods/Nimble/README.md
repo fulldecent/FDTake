@@ -43,6 +43,7 @@ expect(ocean.isClean).toEventually(beTruthy())
   - [Strings](#strings)
   - [Checking if all elements of a collection pass a condition](#checking-if-all-elements-of-a-collection-pass-a-condition)
   - [Verify collection count](#verify-collection-count)
+  - [Matching a value to any of a group of matchers](#matching-a-value-to-any-of-a-group-of-matchers)
 - [Writing Your Own Matchers](#writing-your-own-matchers)
   - [Lazy Evaluation](#lazy-evaluation)
   - [Type Checking via Swift Generics](#type-checking-via-swift-generics)
@@ -197,7 +198,7 @@ expect(10) > 2
 
 ## Lazily Computed Values
 
-The `expect` function doesn't evalaute the value it's given until it's
+The `expect` function doesn't evaluate the value it's given until it's
 time to match. So Nimble can test whether an expression raises an
 exception once evaluated:
 
@@ -207,6 +208,7 @@ exception once evaluated:
 // Note: Swift currently doesn't have exceptions.
 //       Only Objective-C code can raise exceptions
 //       that Nimble will catch.
+//       (see https://github.com/Quick/Nimble/issues/220#issuecomment-172667064)
 let exception = NSException(
   name: NSInternalInconsistencyException,
   reason: "Not enough fish in the sea.",
@@ -307,6 +309,12 @@ dispatch_async(dispatch_get_main_queue(), ^{
 expect(ocean).toEventually(contain(@"dolphins", @"whales"));
 ```
 
+Note: toEventually triggers its polls on the main thread. Blocking the main
+thread will cause Nimble to stop the run loop. This can cause test pollution
+for whatever incomplete code that was running on the main thread.  Blocking the
+main thread can be caused by blocking IO, calls to sleep(), deadlocks, and
+synchronous IPC.
+
 In the above example, `ocean` is constantly re-evaluated. If it ever
 contains dolphins and whales, the expectation passes. If `ocean` still
 doesn't contain them, even after being continuously re-evaluated for one
@@ -371,6 +379,25 @@ waitUntilTimeout(10, ^(void (^done)(void)){
   [NSThread sleepForTimeInterval:1];
   done();
 });
+```
+
+Note: waitUntil triggers its timeout code on the main thread. Blocking the main
+thread will cause Nimble to stop the run loop to continue. This can cause test
+pollution for whatever incomplete code that was running on the main thread.
+Blocking the main thread can be caused by blocking IO, calls to sleep(),
+deadlocks, and synchronous IPC.
+
+In some cases (e.g. when running on slower machines) it can be useful to modify
+the default timeout and poll interval values. This can be done as follows:
+
+```swift
+// Swift
+
+// Increase the global timeout to 5 seconds:
+Nimble.AsyncDefaults.Timeout = 5
+
+// Slow the polling interval to 0.1 seconds:
+Nimble.AsyncDefaults.PollInterval = 0.1
 ```
 
 ## Objective-C Support
@@ -464,6 +491,9 @@ expect(actual) === expected
 expect(actual).toNot(beIdenticalTo(expected))
 expect(actual) !== expected
 ```
+
+Its important to remember that `beIdenticalTo` only makes sense when comparing types with reference semantics, which have a notion of identity. In Swift, that means a `class`. This matcher will not work with types with value semantics such as `struct` or `enum`. If you need to compare two value types, you can either compare individual properties or if it makes sense to do so, make your type implement `Equatable` and use Nimble's equivalence matchers instead.
+
 
 ```objc
 // Objective-C
@@ -616,16 +646,16 @@ expect(dolphin).to(beAKindOf([Mammal class]));
 ## Truthiness
 
 ```swift
-// Passes if actual is not nil, false, or an object with a boolean value of false:
+// Passes if actual is not nil, true, or an object with a boolean value of true:
 expect(actual).to(beTruthy())
 
-// Passes if actual is only true (not nil or an object conforming to BooleanType true):
+// Passes if actual is only true (not nil or an object conforming to Boolean true):
 expect(actual).to(beTrue())
 
 // Passes if actual is nil, false, or an object with a boolean value of false:
 expect(actual).to(beFalsy())
 
-// Passes if actual is only false (not nil or an object conforming to BooleanType false):
+// Passes if actual is only false (not nil or an object conforming to Boolean false):
 expect(actual).to(beFalse())
 
 // Passes if actual is nil:
@@ -635,16 +665,16 @@ expect(actual).to(beNil())
 ```objc
 // Objective-C
 
-// Passes if actual is not nil, false, or an object with a boolean value of false:
+// Passes if actual is not nil, true, or an object with a boolean value of true:
 expect(actual).to(beTruthy());
 
-// Passes if actual is only true (not nil or an object conforming to BooleanType true):
+// Passes if actual is only true (not nil or an object conforming to Boolean true):
 expect(actual).to(beTrue());
 
 // Passes if actual is nil, false, or an object with a boolean value of false:
 expect(actual).to(beFalsy());
 
-// Passes if actual is only false (not nil or an object conforming to BooleanType false):
+// Passes if actual is only false (not nil or an object conforming to Boolean false):
 expect(actual).to(beFalse());
 
 // Passes if actual is nil:
@@ -658,11 +688,11 @@ If you're using Swift 2.0+, you can use the `throwError` matcher to check if an 
 ```swift
 // Swift
 
-// Passes if somethingThatThrows() throws an ErrorType:
+// Passes if somethingThatThrows() throws an ErrorProtocol:
 expect{ try somethingThatThrows() }.to(throwError())
 
 // Passes if somethingThatThrows() throws an error with a given domain:
-expect{ try somethingThatThrows() }.to(throwError { (error: ErrorType) in
+expect{ try somethingThatThrows() }.to(throwError { (error: ErrorProtocol) in
     expect(error._domain).to(equal(NSCocoaErrorDomain))
 })
 
@@ -670,7 +700,24 @@ expect{ try somethingThatThrows() }.to(throwError { (error: ErrorType) in
 expect{ try somethingThatThrows() }.to(throwError(NSCocoaError.PropertyListReadCorruptError))
 
 // Passes if somethingThatThrows() throws an error with a given type:
-expect{ try somethingThatThrows() }.to(throwError(errorType: MyError.self))
+expect{ try somethingThatThrows() }.to(throwError(errorType: NimbleError.self))
+```
+
+If you are working directly with `ErrorProtocol` values, as is sometimes the case when using `Result` or `Promise` types, you can use the `matchError` matcher to check if the error is the same error is is supposed to be, without requiring explicit casting.
+
+```swift
+// Swift
+
+let actual: ErrorProtocol = …
+
+// Passes if actual contains any error value from the NimbleErrorEnum type:
+expect(actual).to(matchError(NimbleErrorEnum))
+
+// Passes if actual contains the Timeout value from the NimbleErrorEnum type:
+expect(actual).to(matchError(NimbleErrorEnum.Timeout))
+
+// Passes if actual contains an NSError equal to the given one:
+expect(actual).to(matchError(NSError(domain: "err", code: 123, userInfo: nil)))
 ```
 
 Note: This feature is only available in Swift.
@@ -715,7 +762,7 @@ expect(actual).to(raiseException().satisfyingBlock(^(NSException *exception) {
 }));
 ```
 
-Note: Swift currently doesn't have exceptions. Only Objective-C code can raise
+Note: Swift currently doesn't have exceptions (see [#220](https://github.com/Quick/Nimble/issues/220#issuecomment-172667064)). Only Objective-C code can raise
 exceptions that Nimble will catch.
 
 ## Collection Membership
@@ -851,7 +898,7 @@ expect([1,2,3,4]).to(allPass(beLessThan(5)))
 expect(@[@1, @2, @3,@4]).to(allPass(beLessThan(@5)));
 ```
 
-For Swift the actual value has to be a SequenceType, e.g. an array, a set or a custom seqence type.
+For Swift the actual value has to be a Sequence, e.g. an array, a set or a custom seqence type.
 
 For Objective-C the actual value has to be a NSFastEnumeration, e.g. NSArray and NSSet, of NSObjects and only the variant which
 uses another matcher is available here.
@@ -874,9 +921,37 @@ expect(actual).to(haveCount(expected))
 expect(actual).notTo(haveCount(expected))
 ```
 
-For Swift the actual value must be a `CollectionType` such as array, dictionary or set.
+For Swift the actual value must be a `Collection` such as array, dictionary or set.
 
 For Objective-C the actual value has to be one of the following classes `NSArray`, `NSDictionary`, `NSSet`, `NSHashTable` or one of their subclasses.
+
+## Matching a value to any of a group of matchers
+
+```swift
+// passes if actual is either less than 10 or greater than 20
+expect(actual).to(satisfyAnyOf(beLessThan(10), beGreaterThan(20)))
+
+// can include any number of matchers -- the following will pass
+// **be careful** -- too many matchers can be the sign of an unfocused test
+expect(6).to(satisfyAnyOf(equal(2), equal(3), equal(4), equal(5), equal(6), equal(7)))
+
+// in Swift you also have the option to use the || operator to achieve a similar function
+expect(82).to(beLessThan(50) || beGreaterThan(80))
+```
+
+```objc
+// passes if actual is either less than 10 or greater than 20
+expect(actual).to(satisfyAnyOf(beLessThan(@10), beGreaterThan(@20)))
+
+// can include any number of matchers -- the following will pass
+// **be careful** -- too many matchers can be the sign of an unfocused test
+expect(@6).to(satisfyAnyOf(equal(@2), equal(@3), equal(@4), equal(@5), equal(@6), equal(@7)))
+```
+
+Note: This matcher allows you to chain any number of matchers together. This provides flexibility, 
+      but if you find yourself chaining many matchers together in one test, consider whether you  
+      could instead refactor that single test into multiple, more precisely focused tests for 
+      better coverage. 
 
 # Writing Your Own Matchers
 
@@ -889,7 +964,11 @@ value and return a `MatcherFunc` closure. Take `equal`, for example:
 public func equal<T: Equatable>(expectedValue: T?) -> MatcherFunc<T?> {
   return MatcherFunc { actualExpression, failureMessage in
     failureMessage.postfixMessage = "equal <\(expectedValue)>"
-    return actualExpression.evaluate() == expectedValue
+    if let actualValue = try actualExpression.evaluate() {
+    	return actualValue == expectedValue
+    } else {
+    	return false
+    }
   }
 }
 ```
@@ -911,7 +990,7 @@ in an Xcode project you distribute to others.
   distribute it yourself via GitHub.
 
 For examples of how to write your own matchers, just check out the
-[`Matchers` directory](https://github.com/Quick/Nimble/tree/master/Nimble/Matchers)
+[`Matchers` directory](https://github.com/Quick/Nimble/tree/master/Sources/Nimble/Matchers)
 to see how Nimble's built-in set of matchers are implemented. You can
 also check out the tips below.
 
@@ -1056,11 +1135,11 @@ automatically generate expected value failure messages when they're nil.
 
 ```swift
 
-public func beginWith<S: SequenceType, T: Equatable where S.Generator.Element == T>(startingElement: T) -> NonNilMatcherFunc<S> {
+public func beginWith<S: Sequence, T: Equatable where S.Iterator.Element == T>(startingElement: T) -> NonNilMatcherFunc<S> {
     return NonNilMatcherFunc { actualExpression, failureMessage in
         failureMessage.postfixMessage = "begin with <\(startingElement)>"
         if let actualValue = actualExpression.evaluate() {
-            var actualGenerator = actualValue.generate()
+            var actualGenerator = actualValue.makeIterator()
             return actualGenerator.next() == startingElement
         }
         return false
@@ -1088,14 +1167,10 @@ extension NMBObjCMatcher {
 Nimble can currently be installed in one of two ways: using CocoaPods, or with
 git submodules.
 
-- The `swift-2.0` branch support Swift 2.0.
-- The `master` branch of Nimble supports Swift 1.2.
-- For Swift 1.1 support, use the `swift-1.1` branch.
-
 ## Installing Nimble as a Submodule
 
-To use Nimble as a submodule to test your iOS or OS X applications, follow these
-4 easy steps:
+To use Nimble as a submodule to test your macOS, iOS or tvOS applications, follow
+these 4 easy steps:
 
 1. Clone the Nimble repository
 2. Add Nimble.xcodeproj to the Xcode workspace for your project
@@ -1109,9 +1184,9 @@ install just Nimble.
 
 ## Installing Nimble via CocoaPods
 
-To use Nimble in CocoaPods to test your iOS or OS X applications, add Nimble to
-your podfile and add the ```use_frameworks!``` line to enable Swift support for
-Cocoapods.
+To use Nimble in CocoaPods to test your macOS, iOS or tvOS applications, add
+Nimble to your podfile and add the ```use_frameworks!``` line to enable Swift
+support for CocoaPods.
 
 ```ruby
 platform :ios, '8.0'
@@ -1122,10 +1197,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target 'YOUR_APP_NAME_HERE_Tests', :exclusive => true do
   use_frameworks!
-  # If you're using Swift 2.0 (Xcode 7), use this:
-  pod 'Nimble', '~> 2.0.0'
-  # If you're using Swift 1.2 (Xcode 6), use this:
-  pod 'Nimble', '~> 1.0.0'
+  pod 'Nimble', '~> 4.0.0'
 end
 ```
 
