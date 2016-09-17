@@ -11,6 +11,14 @@ All notable changes to this project will be documented in this file.
   - Added by [Hayden Holligan](https://github.com/haydenholligan) in regards to issue
   [#95](https://github.com/fulldecent/FDTake/issues/95).
 
+#### Changed
+- Updated to Swift 3
+  - Added by [Anthony Miller](https://github.com/AnthonyMDev) and [William Entriken](https://github.com/fulldecent) in regards to issue
+  [#98](https://github.com/fulldecent/FDTake/issues/98).
+
+#### KNOWN ISSUES
+- Localization is broken, discuss at https://github.com/fulldecent/FDTake/pull/99
+
 ---
 
 ## [0.3.3](https://github.com/fulldecent/FDBarGuage/releases/tag/0.3.3)
