@@ -10,10 +10,11 @@ import XCTest
 @testable import FDTake
 
 class FDTakeTests: XCTestCase {
+    var fdTake: FDTakeController! = nil
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        fdTake = FDTakeController()
     }
     
     override func tearDown() {
@@ -21,16 +22,62 @@ class FDTakeTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testLocalization() {
+        fdTake.cancelText = "bob"
+        XCTAssertEqual(fdTake.cancelText, "bob")
+        fdTake.chooseFromLibraryText = "bob"
+        XCTAssertEqual(fdTake.chooseFromLibraryText, "bob")
+        fdTake.chooseFromPhotoRollText = "bob"
+        XCTAssertEqual(fdTake.chooseFromPhotoRollText, "bob")
+        fdTake.noSourcesText = "bob"
+        XCTAssertEqual(fdTake.noSourcesText, "bob")
+        fdTake.takePhotoText = "bob"
+        XCTAssertEqual(fdTake.takePhotoText, "bob")
+        fdTake.takeVideoText = "bob"
+        XCTAssertEqual(fdTake.takeVideoText, "bob")
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testOthersParams() {
+        fdTake.allowsPhoto = false
+        XCTAssertEqual(fdTake.allowsPhoto, false)
+        
+        fdTake.allowsVideo = false
+        XCTAssertEqual(fdTake.allowsVideo, false)
+        
+        fdTake.allowsTake = false
+        XCTAssertEqual(fdTake.allowsTake, false)
+        
+        fdTake.allowsSelectFromLibrary = false
+        XCTAssertEqual(fdTake.allowsSelectFromLibrary, false)
+        
+        fdTake.allowsEditing = false
+        XCTAssertEqual(fdTake.allowsEditing, false)
+        
+        fdTake.allowsSelectFromLibrary = false
+        XCTAssertEqual(fdTake.allowsSelectFromLibrary, false)
+        
+        fdTake.iPadUsesFullScreenCamera = false
+        XCTAssertEqual(fdTake.iPadUsesFullScreenCamera, false)
+        
+        fdTake.defaultsToFrontCamera = false
+        XCTAssertEqual(fdTake.defaultsToFrontCamera, false)
+        
+        fdTake.defaultsToFrontCamera = false
+        XCTAssertEqual(fdTake.defaultsToFrontCamera, false)
+        
+        fdTake.defaultsToFrontCamera = false
+        XCTAssertEqual(fdTake.defaultsToFrontCamera, false)
+        
+        fdTake.presentingBarButtonItem = nil
+        XCTAssertEqual(fdTake.presentingBarButtonItem, nil)
+        
+        fdTake.presentingView = nil
+        XCTAssertEqual(fdTake.presentingView, nil)
+        
+        fdTake.presentingRect = nil
+        XCTAssertEqual(fdTake.presentingRect, nil)
+        
+        fdTake.presentingTabBar = nil
+        XCTAssertEqual(fdTake.presentingTabBar, nil)
     }
-    
 }
