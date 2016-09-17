@@ -10,6 +10,9 @@ All notable changes to this project will be documented in this file.
 - Support for Swift Package Manager
   - Added by [William Entriken](https://github.com/fulldecent) in regards to issue
   [#87](https://github.com/fulldecent/FDBarGuage/issues/87).
+- Test cases
+  - Added by [William Entriken](https://github.com/fulldecent) in regards to issue
+  [#72](https://github.com/fulldecent/FDBarGuage/issues/72).
 
 #### KNOWN ISSUES
 - Localization is broken, discuss at https://github.com/fulldecent/FDTake/pull/99
