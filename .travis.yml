@@ -31,4 +31,4 @@ script:
       pod lib lint;
     fi
 
-  - ruby Tests/CheckCocoaPodsQualityIndexes.rb
+  - ruby Tests/CheckCocoaPodsQualityIndexes.rb FDTake
