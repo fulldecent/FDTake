@@ -4,10 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [Master](https://github.com/fulldecent/FDBarGuage/compare/0.4.2...master)
+## [Master](https://github.com/fulldecent/FDBarGuage/compare/1.0.0...master)
 
 #### KNOWN ISSUES
 - Localization is broken, discuss at https://github.com/fulldecent/FDTake/pull/99
+
+---
+
+## [1.0.0](https://github.com/fulldecent/FDBarGuage/releases/tag/1.0.0)
+Released on 2016-09-28.
+
+Release 1.0 because this is already used in a lot of places. It's time.
 
 ---
 
