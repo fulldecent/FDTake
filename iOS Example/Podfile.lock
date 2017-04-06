@@ -1,0 +1,16 @@
+PODS:
+  - FDTake (1.0.0)
+
+DEPENDENCIES:
+  - FDTake (from `../`)
+
+EXTERNAL SOURCES:
+  FDTake:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  FDTake: f32bc7e3c214769c6ba6cd21da2a2592504189f4
+
+PODFILE CHECKSUM: 0cddf1db102f982e603edff6df6b6fce2e1c231d
+
+COCOAPODS: 1.1.1
