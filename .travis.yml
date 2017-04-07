@@ -5,11 +5,15 @@ env:
   - LC_CTYPE=en_US.UTF-8
   - LANG=en_US.UTF-8
   - WORKSPACE="iOS Example/iOS Example.xcworkspace"
-  - IOS_FRAMEWORK_SCHEME="iOS Example"
+  - SCHEME="iOS Example"
   - IOS_SDK=iphonesimulator10.0
-  - EXAMPLE_SCHEME="iOS Example"
   matrix:
-    - DESTINATION="OS=10.0,name=iPhone 7 Plus"     SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     POD_LINT="NO"
+    - DESTINATION="OS=10.0,name=iPhone 7 Plus"     SCHEME="$SCHEME"     SDK="$IOS_SDK"     POD_LINT="NO"
+
+before_install:
+  - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
+  - gem install cocoapods --pre --no-rdoc --no-ri --no-document --quiet
+  - pod install --project-directory="iOS Example"
 script:
   - set -o pipefail
   - xcodebuild -version
