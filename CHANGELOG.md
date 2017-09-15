@@ -9,6 +9,9 @@ All notable changes to this project will be documented in this file.
 #### KNOWN ISSUES
 - Localization is broken, discuss at https://github.com/fulldecent/FDTake/pull/99
 
+#### Updated
+- Updated for Swift 4
+
 ---
 
 ## [1.0.0](https://github.com/fulldecent/FDBarGuage/releases/tag/1.0.0)
