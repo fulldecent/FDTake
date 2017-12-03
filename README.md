@@ -6,6 +6,9 @@
 [![Platform](https://img.shields.io/cocoapods/p/FDTake.svg?style=flat)](http://cocoapods.org/pods/FDTake)
 [![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=fulldecent/FDTake)](http://clayallsopp.github.io/readme-score?url=fulldecent/FDTake)
 
+Easily take a photo or video or choose from library
+
+**:beer: Author's tip jar: https://amazon.com/hz/wishlist/ls/EE78A23EEGQB**
 
 ## Usage
 
