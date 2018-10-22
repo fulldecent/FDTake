@@ -6,7 +6,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/fulldecent/FDBarGuage/compare/2.0.0...master)
 
+#### Updated
+
+* Refactored to remove deprecated popover controller
+* Updated to Xcode recommended settings
+
 #### KNOWN ISSUES
+
 - Localization is broken, discuss at https://github.com/fulldecent/FDTake/pull/99
 
 ---
