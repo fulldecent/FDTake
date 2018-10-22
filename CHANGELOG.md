@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 
 * Refactored to remove deprecated popover controller
 * Updated to Xcode recommended settings
+* Update application strings to follow Apple HIG
 
 #### KNOWN ISSUES
 
