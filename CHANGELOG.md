@@ -4,13 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [Master](https://github.com/fulldecent/FDBarGuage/compare/2.0.0...master)
-
-#### Updated
-
-* Refactored to remove deprecated popover controller
-* Updated to Xcode recommended settings
-* Update application strings to follow Apple HIG
+## [Master](https://github.com/fulldecent/FDBarGuage/compare/2.0.1...master)
 
 #### KNOWN ISSUES
 
@@ -18,14 +12,25 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [2.0.1](https://github.com/fulldecent/FDBarGuage/compare/2.0.1)
+#### Updated
+
+- Refactored to remove deprecated popover controller
+- Updated to Xcode recommended settings
+- Update application strings to follow Apple HIG
+
+------
+
 ## [2.0.0](https://github.com/fulldecent/FDBarGuage/compare/2.0.0)
 
 #### Updated
+
 - Updated for Swift 4
 
----
+------
 
 ## [1.0.0](https://github.com/fulldecent/FDBarGuage/releases/tag/1.0.0)
+
 Released on 2016-09-28.
 
 Release 1.0 because this is already used in a lot of places. It's time.
