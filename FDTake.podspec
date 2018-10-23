@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "FDTake"
-  s.version      = "2.0.1"
+  s.version      = "2.0.2"
   s.summary      = "Easily take a photo or video or choose from library"
   s.description  = <<-DESC
                    `FDTake` helps you quickly have the user take or choose an existing photo or video.

@@ -4,15 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [Master](https://github.com/fulldecent/FDBarGuage/compare/2.0.1...master)
-
-#### Updated
-
-- Updated to Swift 4 visibility inference
+## [Master](https://github.com/fulldecent/FDBarGuage/compare/2.0.2...master)
 
 #### KNOWN ISSUES
 
 - Localization is broken, discuss at https://github.com/fulldecent/FDTake/pull/99
+
+## [2.0.2](https://github.com/fulldecent/FDBarGuage/compare/2.0.2)
+
+#### Updated
+
+- Updated to Swift 4 visibility inference
 
 ---
 
