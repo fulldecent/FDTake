@@ -172,6 +172,11 @@ pod 'FDTake'
 
 William Entriken, github.com@phor.net
 
+## Project scope
+
+This is a mature project and we do not expect to add new features unless something has already become state-of-the-art in other applications. Please be prepared to cite screenshots of other apps before making a feature request.
+
+We support targets for the latest released versions of Xcode, Carthage, CocoaPods and Swift Package Manager. If there are incompatabilities, for example CocoaPods not supporting the latest version of Xcode, then we will only support the latest released versions/combinations that are supported. If you would like to support pre-release versions of these packages, please open a pull request, not an issue.
 
 ## License
 
@@ -179,4 +184,4 @@ FDTake is available under the MIT license. See the LICENSE file for more info.
 
 ## Contributing
 
-This project's layout is based on https://github.com/fulldecent/swift3-module-template If you would like to change the layout, please change that project FIRST. Also you may appreciate that project has "recipes" -- you don't just change code you explain why you are doing things. As a maintainer this makes my job MUCH simpler. In a similar respect, if you are introducing non-minor changes, it will be VERY helpful if you could please reference to another project (like AlamoFire) that has seen and discussed the types of design challenges you are touching.) Thanks again and we all really do appreciate your contributions.
+This project's layout is based on https://github.com/fulldecent/swift4-module-template If you would like to change the layout, please change that project FIRST. Also you may appreciate that project has "recipes" -- you don't just change code you explain why you are doing things. As a maintainer this makes my job MUCH simpler. In a similar respect, if you are introducing non-minor changes, it will be VERY helpful if you could please reference to another project (like AlamoFire) that has seen and discussed the types of design challenges you are touching.) Thanks again and we all really do appreciate your contributions.
