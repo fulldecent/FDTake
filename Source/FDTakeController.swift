@@ -109,6 +109,7 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
         return UIApplication.shared.keyWindow!.rootViewController!
     }()
 
+    open var dismissOnTake = true
 
     // MARK: - Callbacks
 
@@ -149,15 +150,16 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
     open var takeVideoText: String? = nil
 
 
-    // MARK: - Private
 
-    private lazy var imagePicker: UIImagePickerController = {
+    internal lazy var imagePicker: UIImagePickerController = {
         [unowned self] in
         let retval = UIImagePickerController()
         retval.delegate = self
         retval.allowsEditing = true
         return retval
         }()
+
+    // MARK: - Private
 
     private var alertController: UIAlertController? = nil
 
@@ -239,7 +241,7 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
             // http://stackoverflow.com/a/34487871/300224
             let alertWindow = UIWindow(frame: UIScreen.main.bounds)
             alertWindow.rootViewController = UIViewController()
-            alertWindow.windowLevel = UIWindow.Level.alert + 1;
+            alertWindow.windowLevel = UIWindowLevelAlert + 1
             alertWindow.makeKeyAndVisible()
             alertWindow.rootViewController?.present(alert, animated: true, completion: nil)
             return
@@ -315,32 +317,35 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
 
 extension FDTakeController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     /// Conformance for ImagePicker delegate
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         // Local variable inserted by Swift 4.2 migrator.
-        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
 
         UIApplication.shared.isStatusBarHidden = true
-        let mediaType: String = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.mediaType)] as! String
+        let mediaType: String = info[UIImagePickerControllerMediaType] as! String
         var imageToSave: UIImage
         // Handle a still image capture
         if mediaType == kUTTypeImage as String {
-            if let editedImage = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage {
+            if let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
                 imageToSave = editedImage
-            } else if let originalImage = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
+            } else if let originalImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
                 imageToSave = originalImage
             } else {
                 self.didCancel?()
                 return
             }
+            
+            
             self.didGetPhoto?(imageToSave, info)
             if UI_USER_INTERFACE_IDIOM() == .pad {
                 self.imagePicker.dismiss(animated: true)
             }
         } else if mediaType == kUTTypeMovie as String {
-            self.didGetVideo?(info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.mediaURL)] as! URL, info)
+            self.didGetVideo?(info[UIImagePickerControllerMediaURL] as! URL, info)
         }
 
-        picker.dismiss(animated: true, completion: nil)
+        if self.dismissOnTake {
+            picker.dismiss(animated: true, completion: nil)
+        }
     }
 
     /// Conformance for image picker delegate
@@ -350,14 +355,11 @@ extension FDTakeController : UIImagePickerControllerDelegate, UINavigationContro
         self.didDeny?()
     }
     
-    // Helper function inserted by Swift 4.2 migrator.
+ /*   // Helper function inserted by Swift 4.2 migrator.
     private func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
         return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
-    }
+    } */
     
-    // Helper function inserted by Swift 4.2 migrator.
-    private func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
-        return input.rawValue
-    }
+
 }
 
