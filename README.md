@@ -8,6 +8,9 @@
 
 Easily take a photo or video or choose from library
 
+
+**Also**, you can edit the taken photos and crop them within your needs (defining custom crop aspect ratio). This functionality was taken from **jvk75's** [UIImageCropper](https://github.com/jvk75/UIImageCropper)
+
 **:beer: Author's tip jar: https://amazon.com/hz/wishlist/ls/EE78A23EEGQB**
 
 ## Usage
@@ -50,6 +53,9 @@ open var allowsSelectFromLibrary: Bool
 
 /// Whether to allow editing the media after capturing/selection
 open var allowsEditing: Bool
+
+/// Aspect ratio when cropping a photo
+open var aspectRatio: CGFloat = 4/3
 
 /// Whether to use full screen camera preview on the iPad
 open var iPadUsesFullScreenCamera: Bool
