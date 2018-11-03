@@ -14,7 +14,7 @@ All notable changes to this project will be documented in this file.
 
 #### Updated
 
-- Add ImageCrop ViewController (with custom aspect ratio)
+- Add ImageCrop ViewController  (with custom aspect ratio)
 
 ## [2.0.2](https://github.com/fulldecent/FDBarGuage/compare/2.0.2)
 
