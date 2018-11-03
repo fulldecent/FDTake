@@ -52,7 +52,7 @@ class ViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
         }
         fdTakeController.didGetPhoto = {
-            (photo: UIImage, info: [AnyHashable : Any]) -> Void in
+            (photo: UIImage, info: [AnyHashable : Any]?) -> Void in
             let alert = UIAlertController(title: "Got photo", message: "User selected photo", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             

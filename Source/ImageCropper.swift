@@ -166,7 +166,7 @@ public class UIImageCropper: UIViewController, UIImagePickerControllerDelegate, 
         let centerCropYConst = NSLayoutConstraint(item: cropButton, attribute: .centerY, relatedBy: .equal, toItem: bottomView, attribute: .centerY, multiplier: 1, constant: 0)
         bottomView.addConstraints([centerCropXConst, centerCropYConst])
         
-        self.view.bringSubview(toFront: bottomView)
+        self.view.bringSubviewToFront(bottomView)
         
         bottomView.layoutIfNeeded()
         topView.layoutIfNeeded()
@@ -211,7 +211,7 @@ public class UIImageCropper: UIViewController, UIImagePickerControllerDelegate, 
         let path = UIBezierPath(rect: cropView.frame)
         path.append(UIBezierPath(rect: fadeView.frame))
         let mask = CAShapeLayer()
-        mask.fillRule = kCAFillRuleEvenOdd
+        mask.fillRule = CAShapeLayerFillRule.evenOdd
         mask.path = path.cgPath
         fadeView.layer.mask = mask
     }

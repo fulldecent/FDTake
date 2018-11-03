@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D07FC161218E31EF00310E7D /* ImageCropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07FC15F218E31EE00310E7D /* ImageCropper.swift */; };
+		D07FC162218E31EF00310E7D /* UIImage+FixOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07FC160218E31EF00310E7D /* UIImage+FixOrientation.swift */; };
 		D95E1BE71D88D63400F94976 /* FDTake.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D95E1BDD1D88D63300F94976 /* FDTake.framework */; };
 		D95E1BEC1D88D63400F94976 /* FDTakeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1BEB1D88D63400F94976 /* FDTakeTests.swift */; };
 		D95E1BEE1D88D63400F94976 /* FDTake.h in Headers */ = {isa = PBXBuildFile; fileRef = D95E1BE01D88D63300F94976 /* FDTake.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -25,6 +27,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D07FC15F218E31EE00310E7D /* ImageCropper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCropper.swift; sourceTree = "<group>"; };
+		D07FC160218E31EF00310E7D /* UIImage+FixOrientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+FixOrientation.swift"; sourceTree = "<group>"; };
 		D95E1BDD1D88D63300F94976 /* FDTake.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FDTake.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95E1BE01D88D63300F94976 /* FDTake.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FDTake.h; sourceTree = "<group>"; };
 		D95E1BE11D88D63300F94976 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -93,6 +97,8 @@
 		D95E1BDF1D88D63300F94976 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				D07FC15F218E31EE00310E7D /* ImageCropper.swift */,
+				D07FC160218E31EF00310E7D /* UIImage+FixOrientation.swift */,
 				D9D7F7B81D8DAC4F00A0DA5B /* FDTakeController.swift */,
 				D95E1BE01D88D63300F94976 /* FDTake.h */,
 				D95E1BE11D88D63300F94976 /* Info.plist */,
@@ -241,7 +247,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D07FC162218E31EF00310E7D /* UIImage+FixOrientation.swift in Sources */,
 				D9D7F7B91D8DAC4F00A0DA5B /* FDTakeController.swift in Sources */,
+				D07FC161218E31EF00310E7D /* ImageCropper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +358,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -405,6 +414,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
