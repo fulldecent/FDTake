@@ -53,7 +53,7 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
     // MARK: - Initializers & Class Convenience Methods
 
     /// Convenience method for getting a photo
-    open class func getPhotoWithCallback(getPhotoWithCallback callback: @escaping (_ photo: UIImage, _ info: [AnyHashable: Any]) -> Void) {
+    open class func getPhotoWithCallback(getPhotoWithCallback callback: @escaping (_ photo: UIImage, _ info: [AnyHashable: Any], _ picker: UIImagePickerController?) -> Void) {
         let fdTake = FDTakeController()
         fdTake.allowsVideo = false
         fdTake.didGetPhoto = callback
@@ -114,7 +114,7 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
     // MARK: - Callbacks
 
     /// A photo was selected
-    open var didGetPhoto: ((_ photo: UIImage, _ info: [AnyHashable: Any]) -> Void)?
+    open var didGetPhoto: ((_ photo: UIImage, _ info: [AnyHashable: Any], _ picker: UIImagePickerController?) -> Void)?
 
     /// A video was selected
     open var didGetVideo: ((_ video: URL, _ info: [AnyHashable: Any]) -> Void)?
@@ -335,7 +335,7 @@ extension FDTakeController : UIImagePickerControllerDelegate, UINavigationContro
             }
             
             
-            self.didGetPhoto?(imageToSave, info)
+            self.didGetPhoto?(imageToSave, info, picker)
             if UI_USER_INTERFACE_IDIOM() == .pad {
                 self.imagePicker.dismiss(animated: true)
             }
