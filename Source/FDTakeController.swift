@@ -53,7 +53,7 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
     // MARK: - Initializers & Class Convenience Methods
 
     /// Convenience method for getting a photo
-    open class func getPhotoWithCallback(getPhotoWithCallback callback: @escaping (_ photo: UIImage, _ info: [AnyHashable: Any], _ picker: UIImagePickerController?) -> Void) {
+    open class func getPhotoWithCallback(getPhotoWithCallback callback: @escaping (_ photo: UIImage, _ info: [AnyHashable: Any]?) -> Void) {
         let fdTake = FDTakeController()
         fdTake.allowsVideo = false
         fdTake.didGetPhoto = callback
@@ -109,12 +109,12 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
         return UIApplication.shared.keyWindow!.rootViewController!
     }()
 
-    open var dismissOnTake = true
+    open var aspectRatio: CGFloat = 4/3
 
     // MARK: - Callbacks
 
     /// A photo was selected
-    open var didGetPhoto: ((_ photo: UIImage, _ info: [AnyHashable: Any], _ picker: UIImagePickerController?) -> Void)?
+    open var didGetPhoto: ((_ photo: UIImage, _ info: [AnyHashable: Any]?) -> Void)?
 
     /// A video was selected
     open var didGetVideo: ((_ video: URL, _ info: [AnyHashable: Any]) -> Void)?
@@ -150,14 +150,14 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
     open var takeVideoText: String? = nil
 
 
-
+    internal var info: [AnyHashable: Any]?
+    
     internal lazy var imagePicker: UIImagePickerController = {
-        [unowned self] in
-        let retval = UIImagePickerController()
-        retval.delegate = self
-        retval.allowsEditing = true
-        return retval
-        }()
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.allowsEditing = false
+        return picker
+    }()
 
     // MARK: - Private
 
@@ -208,6 +208,37 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
         }
     }
 
+    fileprivate func startImagePicker(_ title: FDTakeControllerLocalizableStrings, _ source: UIImagePickerController.SourceType) {
+        
+        
+        self.imagePicker.sourceType = source
+        if source == .camera && self.defaultsToFrontCamera && UIImagePickerController.isCameraDeviceAvailable(.front) {
+            self.imagePicker.cameraDevice = .front
+        }
+        // set the media type: photo or video
+        self.imagePicker.allowsEditing = false
+        var mediaTypes = [String]()
+        if self.allowsPhoto {
+            mediaTypes.append(String(kUTTypeImage))
+        }
+        if self.allowsVideo {
+            mediaTypes.append(String(kUTTypeMovie))
+        }
+        self.imagePicker.mediaTypes = mediaTypes
+        
+        //TODO: Need to encapsulate popover code
+        var popOverPresentRect: CGRect = self.presentingRect ?? CGRect(x: 0, y: 0, width: 1, height: 1)
+        if popOverPresentRect.size.height == 0 || popOverPresentRect.size.width == 0 {
+            popOverPresentRect = CGRect(x: 0, y: 0, width: 1, height: 1)
+        }
+        
+        if !(UI_USER_INTERFACE_IDIOM() == .phone || (source == .camera && self.iPadUsesFullScreenCamera)) {
+            // On iPad use pop-overs.
+            self.imagePicker.modalPresentationStyle = .popover
+            self.imagePicker.popoverPresentationController?.sourceRect = popOverPresentRect
+        }
+        
+    }
     
     /// Presents the user with an option to take a photo or choose a photo from the library
     open func present() {
@@ -256,36 +287,9 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
         for (title, source) in titleToSource {
             let action = UIAlertAction(title: localizeString(title), style: .default) {
                 (UIAlertAction) -> Void in
-                self.imagePicker.sourceType = source
-                if source == .camera && self.defaultsToFrontCamera && UIImagePickerController.isCameraDeviceAvailable(.front) {
-                    self.imagePicker.cameraDevice = .front
-                }
-                // set the media type: photo or video
-                self.imagePicker.allowsEditing = self.allowsEditing
-                var mediaTypes = [String]()
-                if self.allowsPhoto {
-                    mediaTypes.append(String(kUTTypeImage))
-                }
-                if self.allowsVideo {
-                    mediaTypes.append(String(kUTTypeMovie))
-                }
-                self.imagePicker.mediaTypes = mediaTypes
-
-                //TODO: Need to encapsulate popover code
-                var popOverPresentRect: CGRect = self.presentingRect ?? CGRect(x: 0, y: 0, width: 1, height: 1)
-                if popOverPresentRect.size.height == 0 || popOverPresentRect.size.width == 0 {
-                    popOverPresentRect = CGRect(x: 0, y: 0, width: 1, height: 1)
-                }
+                self.startImagePicker(title,source)
                 let topVC = self.topViewController(rootViewController: self.presentingViewController)
-
-                if UI_USER_INTERFACE_IDIOM() == .phone || (source == .camera && self.iPadUsesFullScreenCamera) {
-                    topVC.present(self.imagePicker, animated: true, completion: nil)
-                } else {
-                    // On iPad use pop-overs.
-                    self.imagePicker.modalPresentationStyle = .popover
-                    self.imagePicker.popoverPresentationController?.sourceRect = popOverPresentRect
-                    topVC.present(self.imagePicker, animated: true, completion: nil)
-                }
+                topVC.present(self.imagePicker, animated: true, completion: nil)
             }
             alertController!.addAction(action)
         }
@@ -335,17 +339,35 @@ extension FDTakeController : UIImagePickerControllerDelegate, UINavigationContro
             }
             
             
-            self.didGetPhoto?(imageToSave, info, picker)
-            if UI_USER_INTERFACE_IDIOM() == .pad {
-                self.imagePicker.dismiss(animated: true)
+            
+            if self.allowsEditing {
+                let cropper = UIImageCropper(cropRatio: self.aspectRatio)
+                cropper.cropButtonText = "Crop" // button labes can be localised/changed
+                cropper.cancelButtonText = "Cancel"
+                
+                cropper.image = imageToSave.fixOrientation()
+                cropper.delegate = self
+                
+                
+                picker.present(cropper, animated: true, completion: nil)
+                
+                
+                self.info = info
+            } else {
+                self.didGetPhoto?(imageToSave, info)
+                
+                if UI_USER_INTERFACE_IDIOM() == .pad {
+                    self.imagePicker.dismiss(animated: true)
+                }
+                
+                picker.dismiss(animated: true, completion: nil)
             }
+            
+            
         } else if mediaType == kUTTypeMovie as String {
             self.didGetVideo?(info[UIImagePickerControllerMediaURL] as! URL, info)
         }
 
-        if self.dismissOnTake {
-            picker.dismiss(animated: true, completion: nil)
-        }
     }
 
     /// Conformance for image picker delegate
@@ -360,6 +382,18 @@ extension FDTakeController : UIImagePickerControllerDelegate, UINavigationContro
         return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
     } */
     
+}
+
+extension FDTakeController: UIImageCropperProtocol {
+    public func didCropImage(originalImage: UIImage?, croppedImage: UIImage?) {
+        
+        if let image = croppedImage {
+            self.didGetPhoto?(image, self.info)
+        } else {
+            self.didFail?()
+        }
+        self.dismiss()
+    }
 
 }
 
