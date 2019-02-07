@@ -4,11 +4,23 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [Master](https://github.com/fulldecent/FDBarGuage/compare/2.0.2...master)
+## [Master](https://github.com/fulldecent/FDBarGuage/compare/2.0.3...master)
 
 #### KNOWN ISSUES
 
 - Localization is broken, discuss at https://github.com/fulldecent/FDTake/pull/99
+
+---
+
+## [2.0.3](https://github.com/fulldecent/FDBarGuage/compare/2.0.3)
+
+#### Fixed
+
+- Fixed resources includes for the Podspec 
+  - Added by [JoelGerboreLaser](https://github.com/JoelGerboreLaser) in regards to issue
+  [#115](https://github.com/fulldecent/FDTake/pull/115).
+
+---
 
 ## [2.0.2](https://github.com/fulldecent/FDBarGuage/compare/2.0.2)
 
