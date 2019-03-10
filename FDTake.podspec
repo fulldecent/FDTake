@@ -13,6 +13,6 @@ Pod::Spec.new do |s|
   s.social_media_url = 'https://twitter.com/fulldecent'
   s.platform     = :ios, '10.0'
   s.requires_arc = true
-
+  s.swift_version = '4.2'
   s.source_files = 'Source/**/*'
 end
