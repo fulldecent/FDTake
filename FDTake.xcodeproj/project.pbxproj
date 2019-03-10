@@ -29,9 +29,9 @@
 /* Begin PBXFileReference section */
 		D07FC15F218E31EE00310E7D /* ImageCropper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCropper.swift; sourceTree = "<group>"; };
 		D07FC160218E31EF00310E7D /* UIImage+FixOrientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+FixOrientation.swift"; sourceTree = "<group>"; };
+		D0BA674D2235B5BF003B30D9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D95E1BDD1D88D63300F94976 /* FDTake.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FDTake.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95E1BE01D88D63300F94976 /* FDTake.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FDTake.h; sourceTree = "<group>"; };
-		D95E1BE11D88D63300F94976 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D95E1BE61D88D63400F94976 /* FDTakeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FDTakeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95E1BEB1D88D63400F94976 /* FDTakeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FDTakeTests.swift; sourceTree = "<group>"; };
 		D95E1BED1D88D63400F94976 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -76,9 +76,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D0BA674C2235B5BF003B30D9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D0BA674D2235B5BF003B30D9 /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		D95E1BD31D88D63200F94976 = {
 			isa = PBXGroup;
 			children = (
+				D0BA674C2235B5BF003B30D9 /* Supporting Files */,
 				D95E1BDF1D88D63300F94976 /* Source */,
 				D95E1BEA1D88D63400F94976 /* Tests */,
 				D95E1BDE1D88D63300F94976 /* Products */,
@@ -101,7 +110,6 @@
 				D07FC160218E31EF00310E7D /* UIImage+FixOrientation.swift */,
 				D9D7F7B81D8DAC4F00A0DA5B /* FDTakeController.swift */,
 				D95E1BE01D88D63300F94976 /* FDTake.h */,
-				D95E1BE11D88D63300F94976 /* Info.plist */,
 				D983D7531D8DDA0700E4223A /* Localizable.strings */,
 			);
 			path = Source;
@@ -431,7 +439,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Source/Info.plist;
+				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.phor.FDTake;
@@ -451,7 +459,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Source/Info.plist;
+				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.phor.FDTake;
