@@ -10,6 +10,12 @@ All notable changes to this project will be documented in this file.
 
 - Localization is broken, discuss at https://github.com/fulldecent/FDTake/pull/99
 
+## [2.0.3](https://github.com/fulldecent/FDBarGuage/compare/2.0.3)
+
+#### Updated
+
+- Add ImageCrop ViewController  (with custom aspect ratio)
+
 ## [2.0.2](https://github.com/fulldecent/FDBarGuage/compare/2.0.2)
 
 #### Updated
