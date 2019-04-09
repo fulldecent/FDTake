@@ -172,7 +172,7 @@
 				TargetAttributes = {
 					D95E1BDC1D88D63300F94976 = {
 						CreatedOnToolsVersion = 8.0;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 					D95E1BE51D88D63400F94976 = {
@@ -184,7 +184,7 @@
 			};
 			buildConfigurationList = D95E1BD71D88D63300F94976 /* Build configuration list for PBXProject "FDTake" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -206,6 +206,7 @@
 				tr,
 				"zh-Hans",
 				"zh-Hant",
+				Base,
 			);
 			mainGroup = D95E1BD31D88D63200F94976;
 			productRefGroup = D95E1BDE1D88D63300F94976 /* Products */;
@@ -428,7 +429,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -447,7 +448,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--PROJECT-NAME--";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
