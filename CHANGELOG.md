@@ -4,11 +4,19 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [Master](https://github.com/fulldecent/FDBarGuage/compare/2.0.3...master)
+## [Master](https://github.com/fulldecent/FDBarGuage/compare/3.0.0...master)
 
 #### KNOWN ISSUES
 
 - Localization is broken, discuss at https://github.com/fulldecent/FDTake/pull/99
+
+---
+
+## [3.0.0](https://github.com/fulldecent/FDBarGuage/compare/3.0.0)
+
+#### Updated
+
+- Switched to target Swift 5.
 
 ---
 
