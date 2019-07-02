@@ -235,7 +235,8 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
         if !(UI_USER_INTERFACE_IDIOM() == .phone || (source == .camera && self.iPadUsesFullScreenCamera)) {
             // On iPad use pop-overs.
             self.imagePicker.modalPresentationStyle = .popover
-            self.imagePicker.popoverPresentationController?.sourceRect = popOverPresentRect
+            self.imagePicker.popoverPresentationController!.sourceView = self.presentingView!
+            self.imagePicker.popoverPresentationController!.permittedArrowDirections = .any
         }
         
     }

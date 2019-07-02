@@ -81,12 +81,14 @@ class ViewController: UIViewController {
     @IBAction func presentFromButton(_ sender: UIButton) {
         resetFDTakeController()
         fdTakeController.presentingView = sender
+        fdTakeController.presentingRect = self.view.frame
         fdTakeController.present()
     }
     
     @IBAction func presentFromWindow() {
         resetFDTakeController()
         fdTakeController.presentingView = self.view
+        fdTakeController.presentingRect = self.view.frame
         fdTakeController.present()
     }
 }
