@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C4012D2A238F01A5005BC7B3 /* FDTakeResources.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = C4012D27238F0195005BC7B3 /* FDTakeResources.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C4ED9847238EFA3F00691F4F /* FDTake.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D95E1C891D88F39300F94976 /* FDTake.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C4EEAC1D2385316D00177742 /* FDTake in Frameworks */ = {isa = PBXBuildFile; productRef = C4EEAC1C2385316D00177742 /* FDTake */; };
-		C4EEAC342385363A00177742 /* FDTakeLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C4EEAC1F2385319000177742 /* FDTakeLocalizable.strings */; };
 		D95E1C451D88E71A00F94976 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1C441D88E71A00F94976 /* AppDelegate.swift */; };
 		D95E1C471D88E71A00F94976 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1C461D88E71A00F94976 /* ViewController.swift */; };
 		D95E1C4C1D88E71A00F94976 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D95E1C4B1D88E71A00F94976 /* Assets.xcassets */; };
@@ -16,39 +17,49 @@
 		D9D7F7BD1D8DAF1900A0DA5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9D7F7BC1D8DAF1900A0DA5B /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C4012D26238F0195005BC7B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4012D22238F0195005BC7B3 /* FDTakeResources.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C493CF94238EF7E5004F13C5;
+			remoteInfo = FDTakeResources;
+		};
+		C4012D28238F019F005BC7B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4012D22238F0195005BC7B3 /* FDTakeResources.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C493CF93238EF7E5004F13C5;
+			remoteInfo = FDTakeResources;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		C48C0E95238EFE96003871B2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				C4012D2A238F01A5005BC7B3 /* FDTakeResources.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D9D7F7C11D8DC32F00A0DA5B /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				C4ED9847238EFA3F00691F4F /* FDTake.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C4EEAC202385319000177742 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/FDTakeLocalizable.strings; sourceTree = "<group>"; };
-		C4EEAC212385319000177742 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/FDTakeLocalizable.strings; sourceTree = "<group>"; };
-		C4EEAC222385319000177742 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/FDTakeLocalizable.strings; sourceTree = "<group>"; };
-		C4EEAC232385319000177742 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/FDTakeLocalizable.strings; sourceTree = "<group>"; };
-		C4EEAC242385319000177742 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/FDTakeLocalizable.strings"; sourceTree = "<group>"; };
-		C4EEAC252385319000177742 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FDTakeLocalizable.strings; sourceTree = "<group>"; };
-		C4EEAC262385319000177742 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/FDTakeLocalizable.strings; sourceTree = "<group>"; };
-		C4EEAC272385319000177742 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/FDTakeLocalizable.strings; sourceTree = "<group>"; };
-		C4EEAC282385319000177742 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/FDTakeLocalizable.strings; sourceTree = "<group>"; };
-		C4EEAC292385319000177742 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/FDTakeLocalizable.strings; sourceTree = "<group>"; };
-		C4EEAC2A2385319000177742 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/FDTakeLocalizable.strings; sourceTree = "<group>"; };
-		C4EEAC2B2385319000177742 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/FDTakeLocalizable.strings"; sourceTree = "<group>"; };
-		C4EEAC2C2385319000177742 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/FDTakeLocalizable.strings; sourceTree = "<group>"; };
-		C4EEAC2D2385319000177742 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/FDTakeLocalizable.strings; sourceTree = "<group>"; };
-		C4EEAC2E2385319000177742 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/FDTakeLocalizable.strings; sourceTree = "<group>"; };
-		C4EEAC2F2385319000177742 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FDTakeLocalizable.strings; sourceTree = "<group>"; };
-		C4EEAC302385319000177742 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/FDTakeLocalizable.strings; sourceTree = "<group>"; };
-		C4EEAC312385319000177742 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/FDTakeLocalizable.strings; sourceTree = "<group>"; };
-		C4EEAC322385319000177742 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/FDTakeLocalizable.strings"; sourceTree = "<group>"; };
+		C4012D22238F0195005BC7B3 /* FDTakeResources.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FDTakeResources.xcodeproj; path = ../Resources/FDTakeResources.xcodeproj; sourceTree = "<group>"; };
 		D95E1C411D88E71A00F94976 /* iOS Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95E1C441D88E71A00F94976 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D95E1C461D88E71A00F94976 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -71,12 +82,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C4EEAC1E2385319000177742 /* Resources */ = {
+		C4012D23238F0195005BC7B3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C4EEAC1F2385319000177742 /* FDTakeLocalizable.strings */,
+				C4012D27238F0195005BC7B3 /* FDTakeResources.bundle */,
 			);
-			path = Resources;
+			name = Products;
 			sourceTree = "<group>";
 		};
 		D95E1C381D88E71A00F94976 = {
@@ -85,6 +96,7 @@
 				D95E1C431D88E71A00F94976 /* Sources */,
 				D95E1C421D88E71A00F94976 /* Products */,
 				D95E1C881D88F39300F94976 /* Frameworks */,
+				C4012D22238F0195005BC7B3 /* FDTakeResources.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,7 +117,6 @@
 				D95E1C4D1D88E71A00F94976 /* LaunchScreen.storyboard */,
 				D9D7F7BC1D8DAF1900A0DA5B /* Main.storyboard */,
 				D95E1C501D88E71A00F94976 /* Info.plist */,
-				C4EEAC1E2385319000177742 /* Resources */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -129,10 +140,12 @@
 				D95E1C3E1D88E71A00F94976 /* Frameworks */,
 				D95E1C3F1D88E71A00F94976 /* Resources */,
 				D9D7F7C11D8DC32F00A0DA5B /* Embed Frameworks */,
+				C48C0E95238EFE96003871B2 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C4012D29238F019F005BC7B3 /* PBXTargetDependency */,
 			);
 			name = "iOS Example";
 			packageProductDependencies = (
@@ -188,12 +201,28 @@
 			mainGroup = D95E1C381D88E71A00F94976;
 			productRefGroup = D95E1C421D88E71A00F94976 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C4012D23238F0195005BC7B3 /* Products */;
+					ProjectRef = C4012D22238F0195005BC7B3 /* FDTakeResources.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D95E1C401D88E71A00F94976 /* iOS Example */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C4012D27238F0195005BC7B3 /* FDTakeResources.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = FDTakeResources.bundle;
+			remoteRef = C4012D26238F0195005BC7B3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D95E1C3F1D88E71A00F94976 /* Resources */ = {
@@ -202,7 +231,6 @@
 			files = (
 				D9D7F7BD1D8DAF1900A0DA5B /* Main.storyboard in Resources */,
 				D95E1C4F1D88E71A00F94976 /* LaunchScreen.storyboard in Resources */,
-				C4EEAC342385363A00177742 /* FDTakeLocalizable.strings in Resources */,
 				D95E1C4C1D88E71A00F94976 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -221,33 +249,15 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		C4EEAC1F2385319000177742 /* FDTakeLocalizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C4EEAC202385319000177742 /* de */,
-				C4EEAC212385319000177742 /* he */,
-				C4EEAC222385319000177742 /* ar */,
-				C4EEAC232385319000177742 /* el */,
-				C4EEAC242385319000177742 /* zh-Hans */,
-				C4EEAC252385319000177742 /* en */,
-				C4EEAC262385319000177742 /* nb */,
-				C4EEAC272385319000177742 /* es */,
-				C4EEAC282385319000177742 /* da */,
-				C4EEAC292385319000177742 /* it */,
-				C4EEAC2A2385319000177742 /* sv */,
-				C4EEAC2B2385319000177742 /* zh-Hant */,
-				C4EEAC2C2385319000177742 /* hu */,
-				C4EEAC2D2385319000177742 /* tr */,
-				C4EEAC2E2385319000177742 /* pl */,
-				C4EEAC2F2385319000177742 /* ru */,
-				C4EEAC302385319000177742 /* fr */,
-				C4EEAC312385319000177742 /* nl */,
-				C4EEAC322385319000177742 /* pt-PT */,
-			);
-			name = FDTakeLocalizable.strings;
-			sourceTree = "<group>";
+/* Begin PBXTargetDependency section */
+		C4012D29238F019F005BC7B3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FDTakeResources;
+			targetProxy = C4012D28238F019F005BC7B3 /* PBXContainerItemProxy */;
 		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
 		D95E1C4D1D88E71A00F94976 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

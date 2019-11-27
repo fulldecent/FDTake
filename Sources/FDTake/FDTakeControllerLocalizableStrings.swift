@@ -49,7 +49,7 @@ enum FDTakeControllerLocalizableStrings: String {
         return bundle.localizedString(
             forKey: rawValue,
             value: defaultLocalizedString,
-            table: "FDTakeLocalizable"
+            table: nil
         )
     }
     

@@ -14,9 +14,9 @@ extension Bundle {
     }
     
     static var resources: Bundle? {
-        guard let path = framework.path(forResource: "Resources", ofType: "bundle") else {
+        guard let path = Bundle.main.path(forResource: "FDTakeResources", ofType: "bundle") else {
             return nil
         }
-        return Bundle(path: path)
+        return  Bundle(path: path)
     }
 }

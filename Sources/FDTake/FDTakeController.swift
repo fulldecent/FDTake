@@ -271,19 +271,17 @@ open class FDTakeController: NSObject {
 }
 
 extension FDTakeController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    /// Conformance for ImagePicker delegate
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        // Local variable inserted by Swift 4.2 migrator.
-        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
-
+    public func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+    ) {
         UIApplication.shared.isStatusBarHidden = true
-        let mediaType: String = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.mediaType)] as! String
-        var imageToSave: UIImage
-        // Handle a still image capture
-        if mediaType == kUTTypeImage as String {
-            if let editedImage = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage {
+        switch info[.mediaType] as! CFString {
+        case kUTTypeImage:
+            let imageToSave: UIImage
+            if let editedImage = info[.editedImage] as? UIImage {
                 imageToSave = editedImage
-            } else if let originalImage = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
+            } else if let originalImage = info[.originalImage] as? UIImage {
                 imageToSave = originalImage
             } else {
                 self.didCancel?()
@@ -293,8 +291,10 @@ extension FDTakeController : UIImagePickerControllerDelegate, UINavigationContro
             if UI_USER_INTERFACE_IDIOM() == .pad {
                 self.imagePicker.dismiss(animated: true)
             }
-        } else if mediaType == kUTTypeMovie as String {
-            self.didGetVideo?(info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.mediaURL)] as! URL, info)
+        case kUTTypeMovie:
+             self.didGetVideo?(info[.mediaURL] as! URL, info)
+        default:
+            break
         }
 
         picker.dismiss(animated: true, completion: nil)
@@ -305,16 +305,6 @@ extension FDTakeController : UIImagePickerControllerDelegate, UINavigationContro
         UIApplication.shared.isStatusBarHidden = true
         picker.dismiss(animated: true, completion: nil)
         self.didDeny?()
-    }
-    
-    // Helper function inserted by Swift 4.2 migrator.
-    private func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
-        return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
-    }
-    
-    // Helper function inserted by Swift 4.2 migrator.
-    private func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
-        return input.rawValue
     }
 }
 
