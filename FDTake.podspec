@@ -14,6 +14,10 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '10.0'
   s.requires_arc = true
   s.swift_version = '5.0'
-  s.source_files = 'Source/*.{h,m,swift}','Source/*.swift'
-  s.resource  = 'Source/*.lproj/*'
+  s.source_files = 'Sources/FDTake/**/*.swift'
+  s.resource_bundles = {
+    'Resources' => [
+      'Sources/FDTake/Resources/*.lproj'
+    ]
+}
 end

@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:FDTake.xcodeproj">
+      location = "container:iOS Example.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:iOS Example/iOS Example.xcodeproj">
+      location = "group:..">
    </FileRef>
 </Workspace>

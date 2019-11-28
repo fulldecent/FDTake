@@ -3,35 +3,63 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C4012D2A238F01A5005BC7B3 /* FDTakeResources.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = C4012D27238F0195005BC7B3 /* FDTakeResources.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C4ED9847238EFA3F00691F4F /* FDTake.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D95E1C891D88F39300F94976 /* FDTake.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C4EEAC1D2385316D00177742 /* FDTake in Frameworks */ = {isa = PBXBuildFile; productRef = C4EEAC1C2385316D00177742 /* FDTake */; };
 		D95E1C451D88E71A00F94976 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1C441D88E71A00F94976 /* AppDelegate.swift */; };
 		D95E1C471D88E71A00F94976 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1C461D88E71A00F94976 /* ViewController.swift */; };
 		D95E1C4C1D88E71A00F94976 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D95E1C4B1D88E71A00F94976 /* Assets.xcassets */; };
 		D95E1C4F1D88E71A00F94976 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95E1C4D1D88E71A00F94976 /* LaunchScreen.storyboard */; };
-		D95E1C8A1D88F39300F94976 /* FDTake.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D95E1C891D88F39300F94976 /* FDTake.framework */; };
 		D9D7F7BD1D8DAF1900A0DA5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9D7F7BC1D8DAF1900A0DA5B /* Main.storyboard */; };
-		D9D7F7BF1D8DC32F00A0DA5B /* FDTake.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D7F7BE1D8DC32E00A0DA5B /* FDTake.framework */; };
-		D9D7F7C01D8DC32F00A0DA5B /* FDTake.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D9D7F7BE1D8DC32E00A0DA5B /* FDTake.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C4012D26238F0195005BC7B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4012D22238F0195005BC7B3 /* FDTakeResources.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C493CF94238EF7E5004F13C5;
+			remoteInfo = FDTakeResources;
+		};
+		C4012D28238F019F005BC7B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4012D22238F0195005BC7B3 /* FDTakeResources.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C493CF93238EF7E5004F13C5;
+			remoteInfo = FDTakeResources;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		C48C0E95238EFE96003871B2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				C4012D2A238F01A5005BC7B3 /* FDTakeResources.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D9D7F7C11D8DC32F00A0DA5B /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D9D7F7C01D8DC32F00A0DA5B /* FDTake.framework in Embed Frameworks */,
+				C4ED9847238EFA3F00691F4F /* FDTake.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C4012D22238F0195005BC7B3 /* FDTakeResources.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FDTakeResources.xcodeproj; path = ../Resources/FDTakeResources.xcodeproj; sourceTree = "<group>"; };
 		D95E1C411D88E71A00F94976 /* iOS Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95E1C441D88E71A00F94976 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D95E1C461D88E71A00F94976 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -40,7 +68,6 @@
 		D95E1C501D88E71A00F94976 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D95E1C891D88F39300F94976 /* FDTake.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FDTake.framework; path = "../build/Debug-iphoneos/FDTake.framework"; sourceTree = "<group>"; };
 		D9D7F7BC1D8DAF1900A0DA5B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		D9D7F7BE1D8DC32E00A0DA5B /* FDTake.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FDTake.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,21 +75,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D95E1C8A1D88F39300F94976 /* FDTake.framework in Frameworks */,
-				D9D7F7BF1D8DC32F00A0DA5B /* FDTake.framework in Frameworks */,
+				C4EEAC1D2385316D00177742 /* FDTake in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C4012D23238F0195005BC7B3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C4012D27238F0195005BC7B3 /* FDTakeResources.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		D95E1C381D88E71A00F94976 = {
 			isa = PBXGroup;
 			children = (
-				D9D7F7BE1D8DC32E00A0DA5B /* FDTake.framework */,
-				D95E1C431D88E71A00F94976 /* Source */,
+				D95E1C431D88E71A00F94976 /* Sources */,
 				D95E1C421D88E71A00F94976 /* Products */,
 				D95E1C881D88F39300F94976 /* Frameworks */,
+				C4012D22238F0195005BC7B3 /* FDTakeResources.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,7 +108,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D95E1C431D88E71A00F94976 /* Source */ = {
+		D95E1C431D88E71A00F94976 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				D95E1C441D88E71A00F94976 /* AppDelegate.swift */,
@@ -84,7 +118,7 @@
 				D9D7F7BC1D8DAF1900A0DA5B /* Main.storyboard */,
 				D95E1C501D88E71A00F94976 /* Info.plist */,
 			);
-			path = Source;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		D95E1C881D88F39300F94976 /* Frameworks */ = {
@@ -106,12 +140,17 @@
 				D95E1C3E1D88E71A00F94976 /* Frameworks */,
 				D95E1C3F1D88E71A00F94976 /* Resources */,
 				D9D7F7C11D8DC32F00A0DA5B /* Embed Frameworks */,
+				C48C0E95238EFE96003871B2 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C4012D29238F019F005BC7B3 /* PBXTargetDependency */,
 			);
 			name = "iOS Example";
+			packageProductDependencies = (
+				C4EEAC1C2385316D00177742 /* FDTake */,
+			);
 			productName = "iOS Example";
 			productReference = D95E1C411D88E71A00F94976 /* iOS Example.app */;
 			productType = "com.apple.product-type.application";
@@ -128,7 +167,6 @@
 				TargetAttributes = {
 					D95E1C401D88E71A00F94976 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 8Q693ZG5RN;
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
@@ -141,16 +179,50 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
+				he,
+				ar,
+				el,
+				"zh-Hans",
+				nb,
+				es,
+				da,
+				it,
+				sv,
+				"zh-Hant",
+				hu,
+				tr,
+				pl,
+				ru,
+				fr,
+				nl,
+				"pt-PT",
 			);
 			mainGroup = D95E1C381D88E71A00F94976;
 			productRefGroup = D95E1C421D88E71A00F94976 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C4012D23238F0195005BC7B3 /* Products */;
+					ProjectRef = C4012D22238F0195005BC7B3 /* FDTakeResources.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D95E1C401D88E71A00F94976 /* iOS Example */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C4012D27238F0195005BC7B3 /* FDTakeResources.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = FDTakeResources.bundle;
+			remoteRef = C4012D26238F0195005BC7B3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D95E1C3F1D88E71A00F94976 /* Resources */ = {
@@ -176,6 +248,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C4012D29238F019F005BC7B3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FDTakeResources;
+			targetProxy = C4012D28238F019F005BC7B3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		D95E1C4D1D88E71A00F94976 /* LaunchScreen.storyboard */ = {
@@ -296,7 +376,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -306,9 +387,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 8Q693ZG5RN;
-				INFOPLIST_FILE = Source/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.iOS-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -319,9 +403,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 8Q693ZG5RN;
-				INFOPLIST_FILE = Source/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.iOS-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -350,6 +437,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C4EEAC1C2385316D00177742 /* FDTake */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FDTake;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D95E1C391D88E71A00F94976 /* Project object */;
 }

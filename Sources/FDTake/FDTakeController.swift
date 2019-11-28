@@ -1,6 +1,6 @@
 //
 //  FDTakeController.swift
-//  FDTakeExample
+//  FDTake
 //
 //  Copyright © 2015 William Entriken. All rights reserved.
 //
@@ -9,46 +9,8 @@ import Foundation
 import MobileCoreServices
 import UIKit
 
-/// User interface strings
-fileprivate enum FDTakeControllerLocalizableStrings: String {
-    /// Decline to proceed with operation
-    case cancel = "cancel"
-    
-    /// Option to select photo from library
-    case chooseFromLibrary = "chooseFromLibrary"
-    
-    /// Option to select photo from photo roll
-    case chooseFromPhotoRoll = "chooseFromPhotoRoll"
-    
-    /// There are no sources available to select a photo
-    case noSources = "noSources"
-    
-    /// Option to take photo using camera
-    case takePhoto = "takePhoto"
-    
-    /// Option to take video using camera
-    case takeVideo = "takeVideo"
-    
-    public func comment() -> String {
-        switch self {
-        case .cancel:
-            return "Decline to proceed with operation"
-        case .chooseFromLibrary:
-            return "Option to select photo/video from library"
-        case .chooseFromPhotoRoll:
-            return "Option to select photo from photo roll"
-        case .noSources:
-            return "There are no sources available to select a photo"
-        case .takePhoto:
-            return "Option to take photo using camera"
-        case .takeVideo:
-            return "Option to take video using camera"
-        }
-    }
-}
-
 /// A class for select and taking photos
-open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINavigationControllerDelegate*/ {
+open class FDTakeController: NSObject {
 
     // MARK: - Initializers & Class Convenience Methods
 
@@ -182,13 +144,8 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
     
     // MARK: - Localization
 
-    private func localizeString(_ string:FDTakeControllerLocalizableStrings) -> String {
-        let bundle = Bundle(for: type(of: self))
-        //let stringsURL = bundle.resourceURL!.appendingPathComponent("Localizable.strings")
-        let bundleLocalization = bundle.localizedString(forKey: string.rawValue, value: nil, table: nil)
-        //let a = NSLocal
-        //let bundleLocalization = NSLocalizedString(string.rawValue, tableName: nil, bundle: bundle, value: string.rawValue, comment: string.comment())
-        
+    private func localizedString(for string: FDTakeControllerLocalizableStrings) -> String {
+        let bundleLocalization = string.localizedString
         
         switch string {
         case .cancel:
@@ -229,12 +186,12 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
         }
 
         guard titleToSource.count > 0 else {
-            let str = localizeString(.noSources)
+            let str = localizedString(for: .noSources)
 
             //TODO: Encapsulate this
             //TODO: These has got to be a better way to do this
             let alert = UIAlertController(title: nil, message: str, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: localizeString(.cancel), style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: localizedString(for: .cancel), style: .default, handler: nil))
 
             // http://stackoverflow.com/a/34487871/300224
             let alertWindow = UIWindow(frame: UIScreen.main.bounds)
@@ -252,7 +209,7 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
 
         alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         for (title, source) in titleToSource {
-            let action = UIAlertAction(title: localizeString(title), style: .default) {
+            let action = UIAlertAction(title: localizedString(for: title), style: .default) {
                 (UIAlertAction) -> Void in
                 self.imagePicker.sourceType = source
                 if source == .camera && self.defaultsToFrontCamera && UIImagePickerController.isCameraDeviceAvailable(.front) {
@@ -287,7 +244,7 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
             }
             alertController!.addAction(action)
         }
-        let cancelAction = UIAlertAction(title: localizeString(.cancel), style: .cancel) {
+        let cancelAction = UIAlertAction(title: localizedString(for: .cancel), style: .cancel) {
             (UIAlertAction) -> Void in
             self.didCancel?()
         }
@@ -314,19 +271,17 @@ open class FDTakeController: NSObject /* , UIImagePickerControllerDelegate, UINa
 }
 
 extension FDTakeController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    /// Conformance for ImagePicker delegate
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        // Local variable inserted by Swift 4.2 migrator.
-        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
-
+    public func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+    ) {
         UIApplication.shared.isStatusBarHidden = true
-        let mediaType: String = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.mediaType)] as! String
-        var imageToSave: UIImage
-        // Handle a still image capture
-        if mediaType == kUTTypeImage as String {
-            if let editedImage = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage {
+        switch info[.mediaType] as! CFString {
+        case kUTTypeImage:
+            let imageToSave: UIImage
+            if let editedImage = info[.editedImage] as? UIImage {
                 imageToSave = editedImage
-            } else if let originalImage = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
+            } else if let originalImage = info[.originalImage] as? UIImage {
                 imageToSave = originalImage
             } else {
                 self.didCancel?()
@@ -336,8 +291,10 @@ extension FDTakeController : UIImagePickerControllerDelegate, UINavigationContro
             if UI_USER_INTERFACE_IDIOM() == .pad {
                 self.imagePicker.dismiss(animated: true)
             }
-        } else if mediaType == kUTTypeMovie as String {
-            self.didGetVideo?(info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.mediaURL)] as! URL, info)
+        case kUTTypeMovie:
+             self.didGetVideo?(info[.mediaURL] as! URL, info)
+        default:
+            break
         }
 
         picker.dismiss(animated: true, completion: nil)
@@ -348,16 +305,6 @@ extension FDTakeController : UIImagePickerControllerDelegate, UINavigationContro
         UIApplication.shared.isStatusBarHidden = true
         picker.dismiss(animated: true, completion: nil)
         self.didDeny?()
-    }
-    
-    // Helper function inserted by Swift 4.2 migrator.
-    private func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
-        return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
-    }
-    
-    // Helper function inserted by Swift 4.2 migrator.
-    private func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
-        return input.rawValue
     }
 }
 
