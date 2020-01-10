@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   s.version      = "3.0.0"
   s.summary      = "Easily take a photo or video or choose from library"
   s.description  = <<-DESC
-                   `FDTake` helps you quickly have the user take or choose an existing photo or video.
+                   `FDTake` helps you quickly to have the user take or choose an existing photo or video.
                    DESC
   s.homepage     = "https://github.com/fulldecent/FDTake"
   s.screenshots  = "https://i.imgur.com/SpSJzmS.png"

@@ -9,7 +9,7 @@ When you commit a change, please add a note to [CHANGELOG.md](CHANGELOG.md).
 ## Release Process
 
 1. Confirm the build is [passing in travis](https://travis-ci.org/fulldecent/FDTake)
-   1. This automatically checks the Podfile is building
+   1. This automatically checks that the Podfile is building
 2. Push a release commit
    1. Create a new Master section at the top
    2. Rename the old Master section like:

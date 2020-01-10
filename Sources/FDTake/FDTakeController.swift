@@ -9,7 +9,7 @@ import Foundation
 import MobileCoreServices
 import UIKit
 
-/// A class for select and taking photos
+/// A class for selecting and taking photos
 open class FDTakeController: NSObject {
 
     // MARK: - Initializers & Class Convenience Methods
@@ -54,19 +54,19 @@ open class FDTakeController: NSObject {
     /// Enable selfie mode by default
     open var defaultsToFrontCamera = false
 
-    /// The UIBarButtonItem to present from (may be replaced by a overloaded methods)
+    /// The UIBarButtonItem to present from (may be replaced by overloaded methods)
     open var presentingBarButtonItem: UIBarButtonItem? = nil
 
-    /// The UIView to present from (may be replaced by a overloaded methods)
+    /// The UIView to present from (may be replaced by overloaded methods)
     open var presentingView: UIView? = nil
 
-    /// The UIRect to present from (may be replaced by a overloaded methods)
+    /// The UIRect to present from (may be replaced by overloaded methods)
     open var presentingRect: CGRect? = nil
 
-    /// The UITabBar to present from (may be replaced by a overloaded methods)
+    /// The UITabBar to present from (may be replaced by overloaded methods)
     open var presentingTabBar: UITabBar? = nil
 
-    /// The UIViewController to present from (may be replaced by a overloaded methods)
+    /// The UIViewController to present from (may be replaced by overloaded methods)
     open lazy var presentingViewController: UIViewController = {
         return UIApplication.shared.keyWindow!.rootViewController!
     }()
@@ -189,7 +189,7 @@ open class FDTakeController: NSObject {
             let str = localizedString(for: .noSources)
 
             //TODO: Encapsulate this
-            //TODO: These has got to be a better way to do this
+            //TODO: There has got to be a better way to do this
             let alert = UIAlertController(title: nil, message: str, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: localizedString(for: .cancel), style: .default, handler: nil))
 

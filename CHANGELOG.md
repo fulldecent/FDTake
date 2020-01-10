@@ -24,7 +24,7 @@ All notable changes to this project will be documented in this file.
 
 #### Fixed
 
-- Fixed resources includes for the Podspec 
+- Fixed resources including the Podspec 
   - Added by [JoelGerboreLaser](https://github.com/JoelGerboreLaser) in regards to issue
   [#115](https://github.com/fulldecent/FDTake/pull/115).
 
@@ -43,7 +43,7 @@ All notable changes to this project will be documented in this file.
 
 - Refactored to remove deprecated popover controller
 - Updated to Xcode recommended settings
-- Update application strings to follow Apple HIG
+- Updated application strings to follow Apple HIG
 
 ------
 
@@ -120,7 +120,7 @@ Released on 2016-06-27.
   [#93](https://github.com/fulldecent/FDBarGuage/issues/93).
 
 #### Fixed
-- Crash of the iPad example when present from window is tapped
+- Crash of the iPad example when present window is tapped
   - Added by [Lily](https://github.com/Lily418) in regards to issue
   [#84](https://github.com/fulldecent/FDTake/issues/84)
 
@@ -154,5 +154,5 @@ Released on 2016-02-03.
 Released on 2015-12-28.
 
 #### Fixed
-- Example project storyboard
+- Example of a project storyboard
   - Added by [William Entriken](https://github.com/fulldecent)

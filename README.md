@@ -57,19 +57,19 @@ open var iPadUsesFullScreenCamera: Bool
 /// Enable selfie mode by default
 open var defaultsToFrontCamera: Bool
 
-/// The UIBarButtonItem to present from (may be replaced by a overloaded methods)
+/// The UIBarButtonItem to present from (may be replaced by overloaded methods)
 open var presentingBarButtonItem: UIBarButtonItem?
 
-/// The UIView to present from (may be replaced by a overloaded methods)
+/// The UIView to present from (may be replaced by overloaded methods)
 open var presentingView: UIView?
 
-/// The UIRect to present from (may be replaced by a overloaded methods)
+/// The UIRect to present from (may be replaced by overloaded methods)
 open var presentingRect: CGRect?
 
-/// The UITabBar to present from (may be replaced by a overloaded methods)
+/// The UITabBar to present from (may be replaced by overloaded methods)
 open var presentingTabBar: UITabBar?
 
-/// The UIViewController to present from (may be replaced by a overloaded methods)
+/// The UIViewController to present from (may be replaced by overloaded methods)
 open lazy var presentingViewController: UIViewController { get set }
 
 /// A photo was selected
@@ -78,7 +78,7 @@ open var didGetPhoto: ((_ photo: UIImage, _ info: [AnyHashable : Any]) -> Void)?
 /// A video was selected
 open var didGetVideo: ((_ video: URL, _ info: [AnyHashable : Any]) -> Void)?
 
-/// The user selected did not attempt to select a photo
+/// The user did not attempt to select a photo
 open var didDeny: (() -> Void)?
 
 /// The user started selecting a photo or took a photo and then hit cancel
@@ -160,7 +160,7 @@ Other available options are documented at <a href="http://cocoadocs.org/docsets/
 
 ## Installation
 
-Add this to your project using Swift Package Manager. In Xcode that is simply: File > Swift Packages > Add Package Dependency... and you're done. Alternative installations options are shown below for legacy projects.
+Add this to your project using Swift Package Manager. In Xcode that is simply: File > Swift Packages > Add Package Dependency... and you're done. Alternative installation options are shown below for legacy projects.
 
 ### CocoaPods
 
@@ -193,4 +193,4 @@ FDTake is available under the MIT license. See the LICENSE file for more info.
 
 ## Contributing
 
-This project's layout is based on https://github.com/fulldecent/swift4-module-template If you would like to change the layout, please change that project FIRST. Also you may appreciate that project has "recipes" -- you don't just change code you explain why you are doing things. As a maintainer this makes my job MUCH simpler. In a similar respect, if you are introducing non-minor changes, it will be VERY helpful if you could please reference to another project (like AlamoFire) that has seen and discussed the types of design challenges you are touching.) Thanks again and we all really do appreciate your contributions.
+This project's layout is based on https://github.com/fulldecent/swift4-module-template If you would like to change the layout, please change that project FIRST. Also you may appreciate that project has "recipes" -- you don't just change the code, you explain why you are doing things. As a maintainer this makes my job MUCH simpler. In a similar respect, if you are introducing non-minor changes, it will be VERY helpful if you could please reference to another project (like AlamoFire) that has seen and discussed the types of design challenges you are touching.) Thanks again and we all really do appreciate your contributions.
