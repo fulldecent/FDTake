@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/fulldecent/FDBarGuage/compare/3.0.0...master)
 
+#### Updated
+
+- Now targeting iOS 10.3.3 or later
+
 #### KNOWN ISSUES
 
 - Localization is broken, discuss at https://github.com/fulldecent/FDTake/pull/99
