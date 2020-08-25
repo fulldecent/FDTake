@@ -27,6 +27,9 @@ enum FDTakeControllerLocalizableStrings: String {
     /// Option to take video using camera
     case takeVideo = "takeVideo"
     
+    /// Option to choose last taken photo or video
+    case lastTakenMedia = "lastTakenMedia"
+
     var defaultLocalizedString: String {
        switch self {
         case .cancel:
@@ -41,6 +44,8 @@ enum FDTakeControllerLocalizableStrings: String {
             return "📷"
         case .takeVideo:
             return "🎥"
+       case .lastTakenMedia:
+            return "📷"
         }
     }
     
@@ -67,6 +72,8 @@ enum FDTakeControllerLocalizableStrings: String {
             return "Option to take photo using camera"
         case .takeVideo:
             return "Option to take video using camera"
+        case .lastTakenMedia:
+            return "Option to choose last taken video or photo"
         }
     }
 }

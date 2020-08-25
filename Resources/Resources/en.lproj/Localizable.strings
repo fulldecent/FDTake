@@ -15,3 +15,5 @@
 
 /* Option to take video using camera */
 "takeVideo" = "Take Video";
+
+"lastTakenMedia" = "Last photo or video taken";

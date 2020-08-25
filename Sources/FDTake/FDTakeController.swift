@@ -8,6 +8,7 @@
 import Foundation
 import MobileCoreServices
 import UIKit
+import Photos
 
 /// A class for selecting and taking photos
 open class FDTakeController: NSObject {
@@ -79,6 +80,9 @@ open class FDTakeController: NSObject {
 
     /// A video was selected
     open var didGetVideo: ((_ video: URL, _ info: [AnyHashable: Any]) -> Void)?
+    
+    // Last media fetched
+    open var didGetLastMedia: ((PHAsset?) -> Void)?
 
     /// The user did not attempt to select a photo
     open var didDeny: (() -> Void)?
@@ -109,6 +113,9 @@ open class FDTakeController: NSObject {
 
     /// Custom UI text (skips localization)
     open var takeVideoText: String? = nil
+
+    /// Custom UI text (skips localization)
+    open var lastVideoOrPhoto: String? = nil
 
 
     // MARK: - Private
@@ -141,7 +148,15 @@ open class FDTakeController: NSObject {
         } while true
     }
 
-    
+    private func fetchLatestMedia() -> PHAsset? {
+        var asset: PHAsset?
+        let options = PHFetchOptions()
+        options.includeAssetSourceTypes = .typeUserLibrary
+        PHAsset.fetchAssets(with: options).enumerateObjects(options: .concurrent) { (assetReturned, _, _) in
+            asset = assetReturned
+        }
+        return asset
+    }
     // MARK: - Localization
 
     private func localizedString(for string: FDTakeControllerLocalizableStrings) -> String {
@@ -160,6 +175,8 @@ open class FDTakeController: NSObject {
             return self.takePhotoText ?? bundleLocalization
         case .takeVideo:
             return self.takeVideoText ?? bundleLocalization
+        case .lastTakenMedia:
+            return self.lastVideoOrPhoto ?? bundleLocalization
         }
     }
 
@@ -180,6 +197,7 @@ open class FDTakeController: NSObject {
         if self.allowsSelectFromLibrary {
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 titleToSource.append((buttonTitle: .chooseFromLibrary, source: .photoLibrary))
+                titleToSource.append((buttonTitle: .lastTakenMedia, source: .photoLibrary))
             } else if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
                 titleToSource.append((buttonTitle: .chooseFromPhotoRoll, source: .savedPhotosAlbum))
             }
@@ -226,21 +244,27 @@ open class FDTakeController: NSObject {
                 }
                 self.imagePicker.mediaTypes = mediaTypes
 
-                //TODO: Need to encapsulate popover code
-                var popOverPresentRect: CGRect = self.presentingRect ?? CGRect(x: 0, y: 0, width: 1, height: 1)
-                if popOverPresentRect.size.height == 0 || popOverPresentRect.size.width == 0 {
-                    popOverPresentRect = CGRect(x: 0, y: 0, width: 1, height: 1)
-                }
-                let topVC = self.topViewController(rootViewController: self.presentingViewController)
-
-                if UI_USER_INTERFACE_IDIOM() == .phone || (source == .camera && self.iPadUsesFullScreenCamera) {
-                    topVC.present(self.imagePicker, animated: true, completion: nil)
+                if title == .lastTakenMedia {
+                    let media = self.fetchLatestMedia()
+                    self.didGetLastMedia?(media)
                 } else {
-                    // On iPad use pop-overs.
-                    self.imagePicker.modalPresentationStyle = .popover
-                    self.imagePicker.popoverPresentationController?.sourceRect = popOverPresentRect
-                    topVC.present(self.imagePicker, animated: true, completion: nil)
+                    //TODO: Need to encapsulate popover code
+                    var popOverPresentRect: CGRect = self.presentingRect ?? CGRect(x: 0, y: 0, width: 1, height: 1)
+                    if popOverPresentRect.size.height == 0 || popOverPresentRect.size.width == 0 {
+                        popOverPresentRect = CGRect(x: 0, y: 0, width: 1, height: 1)
+                    }
+                    let topVC = self.topViewController(rootViewController: self.presentingViewController)
+                    
+                    if UI_USER_INTERFACE_IDIOM() == .phone || (source == .camera && self.iPadUsesFullScreenCamera) {
+                        topVC.present(self.imagePicker, animated: true, completion: nil)
+                    } else {
+                        // On iPad use pop-overs.
+                        self.imagePicker.modalPresentationStyle = .popover
+                        self.imagePicker.popoverPresentationController?.sourceRect = popOverPresentRect
+                        topVC.present(self.imagePicker, animated: true, completion: nil)
+                    }
                 }
+               
             }
             alertController!.addAction(action)
         }
