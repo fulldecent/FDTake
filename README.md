@@ -155,7 +155,6 @@ Other available options are documented at <a href="http://cocoadocs.org/docsets/
  * Compile testing running on Travis CI
  * In progress: functional test cases ([please help](https://github.com/fulldecent/FDTake/issues/72))
  * In progress: UI test cases ([please help](https://github.com/fulldecent/FDTake/issues/72))
- * In progress: select last photo used ([please help](https://github.com/fulldecent/FDTake/issues/22))
 
 
 ## Installation
