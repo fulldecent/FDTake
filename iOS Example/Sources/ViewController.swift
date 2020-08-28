@@ -8,12 +8,15 @@
 
 import UIKit
 import FDTake
+import Photos
 
 class ViewController: UIViewController {
     
     @IBOutlet weak var languageLabel: UILabel!
     var fdTakeController = FDTakeController()
-    
+    var player = AVPlayer()
+    var playerLayer = AVPlayerLayer()
+
     @IBOutlet weak var allowsPhoto: UISwitch!
     @IBOutlet weak var allowsVideo: UISwitch!
     @IBOutlet weak var allowsTake: UISwitch!
@@ -21,6 +24,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var allowsEditing: UISwitch!
     @IBOutlet weak var defaultsToFrontCamera: UISwitch!
     @IBOutlet weak var iPadFullScreenCamera: UISwitch!
+    @IBOutlet weak var fetchedImageView: UIImageView!
+    @IBOutlet weak var fetchedVideoView: UIView!
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -75,6 +80,30 @@ class ViewController: UIViewController {
             alertWindow.windowLevel = UIWindow.Level.alert + 1;
             alertWindow.makeKeyAndVisible()
             alertWindow.rootViewController?.present(alert, animated: true, completion: nil)
+        }
+        fdTakeController.didGetLastMedia = { [weak self] media in
+            guard let mediaValue = media, let `self` = self else { return }
+            if mediaValue.mediaType == .image {
+                PHImageManager.default().requestImage(for: mediaValue, targetSize: self.fetchedImageView.frame.size, contentMode: .aspectFill, options: nil) { (image, info) in
+                    self.fetchedImageView.image = image
+                }
+            } else if mediaValue.mediaType == .video {
+                PHImageManager.default().requestAVAsset(forVideo: mediaValue, options: nil) { (asset, audio, info) in
+                    guard let urlAsset = asset as? AVURLAsset else {return}
+                    DispatchQueue.main.async {
+                        self.player = AVPlayer(url: urlAsset.url)
+                        self.playerLayer = AVPlayerLayer(player: self.player)
+                        self.playerLayer.frame = self.fetchedVideoView.bounds
+                        self.playerLayer.removeFromSuperlayer()
+                        self.fetchedVideoView.layer.addSublayer(self.playerLayer)
+                        self.player.play()
+                    }
+                    
+                }
+            } else {
+                print("do nothing")
+            }
+            
         }
     }
     
