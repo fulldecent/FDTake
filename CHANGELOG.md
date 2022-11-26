@@ -4,11 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [Master](https://github.com/fulldecent/FDBarGuage/compare/3.0.0...master)
+## [Main](https://github.com/fulldecent/FDBarGuage/compare/3.0.1...main)
+
+## [3.0.1](https://github.com/fulldecent/FDBarGuage/compare/3.0.1)
 
 #### Updated
 
-- Now targeting iOS 10.3.3 or later
+- Now uses a presenting view controller
 
 #### KNOWN ISSUES
 
