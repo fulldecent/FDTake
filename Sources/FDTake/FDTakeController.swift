@@ -236,10 +236,10 @@ open class FDTakeController: NSObject {
                 // set the media type: photo or video
                 self.imagePicker.allowsEditing = self.allowsEditing
                 var mediaTypes = [String]()
-                if self.allowsPhoto {
+                if self.allowsPhoto && title == .takePhoto {
                     mediaTypes.append(String(kUTTypeImage))
                 }
-                if self.allowsVideo {
+                if self.allowsVideo && title == .takeVideo {
                     mediaTypes.append(String(kUTTypeMovie))
                 }
                 self.imagePicker.mediaTypes = mediaTypes
