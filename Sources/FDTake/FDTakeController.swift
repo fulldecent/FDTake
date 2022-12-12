@@ -261,6 +261,7 @@ open class FDTakeController: NSObject {
                         // On iPad use pop-overs.
                         self.imagePicker.modalPresentationStyle = .popover
                         self.imagePicker.popoverPresentationController?.sourceRect = popOverPresentRect
+                        self.imagePicker.popoverPresentationController?.sourceView = self.presentingView
                         topVC.present(self.imagePicker, animated: true, completion: nil)
                     }
                 }
