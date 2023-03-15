@@ -197,7 +197,7 @@ open class FDTakeController: NSObject {
         if self.allowsSelectFromLibrary {
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 titleToSource.append((buttonTitle: .chooseFromLibrary, source: .photoLibrary))
-                titleToSource.append((buttonTitle: .lastTakenMedia, source: .photoLibrary))
+                // titleToSource.append((buttonTitle: .lastTakenMedia, source: .photoLibrary))
             } else if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
                 titleToSource.append((buttonTitle: .chooseFromPhotoRoll, source: .savedPhotosAlbum))
             }
@@ -236,12 +236,18 @@ open class FDTakeController: NSObject {
                 // set the media type: photo or video
                 self.imagePicker.allowsEditing = self.allowsEditing
                 var mediaTypes = [String]()
-                if self.allowsPhoto {
+                if self.allowsPhoto && title == .takePhoto {
+                    // take photo choisen
                     mediaTypes.append(String(kUTTypeImage))
-                }
-                if self.allowsVideo {
+                } else if self.allowsVideo && title == .takeVideo {
+                    // take video choisen
+                    mediaTypes.append(String(kUTTypeMovie))
+                } else if self.allowsTake {
+                    // take from library
+                    mediaTypes.append(String(kUTTypeImage))
                     mediaTypes.append(String(kUTTypeMovie))
                 }
+                
                 self.imagePicker.mediaTypes = mediaTypes
 
                 if title == .lastTakenMedia {
@@ -261,6 +267,7 @@ open class FDTakeController: NSObject {
                         // On iPad use pop-overs.
                         self.imagePicker.modalPresentationStyle = .popover
                         self.imagePicker.popoverPresentationController?.sourceRect = popOverPresentRect
+                        self.imagePicker.popoverPresentationController?.sourceView = self.presentingView
                         topVC.present(self.imagePicker, animated: true, completion: nil)
                     }
                 }
