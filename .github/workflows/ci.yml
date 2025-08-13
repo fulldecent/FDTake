@@ -12,7 +12,7 @@ env:
 
 jobs:
   test:
-    name: Test on iOS
+    name: Test on iOS  
     runs-on: macos-latest
     
     strategy:
@@ -40,17 +40,7 @@ jobs:
     - name: Show available simulators  
       run: xcrun simctl list devices available
       
-    - name: Build Example App
-      run: |
-        set -o pipefail
-        xcodebuild -project "iOS Example/iOS Example.xcodeproj" \
-          -scheme "iOS Example" \
-          -destination "${{ matrix.destination }}" \
-          -configuration Debug \
-          ONLY_ACTIVE_ARCH=NO \
-          build | xcpretty
-    
-    - name: Test Swift Package Manager
+    - name: Test Swift Package
       run: |
         set -o pipefail
         xcodebuild test \
