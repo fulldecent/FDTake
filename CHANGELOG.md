@@ -13,6 +13,10 @@ All notable changes to this project will be documented in this file.
 - Updated build environment from Xcode 11.2 to Xcode 15.4
 - Updated iOS testing targets from iOS 13.2.2 to iOS 17.5, 16.4, and 14.5
 - Updated Swift Package Manager tools version from 5.1 to 5.7
+- **BREAKING:** Removed CocoaPods and Carthage support - use Swift Package Manager instead
+- **BREAKING:** Removed Xcode workspace - use the project file directly
+- Fixed MobileCoreServices import issue by migrating to UniformTypeIdentifiers framework
+- Updated CI to use Xcode project instead of workspace
 
 #### KNOWN ISSUES
 

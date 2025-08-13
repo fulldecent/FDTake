@@ -1,9 +1,6 @@
 # FDTake
 
 [![CI Status](https://github.com/fulldecent/FDTake/workflows/CI/badge.svg)](https://github.com/fulldecent/FDTake/actions)
-[![Version](https://img.shields.io/cocoapods/v/FDTake.svg?style=flat)](http://cocoapods.org/pods/FDTake)
-[![License](https://img.shields.io/cocoapods/l/FDTake.svg?style=flat)](http://cocoapods.org/pods/FDTake)
-[![Platform](https://img.shields.io/cocoapods/p/FDTake.svg?style=flat)](http://cocoapods.org/pods/FDTake)
 [![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=fulldecent/FDTake)](http://clayallsopp.github.io/readme-score?url=fulldecent/FDTake)
 
 Easily take a photo or video or choose from library
@@ -12,7 +9,7 @@ Easily take a photo or video or choose from library
 
 ## Usage
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+To run the example project, clone the repo and open `iOS Example/iOS Example.xcodeproj`.
 
 To use it in your project, add an `FDTakeController` to your view controller and implement:
 
@@ -112,9 +109,6 @@ open func present()
 open func dismiss()
 ```
 
-Other available options are documented at <a href="http://cocoadocs.org/docsets/FDTake/">CocoaDocs for FDTake</a>.
-
-
 ## How it works
 
  1. See if device has camera
@@ -159,22 +153,7 @@ Other available options are documented at <a href="http://cocoadocs.org/docsets/
 
 ## Installation
 
-Add this to your project using Swift Package Manager. In Xcode that is simply: File > Swift Packages > Add Package Dependency... and you're done. Alternative installation options are shown below for legacy projects.
-
-### CocoaPods
-
-If you are already using [CocoaPods](http://cocoapods.org), just add 'FDTake' to your `Podfile` then run `pod install`.
-
-### Carthage
-
-If you are already using [Carthage](https://github.com/Carthage/Carthage), just add to your `Cartfile`:
-
-```ogdl
-github "fulldecent/FDTake"
-```
-
-Then run `carthage update` to build the framework and drag the built `FDTake`.framework into your Xcode project.
-
+Add this to your project using Swift Package Manager. In Xcode that is simply: File > Swift Packages > Add Package Dependency... and you're done.
 
 ## Author
 
@@ -184,7 +163,7 @@ William Entriken, github.com@phor.net
 
 This is a mature project and we do not expect to add new features unless something has already become state-of-the-art in other applications. Please be prepared to cite screenshots of other apps before making a feature request.
 
-We support targets for the latest released versions of Xcode, Carthage, CocoaPods and Swift Package Manager. If there are incompatabilities, for example CocoaPods not supporting the latest version of Xcode, then we will only support the latest released versions/combinations that are supported. If you would like to support pre-release versions of these packages, please open a pull request, not an issue.
+We support targets for the latest released versions of Xcode and Swift Package Manager. If there are incompatibilities, we will only support the latest released versions/combinations that are supported. If you would like to support pre-release versions of these packages, please open a pull request, not an issue.
 
 ## License
 
