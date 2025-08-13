@@ -40,28 +40,6 @@ jobs:
     - name: Show available simulators  
       run: xcrun simctl list devices available
       
-    - name: Build and Test Framework (Debug)
-      run: |
-        set -o pipefail
-        xcodebuild -project "iOS Example/iOS Example.xcodeproj" \
-          -scheme "FDTake" \
-          -destination "${{ matrix.destination }}" \
-          -configuration Debug \
-          ONLY_ACTIVE_ARCH=NO \
-          ENABLE_TESTABILITY=YES \
-          test | xcpretty
-      
-    - name: Build and Test Framework (Release)
-      run: |
-        set -o pipefail
-        xcodebuild -project "iOS Example/iOS Example.xcodeproj" \
-          -scheme "FDTake" \
-          -destination "${{ matrix.destination }}" \
-          -configuration Release \
-          ONLY_ACTIVE_ARCH=NO \
-          ENABLE_TESTABILITY=YES \
-          test | xcpretty
-          
     - name: Build Example App
       run: |
         set -o pipefail
@@ -71,4 +49,8 @@ jobs:
           -configuration Debug \
           ONLY_ACTIVE_ARCH=NO \
           build | xcpretty
+    
+    - name: Test Swift Package Manager
+      run: |
+        swift test --skip-build
 

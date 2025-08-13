@@ -1,9 +1,6 @@
 # FDTake
 
 [![CI Status](https://github.com/fulldecent/FDTake/workflows/CI/badge.svg)](https://github.com/fulldecent/FDTake/actions)
-[![Version](https://img.shields.io/cocoapods/v/FDTake.svg?style=flat)](http://cocoapods.org/pods/FDTake)
-[![License](https://img.shields.io/cocoapods/l/FDTake.svg?style=flat)](http://cocoapods.org/pods/FDTake)
-[![Platform](https://img.shields.io/cocoapods/p/FDTake.svg?style=flat)](http://cocoapods.org/pods/FDTake)
 [![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=fulldecent/FDTake)](http://clayallsopp.github.io/readme-score?url=fulldecent/FDTake)
 
 Easily take a photo or video or choose from library
@@ -12,7 +9,7 @@ Easily take a photo or video or choose from library
 
 ## Usage
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+To run the example project, clone the repo and open `iOS Example/iOS Example.xcodeproj`.
 
 To use it in your project, add an `FDTakeController` to your view controller and implement:
 
