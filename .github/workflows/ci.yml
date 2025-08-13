@@ -43,7 +43,7 @@ jobs:
     - name: Build and Test Framework (Debug)
       run: |
         set -o pipefail
-        xcodebuild -workspace "iOS Example/iOS Example.xcworkspace" \
+        xcodebuild -project "iOS Example/iOS Example.xcodeproj" \
           -scheme "FDTake" \
           -destination "${{ matrix.destination }}" \
           -configuration Debug \
@@ -54,7 +54,7 @@ jobs:
     - name: Build and Test Framework (Release)
       run: |
         set -o pipefail
-        xcodebuild -workspace "iOS Example/iOS Example.xcworkspace" \
+        xcodebuild -project "iOS Example/iOS Example.xcodeproj" \
           -scheme "FDTake" \
           -destination "${{ matrix.destination }}" \
           -configuration Release \
@@ -65,32 +65,10 @@ jobs:
     - name: Build Example App
       run: |
         set -o pipefail
-        xcodebuild -workspace "iOS Example/iOS Example.xcworkspace" \
+        xcodebuild -project "iOS Example/iOS Example.xcodeproj" \
           -scheme "iOS Example" \
           -destination "${{ matrix.destination }}" \
           -configuration Debug \
           ONLY_ACTIVE_ARCH=NO \
           build | xcpretty
 
-  cocoapods:
-    name: CocoaPods Validation
-    runs-on: macos-latest
-    
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      
-    - name: Setup Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '3.0'
-        bundler-cache: true
-        
-    - name: Install CocoaPods
-      run: gem install cocoapods
-      
-    - name: Lint Podspec
-      run: pod lib lint --allow-warnings
-      
-    - name: Check CocoaPods Quality
-      run: ruby Tests/CheckCocoaPodsQualityIndexes.rb FDTake

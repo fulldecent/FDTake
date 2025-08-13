@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import MobileCoreServices
 import UIKit
 import Photos
+import UniformTypeIdentifiers
 
 /// A class for selecting and taking photos
 open class FDTakeController: NSObject {
@@ -237,10 +237,10 @@ open class FDTakeController: NSObject {
                 self.imagePicker.allowsEditing = self.allowsEditing
                 var mediaTypes = [String]()
                 if self.allowsPhoto {
-                    mediaTypes.append(String(kUTTypeImage))
+                    mediaTypes.append(UTType.image.identifier)
                 }
                 if self.allowsVideo {
-                    mediaTypes.append(String(kUTTypeMovie))
+                    mediaTypes.append(UTType.movie.identifier)
                 }
                 self.imagePicker.mediaTypes = mediaTypes
 
@@ -300,8 +300,8 @@ extension FDTakeController : UIImagePickerControllerDelegate, UINavigationContro
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
     ) {
         UIApplication.shared.isStatusBarHidden = true
-        switch info[.mediaType] as! CFString {
-        case kUTTypeImage:
+        switch info[.mediaType] as! String {
+        case UTType.image.identifier:
             let imageToSave: UIImage
             if let editedImage = info[.editedImage] as? UIImage {
                 imageToSave = editedImage
@@ -315,7 +315,7 @@ extension FDTakeController : UIImagePickerControllerDelegate, UINavigationContro
             if UI_USER_INTERFACE_IDIOM() == .pad {
                 self.imagePicker.dismiss(animated: true)
             }
-        case kUTTypeMovie:
+        case UTType.movie.identifier:
              self.didGetVideo?(info[.mediaURL] as! URL, info)
         default:
             break
