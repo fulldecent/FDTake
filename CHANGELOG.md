@@ -9,6 +9,10 @@ All notable changes to this project will be documented in this file.
 #### Updated
 
 - Now targeting iOS 10.3.3 or later
+- Migrated from Travis CI to GitHub Actions for continuous integration
+- Updated build environment from Xcode 11.2 to Xcode 15.4
+- Updated iOS testing targets from iOS 13.2.2 to iOS 17.5, 16.4, and 14.5
+- Updated Swift Package Manager tools version from 5.1 to 5.7
 
 #### KNOWN ISSUES
 
