@@ -1,6 +1,6 @@
 # FDTake
 
-[![CI Status](http://img.shields.io/travis/fulldecent/FDTake.svg?style=flat)](https://travis-ci.org/fulldecent/FDTake)
+[![CI Status](https://github.com/fulldecent/FDTake/workflows/CI/badge.svg)](https://github.com/fulldecent/FDTake/actions)
 [![Version](https://img.shields.io/cocoapods/v/FDTake.svg?style=flat)](http://cocoapods.org/pods/FDTake)
 [![License](https://img.shields.io/cocoapods/l/FDTake.svg?style=flat)](http://cocoapods.org/pods/FDTake)
 [![Platform](https://img.shields.io/cocoapods/p/FDTake.svg?style=flat)](http://cocoapods.org/pods/FDTake)
@@ -152,7 +152,7 @@ Other available options are documented at <a href="http://cocoadocs.org/docsets/
    - Hungarian (thanks Andras Kadar)
    - Please help translate <a href="https://github.com/fulldecent/FDTake/blob/master/FDTakeExample/en.lproj/FDTake.strings">`FDTake.strings`</a> to more languages
  * Pure Swift support and iOS 8+ required
- * Compile testing running on Travis CI
+ * Compile testing running on GitHub Actions
  * In progress: functional test cases ([please help](https://github.com/fulldecent/FDTake/issues/72))
  * In progress: UI test cases ([please help](https://github.com/fulldecent/FDTake/issues/72))
 
