@@ -18,8 +18,8 @@ jobs:
     strategy:
       matrix:
         destination:
-          - "OS=18.5,name=iPhone 15 Pro"
-          - "OS=18.5,name=iPhone 15"
+          - "OS=18.5,name=iPhone 16 Pro"
+          - "OS=18.5,name=iPhone 16"
           - "OS=18.5,name=iPhone SE (3rd generation)"
 
     steps:
