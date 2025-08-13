@@ -18,9 +18,9 @@ jobs:
     strategy:
       matrix:
         destination:
-          - "OS=18.0,name=iPhone 15"
-          - "OS=17.4,name=iPhone 14" 
-          - "OS=16.4,name=iPhone 12"
+          - "OS=17.5,name=iPhone 15 Pro"
+          - "OS=16.4,name=iPhone 14 Pro" 
+          - "OS=15.5,name=iPhone 13"
     
     steps:
     - name: Checkout
@@ -29,7 +29,7 @@ jobs:
     - name: Setup Xcode
       uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '16.4'
+        xcode-version: '15.4'
     
     - name: Install xcpretty
       run: gem install xcpretty
@@ -40,10 +40,18 @@ jobs:
     - name: Show available simulators  
       run: xcrun simctl list devices available
       
-    - name: Test Swift Package
+    - name: Build Swift Package for iOS
       run: |
         set -o pipefail
-        xcodebuild test \
+        xcodebuild build \
           -scheme FDTake \
+          -destination "${{ matrix.destination }}" | xcpretty
+          
+    - name: Test iOS Example App
+      run: |
+        set -o pipefail
+        xcodebuild build \
+          -project "iOS Example/iOS Example.xcodeproj" \
+          -scheme "iOS Example" \
           -destination "${{ matrix.destination }}" | xcpretty
 
