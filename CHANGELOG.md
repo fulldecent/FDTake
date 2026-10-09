@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [3.2.0](https://github.com/fulldecent/FDTake/compare/3.1.0...v3.2.0) (2026-10-09)
+
+
+### Features
+
+* adopt swift6-module-template v16.5.0 ([a398641](https://github.com/fulldecent/FDTake/commit/a398641fcfd3c878edd440a3fc119cd77383dc97))
+
 ## [Main](https://github.com/fulldecent/FDTake/compare/3.0.0...main)
 
 #### Updated
