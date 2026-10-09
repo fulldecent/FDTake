@@ -10,7 +10,10 @@ import UIKit
 import Photos
 import UniformTypeIdentifiers
 
-/// A class for selecting and taking photos
+/// A class for selecting and taking photos.
+///
+/// Isolated to the main actor because presentation uses UIKit.
+@MainActor
 open class FDTakeController: NSObject {
 
     // MARK: - Initializers & Class Convenience Methods

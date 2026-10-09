@@ -1,83 +1,58 @@
-//
-//  FDTakeTests.swift
-//  FDTakeTests
-//
-//  Created by William Entriken on Sep 17, 2016.
-//  Copyright © 2016 William Entriken. All rights reserved.
-//
-
-import XCTest
+import Testing
 @testable import FDTake
 
-class FDTakeTests: XCTestCase {
-    var fdTake: FDTakeController! = nil
-    
-    override func setUp() {
-        super.setUp()
-        fdTake = FDTakeController()
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testLocalization() {
+@MainActor
+struct FDTakeTests {
+    @Test func localizationOverrides() {
+        let fdTake = FDTakeController()
         fdTake.cancelText = "bob"
-        XCTAssertEqual(fdTake.cancelText, "bob")
+        #expect(fdTake.cancelText == "bob")
         fdTake.chooseFromLibraryText = "bob"
-        XCTAssertEqual(fdTake.chooseFromLibraryText, "bob")
+        #expect(fdTake.chooseFromLibraryText == "bob")
         fdTake.chooseFromPhotoRollText = "bob"
-        XCTAssertEqual(fdTake.chooseFromPhotoRollText, "bob")
+        #expect(fdTake.chooseFromPhotoRollText == "bob")
         fdTake.noSourcesText = "bob"
-        XCTAssertEqual(fdTake.noSourcesText, "bob")
+        #expect(fdTake.noSourcesText == "bob")
         fdTake.takePhotoText = "bob"
-        XCTAssertEqual(fdTake.takePhotoText, "bob")
+        #expect(fdTake.takePhotoText == "bob")
         fdTake.takeVideoText = "bob"
-        XCTAssertEqual(fdTake.takeVideoText, "bob")
+        #expect(fdTake.takeVideoText == "bob")
     }
-    
-    func testOthersParams() {
+
+    @Test func configurationDefaultsCanBeTurnedOff() {
+        let fdTake = FDTakeController()
+
         fdTake.allowsPhoto = false
-        XCTAssertEqual(fdTake.allowsPhoto, false)
-        
+        #expect(fdTake.allowsPhoto == false)
+
         fdTake.allowsVideo = false
-        XCTAssertEqual(fdTake.allowsVideo, false)
-        
+        #expect(fdTake.allowsVideo == false)
+
         fdTake.allowsTake = false
-        XCTAssertEqual(fdTake.allowsTake, false)
-        
+        #expect(fdTake.allowsTake == false)
+
         fdTake.allowsSelectFromLibrary = false
-        XCTAssertEqual(fdTake.allowsSelectFromLibrary, false)
-        
+        #expect(fdTake.allowsSelectFromLibrary == false)
+
         fdTake.allowsEditing = false
-        XCTAssertEqual(fdTake.allowsEditing, false)
-        
-        fdTake.allowsSelectFromLibrary = false
-        XCTAssertEqual(fdTake.allowsSelectFromLibrary, false)
-        
+        #expect(fdTake.allowsEditing == false)
+
         fdTake.iPadUsesFullScreenCamera = false
-        XCTAssertEqual(fdTake.iPadUsesFullScreenCamera, false)
-        
+        #expect(fdTake.iPadUsesFullScreenCamera == false)
+
         fdTake.defaultsToFrontCamera = false
-        XCTAssertEqual(fdTake.defaultsToFrontCamera, false)
-        
-        fdTake.defaultsToFrontCamera = false
-        XCTAssertEqual(fdTake.defaultsToFrontCamera, false)
-        
-        fdTake.defaultsToFrontCamera = false
-        XCTAssertEqual(fdTake.defaultsToFrontCamera, false)
-        
+        #expect(fdTake.defaultsToFrontCamera == false)
+
         fdTake.presentingBarButtonItem = nil
-        XCTAssertEqual(fdTake.presentingBarButtonItem, nil)
-        
+        #expect(fdTake.presentingBarButtonItem == nil)
+
         fdTake.presentingView = nil
-        XCTAssertEqual(fdTake.presentingView, nil)
-        
+        #expect(fdTake.presentingView == nil)
+
         fdTake.presentingRect = nil
-        XCTAssertEqual(fdTake.presentingRect, nil)
-        
+        #expect(fdTake.presentingRect == nil)
+
         fdTake.presentingTabBar = nil
-        XCTAssertEqual(fdTake.presentingTabBar, nil)
+        #expect(fdTake.presentingTabBar == nil)
     }
 }

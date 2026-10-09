@@ -1,3 +1,11 @@
+# FDTake links UIKit, so `xcrun swift test` (the Swift 6 module template's default
+# macOS command) does not compile this package. The template's swiftlang workflow
+# also needs swiftlang's self-hosted runners.
+#
+# swift-tools-version 6.4 needs Xcode 27. GitHub's xcode-27 image documents Xcode
+# 27.0 (27A266a) as the default, which is the build in the template recipe, and
+# lists an iPhone 17 simulator on iOS 27.0:
+# https://github.com/actions/runner-images/blob/main/images/macos/xcode-27-arm64-Readme.md
 name: CI
 
 on:
@@ -6,52 +14,41 @@ on:
   pull_request:
     branches: [ main, master ]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   LC_CTYPE: en_US.UTF-8
   LANG: en_US.UTF-8
+  DEVELOPER_DIR: /Applications/Xcode_27.0.app/Contents/Developer
 
 jobs:
   test:
-    name: Test on iOS  
-    runs-on: macos-latest
-        
-    strategy:
-      matrix:
-        destination:
-          - "OS=18.5,name=iPhone 16 Pro"
-          - "OS=18.5,name=iPhone 16"
-          - "OS=18.5,name=iPhone SE (3rd generation)"
+    name: Test on iOS
+    runs-on: xcode-27
 
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-      
-    - name: Setup Xcode
-      uses: maxim-lobanov/setup-xcode@v1
-      with:
-        xcode-version: '16.0'
-    
-    - name: Install xcpretty
-      run: gem install xcpretty
-    
+
     - name: Show Xcode version
       run: xcodebuild -version
-      
-    - name: Show available simulators  
+
+    - name: Show available simulators
       run: xcrun simctl list devices available
-      
-    - name: Build Swift Package for iOS
+
+    - name: Test Swift package
       run: |
         set -o pipefail
-        xcodebuild build \
+        xcodebuild test \
           -scheme FDTake \
-          -destination "${{ matrix.destination }}" | xcpretty
-          
-    - name: Test iOS Example App
+          -destination 'platform=iOS Simulator,name=iPhone 17,OS=27.0'
+
+    - name: Build iOS example app
       run: |
         set -o pipefail
         xcodebuild build \
           -project "iOS Example/iOS Example.xcodeproj" \
           -scheme "iOS Example" \
-          -destination "${{ matrix.destination }}" | xcpretty
-
+          -destination 'platform=iOS Simulator,name=iPhone 17,OS=27.0'
