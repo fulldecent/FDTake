@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 #### Updated
 
 - Adopted the Swift 6.4 package settings from [swift6-module-template](https://github.com/fulldecent/swift6-module-template) (`ApproachableConcurrency`). `FDTakeController` is isolated to the main actor, and the tests use Swift Testing.
-- Raised the FDTakeResources bundle and the example project deployment target to iOS 15, matching [Package.swift](Package.swift). Xcode 27 rejects an iOS 12 deployment target.
+- Raised the FDTakeResources bundle, the example project, and the example app target to iOS 15, matching [Package.swift](Package.swift). The app target had been pinned at iOS 15.6, which overrode the project setting. Xcode 27 rejects an iOS 12 deployment target.
 - CI runs on the `xcode-27` runner with Xcode 27.0 (27A266a) and executes the package tests on iPhone 17, iOS 27.0.
 - Now targeting iOS 10.3.3 or later
 - Migrated from Travis CI to GitHub Actions for continuous integration
