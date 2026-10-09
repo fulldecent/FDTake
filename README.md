@@ -178,6 +178,17 @@ xcodebuild test -scheme FDTake -destination 'platform=iOS Simulator,name=iPhone 
 
 `xcrun swift test`, the command in the Swift 6 module template, builds the package for macOS. This package imports UIKit, so that command does not compile here.
 
+### Releases
+
+Use `fix:`, `feat:` or `BREAKING CHANGE:` in your commit messages. This triggers our bot to make a release draft pull request. Merging that pull request triggers a new tag and GitHub Release.
+
+The [release workflow](.github/workflows/release.yml) uses [Release Please](https://github.com/googleapis/release-please) with the `simple` release type, as [swift6-module-template v16.5.0](https://github.com/fulldecent/swift6-module-template/releases/tag/v16.5.0) does. [`.release-please-manifest.json`](.release-please-manifest.json) is the last released version, `3.1.0`. Release Please writes [CHANGELOG.md](CHANGELOG.md) on the release pull request. Commit messages follow [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/).
+
+[Build and test](.github/workflows/build-test.yml) tests the package, builds the example, builds `libFDTake.a` for the iOS simulator, then attests and uploads it. The template's copy of that workflow builds a Linux library with `swift build -c release` on `ubuntu-latest`. Swift Package Manager uses the git tag.
+
+> [!NOTE]
+> In your GitHub repository settings, under Actions, General, Workflow permissions, select read and write permissions and check "Allow GitHub Actions to create and approve pull requests". Under General, Releases, enable release immutability. Attestations are available for public repositories; private repositories require GitHub Enterprise Cloud.
+
 ## Maintenance and dependency updates
 
 Do this every quarter or so and please send a pull request if you see updates available:
@@ -190,11 +201,13 @@ Do this every quarter or so and please send a pull request if you see updates av
 1. We use title case for titles and proper nouns; not for headings and things.
 1. FDTake is available under the MIT license. See the [LICENSE](LICENSE) file for more info.
 1. Swift ignore rules are inlined from [Swift.gitignore](https://github.com/github/gitignore/blob/main/Swift.gitignore), the same snapshot vendored by [swift6-module-template](https://github.com/fulldecent/swift6-module-template/blob/main/.gitignore). The `.DS_Store` rule above that block comes from [macOS.gitignore](https://github.com/github/gitignore/blob/main/Global/macOS.gitignore).
-1. This project is built based on [best practices documented in Swift 6 Module Template](https://github.com/fulldecent/swift6-module-template), release [16.4](https://github.com/fulldecent/swift6-module-template/releases/tag/16.4). `Package.swift` uses `// swift-tools-version: 6.4` and `ApproachableConcurrency` from main after that release, commit [`38d7ba4`](https://github.com/fulldecent/swift6-module-template/commit/38d7ba45d0900e6a24392b833ae681ee58ad230f) (2026-10-01, “update for Xcode 27.0 (27A266a)”). Release 16.4 is the latest numbered release; its package manifest is `swift-tools-version: 6.1`. FDTake keeps these choices:
+1. This project is built based on [best practices documented in Swift 6 Module Template](https://github.com/fulldecent/swift6-module-template), release [v16.5.0](https://github.com/fulldecent/swift6-module-template/releases/tag/v16.5.0). `Package.swift` uses `// swift-tools-version: 6.4` and `ApproachableConcurrency`, as that release does. FDTake keeps these choices:
    - [Package.swift](Package.swift) declares `.iOS(.v15)` because the library presents `UIImagePickerController`.
-   - Continuous integration is [.github/workflows/ci.yml](.github/workflows/ci.yml) on the GitHub-hosted `xcode-27` runner. Main of the template, after release 16.4, calls [`swift_package_test.yml`](https://github.com/swiftlang/github-workflows/blob/main/.github/workflows/swift_package_test.yml) from [swift-collections' pull request workflow](https://github.com/apple/swift-collections/blob/bdfaffbba691f037100b115d9aa801f05e3d7fe8/.github/workflows/pull_request.yml). Those macOS jobs require swiftlang's self-hosted runners, and the default test command is `xcrun swift test`.
+   - [.github/workflows/build-test.yml](.github/workflows/build-test.yml) runs on the GitHub-hosted `xcode-27` runner and builds `arm64-apple-ios15.0-simulator`. The template's [build-test.yml](https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.github/workflows/build-test.yml) runs `swift build` and `swift test` on `ubuntu-latest`.
+   - The template's [swiftlang workflow](https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.github/workflows/swiftlang-workflows.yml) calls [`swift_package_test.yml`](https://github.com/swiftlang/github-workflows/blob/main/.github/workflows/swift_package_test.yml) and runs `xcrun swift test` on `xcode-27`. FDTake's [.github/workflows/ci.yml](.github/workflows/ci.yml) runs `xcodebuild test` on iPhone 17, iOS 27.0.
    - The example stays at `iOS Example/iOS Example.xcodeproj` and uses storyboards. The recipe allows that in place of its SwiftUI example.
 1. This project is built based on [best practices documented in project-template](https://github.com/fulldecent/project-template), release 1.0.0.
+1. Releases follow the [project-template release workflow](https://github.com/fulldecent/project-template/blob/v1.3.0/.github/workflows/release.yml), release 1.3.0, through the copy in [swift6-module-template v16.5.0](https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.github/workflows/release.yml). The published file is `libFDTake.a` from `swift build -c release --triple arm64-apple-ios15.0-simulator`. The template publishes its Linux static library. project-template publishes `README.md` there, and [rust-template](https://github.com/fulldecent/rust-template) publishes its command-line binary.
 
 ## Contributing
 
