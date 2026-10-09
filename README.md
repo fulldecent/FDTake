@@ -1,7 +1,6 @@
 # FDTake
 
-[![CI Status](https://github.com/fulldecent/FDTake/workflows/CI/badge.svg)](https://github.com/fulldecent/FDTake/actions)
-[![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=fulldecent/FDTake)](http://clayallsopp.github.io/readme-score?url=fulldecent/FDTake)
+[![CI](https://github.com/fulldecent/FDTake/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/fulldecent/FDTake/actions/workflows/ci.yml)
 
 Easily take a photo or video or choose from library
 
@@ -137,13 +136,13 @@ open func dismiss()
    - Spanish (thanks David Jorge)
    - Hebrew (thanks Asaf Siman-Tov)
    - Danish (thanks kaspernissen)
-   - Sweedish (thanks Paul Peelen)
-   - Portugese (thanks Natan Rolnik)
+   - Swedish (thanks Paul Peelen)
+   - Portuguese (thanks Natan Rolnik)
    - Greek (thanks Konstantinos)
    - Italian (thanks Giuseppe Filograno)
    - Hungarian (thanks Andras Kadar)
-   - Please help translate <a href="https://github.com/fulldecent/FDTake/blob/master/FDTakeExample/en.lproj/FDTake.strings">`FDTake.strings`</a> to more languages
- * Pure Swift support and iOS 8+ required
+   - Please help translate [`Localizable.strings`](Resources/Resources/en.lproj/Localizable.strings) to more languages
+ * Pure Swift, deployment target iOS 15 (see [Package.swift](Package.swift))
  * Compile testing running on GitHub Actions
  * In progress: functional test cases ([please help](https://github.com/fulldecent/FDTake/issues/72))
  * In progress: UI test cases ([please help](https://github.com/fulldecent/FDTake/issues/72))
@@ -151,7 +150,7 @@ open func dismiss()
 
 ## Installation
 
-Add this to your project using Swift Package Manager. In Xcode that is simply: File > Swift Packages > Add Package Dependency... and you're done.
+Add this package with Swift Package Manager. In Xcode that is File > Add Package Dependencies...
 
 ## Author
 
@@ -167,6 +166,49 @@ We support targets for the latest released versions of Xcode and Swift Package M
 
 FDTake is available under the MIT license. See the [LICENSE](LICENSE) file for more info.
 
+## Development
+
+### Testing
+
+Run the test suite on an iPhone simulator:
+
+```sh
+xcodebuild test -scheme FDTake -destination 'platform=iOS Simulator,name=iPhone 17,OS=27.0'
+```
+
+`xcrun swift test`, the command in the Swift 6 module template, builds the package for macOS. This package imports UIKit, so that command does not compile here.
+
+### Releases
+
+Use `fix:`, `feat:` or `BREAKING CHANGE:` in your commit messages. This triggers our bot to make a release draft pull request. Merging that pull request triggers a new tag and GitHub Release.
+
+The [release workflow](.github/workflows/release.yml) uses [Release Please](https://github.com/googleapis/release-please) with the `simple` release type, as [swift6-module-template v16.5.0](https://github.com/fulldecent/swift6-module-template/releases/tag/v16.5.0) does. [`.release-please-manifest.json`](.release-please-manifest.json) is the last released version, `3.1.0`. Release Please writes [CHANGELOG.md](CHANGELOG.md) on the release pull request. Commit messages follow [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/).
+
+[Build and test](.github/workflows/build-test.yml) tests the package, builds the example, builds `libFDTake.a` for the iOS simulator, then attests and uploads it. The template's copy of that workflow builds a Linux library with `swift build -c release` on `ubuntu-latest`. Swift Package Manager uses the git tag.
+
+> [!NOTE]
+> In your GitHub repository settings, under Actions, General, Workflow permissions, select read and write permissions and check "Allow GitHub Actions to create and approve pull requests". Under General, Releases, enable release immutability. Attestations are available for public repositories; private repositories require GitHub Enterprise Cloud.
+
+## Maintenance and dependency updates
+
+Do this every quarter or so and please send a pull request if you see updates available:
+
+1. Identify external Actions in [.github/workflows](.github/workflows) and look for available new versions. Review and then update to the new version if it is safe. GitHub-supported Actions (under the `actions/` organization) may require only cursory review.
+1. Review the Xcode pin and the iPhone destination in [.github/workflows/ci.yml](.github/workflows/ci.yml) against the [xcode-27 runner image](https://github.com/actions/runner-images/blob/main/images/macos/xcode-27-arm64-Readme.md). The [recipe](https://github.com/fulldecent/swift6-module-template/blob/main/TEMPLATE/Recipe.md) records the Xcode version it was written against. When that version changes, confirm this package still builds with the version asserted there.
+
+## References
+
+1. We use title case for titles and proper nouns; not for headings and things.
+1. FDTake is available under the MIT license. See the [LICENSE](LICENSE) file for more info.
+1. Swift ignore rules are inlined from [Swift.gitignore](https://github.com/github/gitignore/blob/main/Swift.gitignore), the same snapshot vendored by [swift6-module-template](https://github.com/fulldecent/swift6-module-template/blob/main/.gitignore). The `.DS_Store` rule above that block comes from [macOS.gitignore](https://github.com/github/gitignore/blob/main/Global/macOS.gitignore).
+1. This project is built based on [best practices documented in Swift 6 Module Template](https://github.com/fulldecent/swift6-module-template), release [v16.5.0](https://github.com/fulldecent/swift6-module-template/releases/tag/v16.5.0). `Package.swift` uses `// swift-tools-version: 6.4` and `ApproachableConcurrency`, as that release does. FDTake keeps these choices:
+   - [Package.swift](Package.swift) declares `.iOS(.v15)` because the library presents `UIImagePickerController`.
+   - [.github/workflows/build-test.yml](.github/workflows/build-test.yml) runs on the GitHub-hosted `xcode-27` runner and builds `arm64-apple-ios15.0-simulator`. The template's [build-test.yml](https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.github/workflows/build-test.yml) runs `swift build` and `swift test` on `ubuntu-latest`.
+   - The template's [swiftlang workflow](https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.github/workflows/swiftlang-workflows.yml) calls [`swift_package_test.yml`](https://github.com/swiftlang/github-workflows/blob/main/.github/workflows/swift_package_test.yml) and runs `xcrun swift test` on `xcode-27`. FDTake's [.github/workflows/ci.yml](.github/workflows/ci.yml) runs `xcodebuild test` on iPhone 17, iOS 27.0.
+   - The example stays at `iOS Example/iOS Example.xcodeproj` and uses storyboards. The recipe allows that in place of its SwiftUI example.
+1. This project is built based on [best practices documented in project-template](https://github.com/fulldecent/project-template), release 1.0.0.
+1. Releases follow the [project-template release workflow](https://github.com/fulldecent/project-template/blob/v1.3.0/.github/workflows/release.yml), release 1.3.0, through the copy in [swift6-module-template v16.5.0](https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.github/workflows/release.yml). The published file is `libFDTake.a` from `swift build -c release --triple arm64-apple-ios15.0-simulator`. The template publishes its Linux static library. project-template publishes `README.md` there, and [rust-template](https://github.com/fulldecent/rust-template) publishes its command-line binary.
+
 ## Contributing
 
-This project's layout is based on https://github.com/fulldecent/swift6-module-template If you would like to change the layout, please change that project FIRST. Also you may appreciate that project has "recipes" -- you don't just change the code, you explain why you are doing things. As a maintainer this makes my job MUCH simpler. In a similar respect, if you are introducing non-minor changes, it will be VERY helpful if you could please reference to another project (like AlamoFire) that has seen and discussed the types of design challenges you are touching.) Thanks again and we all really do appreciate your contributions.
+See [CONTRIBUTING.md](CONTRIBUTING.md). This project's layout is based on [swift6-module-template](https://github.com/fulldecent/swift6-module-template). If you would like to change the layout, please change that project FIRST. That project has a recipe: you explain why you are doing things. As a maintainer this makes my job MUCH simpler. In a similar respect, if you are introducing non-minor changes, please reference another project (like Alamofire) that has seen and discussed the types of design challenges you are touching.

@@ -4,10 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [Master](https://github.com/fulldecent/FDBarGuage/compare/3.0.0...master)
+## [Main](https://github.com/fulldecent/FDTake/compare/3.0.0...main)
 
 #### Updated
 
+- Adopted the Swift 6.4 package settings from [swift6-module-template](https://github.com/fulldecent/swift6-module-template) (`ApproachableConcurrency`). `FDTakeController` is isolated to the main actor, and the tests use Swift Testing.
+- Raised the FDTakeResources bundle, the example project, and the example app target to iOS 15, matching [Package.swift](Package.swift). The app target had been pinned at iOS 15.6, which overrode the project setting. Xcode 27 rejects an iOS 12 deployment target.
+- CI runs on the `xcode-27` runner with Xcode 27.0 (27A266a) and executes the package tests on iPhone 17, iOS 27.0.
+- Adopted Release Please and the attested build workflow from [swift6-module-template v16.5.0](https://github.com/fulldecent/swift6-module-template/releases/tag/v16.5.0). The build runs on the iOS simulator triple.
 - Now targeting iOS 10.3.3 or later
 - Migrated from Travis CI to GitHub Actions for continuous integration
 - Updated build environment from Xcode 11.2 to Xcode 15.4

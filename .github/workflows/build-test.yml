@@ -1,0 +1,85 @@
+# Build and test
+#
+# Build, SLSA attest, and test the project.
+#
+# Adapted from swift6-module-template .github/workflows/build-test.yml at v16.5.0.
+# That file runs `swift build -c release` and `swift test` on ubuntu-latest and
+# publishes the Linux static library. FDTake imports UIKit, so this job runs on
+# the GitHub-hosted xcode-27 runner and builds arm64-apple-ios15.0-simulator.
+# https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.github/workflows/build-test.yml
+#
+# This workflow produces the following things which release.yml consumes:
+#   1. $.jobs.build-test (this exact job ID)
+#   2. The artifact named "build"
+#
+# Public repositories can use attest for free. Private repos require Enterprise Cloud.
+
+name: Build and test
+
+on:
+  workflow_call:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-test:
+    name: Build and test
+    runs-on: xcode-27
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_27.0.app/Contents/Developer
+    steps:
+      - name: Check out this commit
+        uses: actions/checkout@v7
+
+      - name: Test
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -scheme FDTake \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=27.0'
+
+      - name: Build the example app
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project "iOS Example/iOS Example.xcodeproj" \
+            -scheme "iOS Example" \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=27.0'
+
+      - name: Build
+        run: |
+          swift build -c release --triple arm64-apple-ios15.0-simulator
+          bin=$(swift build -c release --triple arm64-apple-ios15.0-simulator --show-bin-path)
+          mkdir -p dist
+          find "$bin" -maxdepth 1 -type f -name 'lib*.a' -exec cp {} dist/ \;
+          if ! find dist -maxdepth 1 -type f | grep -q .; then
+            echo "No static library in ${bin}." >&2
+            exit 1
+          fi
+
+      - name: Attest the build
+        id: attest
+        uses: actions/attest@v4
+        with:
+          subject-path: dist/*
+
+      # After attesting, so the bundle is not one of its own subjects.
+      - name: Add the attestation to the build
+        env:
+          BUNDLE: ${{ steps.attest.outputs.bundle-path }}
+        run: cp "$BUNDLE" dist/attestation.sigstore.json
+
+      - name: Upload the build
+        uses: actions/upload-artifact@v7
+        with:
+          name: build
+          path: dist/
+          if-no-files-found: error
+          retention-days: 14
