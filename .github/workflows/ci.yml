@@ -10,9 +10,9 @@ name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -29,26 +29,26 @@ jobs:
     runs-on: xcode-27
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v7
+      - name: Checkout
+        uses: actions/checkout@v7
 
-    - name: Show Xcode version
-      run: xcodebuild -version
+      - name: Show Xcode version
+        run: xcodebuild -version
 
-    - name: Show available simulators
-      run: xcrun simctl list devices available
+      - name: Show available simulators
+        run: xcrun simctl list devices available
 
-    - name: Test Swift package
-      run: |
-        set -o pipefail
-        xcodebuild test \
-          -scheme FDTake \
-          -destination 'platform=iOS Simulator,name=iPhone 17,OS=27.0'
+      - name: Test Swift package
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -scheme FDTake \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=27.0'
 
-    - name: Build iOS example app
-      run: |
-        set -o pipefail
-        xcodebuild build \
-          -project "iOS Example/iOS Example.xcodeproj" \
-          -scheme "iOS Example" \
-          -destination 'platform=iOS Simulator,name=iPhone 17,OS=27.0'
+      - name: Build iOS example app
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project "iOS Example/iOS Example.xcodeproj" \
+            -scheme "iOS Example" \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=27.0'
